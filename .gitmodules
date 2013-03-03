@@ -1,0 +1,3 @@
+[submodule "External/GPUImage"]
+	path = External/GPUImage
+	url = git@github.com:troystribling/GPUImage.git
