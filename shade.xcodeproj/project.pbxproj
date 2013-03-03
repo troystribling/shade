@@ -24,6 +24,32 @@
 		0534C9AB16E2F8E000EAD481 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0534C9AA16E2F8E000EAD481 /* QuartzCore.framework */; };
 		0534C9AD16E2F8E800EAD481 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0534C9AC16E2F8E800EAD481 /* OpenGLES.framework */; };
 		0534C9AF16E2F8F900EAD481 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0534C9AE16E2F8F900EAD481 /* AVFoundation.framework */; };
+		05AD715B16E32BBE00AAB7D9 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715616E32BBE00AAB7D9 /* DataManager.m */; };
+		05AD715C16E32BBE00AAB7D9 /* NSManagedObject+DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715816E32BBE00AAB7D9 /* NSManagedObject+DataManager.m */; };
+		05AD715D16E32BBE00AAB7D9 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715A16E32BBE00AAB7D9 /* SFHFKeychainUtils.m */; };
+		05AD716F16E32BCD00AAB7D9 /* CameraFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716316E32BCD00AAB7D9 /* CameraFactory.m */; };
+		05AD717016E32BCD00AAB7D9 /* FilteredCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716516E32BCD00AAB7D9 /* FilteredCameraViewController.m */; };
+		05AD717116E32BCD00AAB7D9 /* FilterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716716E32BCD00AAB7D9 /* FilterFactory.m */; };
+		05AD717216E32BCD00AAB7D9 /* ImageInspectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716916E32BCD00AAB7D9 /* ImageInspectViewController.m */; };
+		05AD717316E32BCD00AAB7D9 /* ImageInspectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05AD716A16E32BCD00AAB7D9 /* ImageInspectViewController.xib */; };
+		05AD717416E32BCD00AAB7D9 /* PassThrough.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716B16E32BCD00AAB7D9 /* PassThrough.fsh */; };
+		05AD717516E32BCD00AAB7D9 /* SaturationCameraFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716D16E32BCD00AAB7D9 /* SaturationCameraFilter.m */; };
+		05AD717616E32BCD00AAB7D9 /* WhiteColorOverlay.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716E16E32BCD00AAB7D9 /* WhiteColorOverlay.fsh */; };
+		05AD717916E32D7300AAB7D9 /* ViewGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD717816E32D7200AAB7D9 /* ViewGeneral.m */; };
+		05AD719816E336DF00AAB7D9 /* NSArray+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD717C16E336DF00AAB7D9 /* NSArray+Extensions.m */; };
+		05AD719916E336DF00AAB7D9 /* NSObject+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD717E16E336DF00AAB7D9 /* NSObject+Extensions.m */; };
+		05AD719A16E336DF00AAB7D9 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD718016E336DF00AAB7D9 /* UIImage+Alpha.m */; };
+		05AD719B16E336DF00AAB7D9 /* UIImage+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD718216E336DF00AAB7D9 /* UIImage+Extensions.m */; };
+		05AD719C16E336DF00AAB7D9 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD718416E336DF00AAB7D9 /* UIImage+Resize.m */; };
+		05AD719D16E336DF00AAB7D9 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD718616E336DF00AAB7D9 /* UIImage+RoundedCorner.m */; };
+		05AD719E16E336DF00AAB7D9 /* UITableViewCell+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD718816E336DF00AAB7D9 /* UITableViewCell+Extensions.m */; };
+		05AD719F16E336DF00AAB7D9 /* UIView+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD718A16E336DF00AAB7D9 /* UIView+Extensions.m */; };
+		05AD71A016E336DF00AAB7D9 /* DiagonalGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD718D16E336DF00AAB7D9 /* DiagonalGestureRecognizer.m */; };
+		05AD71A116E336DF00AAB7D9 /* ParameterSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD718F16E336DF00AAB7D9 /* ParameterSliderView.m */; };
+		05AD71A216E336DF00AAB7D9 /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719116E336DF00AAB7D9 /* ProgressView.m */; };
+		05AD71A316E336DF00AAB7D9 /* RoundedCornersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719316E336DF00AAB7D9 /* RoundedCornersView.m */; };
+		05AD71A416E336DF00AAB7D9 /* StreamOfViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719516E336DF00AAB7D9 /* StreamOfViews.m */; };
+		05AD71A516E336DF00AAB7D9 /* TransitionGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719716E336DF00AAB7D9 /* TransitionGestureRecognizer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +92,55 @@
 		0534C9AA16E2F8E000EAD481 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0534C9AC16E2F8E800EAD481 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		0534C9AE16E2F8F900EAD481 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		05AD715516E32BBE00AAB7D9 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
+		05AD715616E32BBE00AAB7D9 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
+		05AD715716E32BBE00AAB7D9 /* NSManagedObject+DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+DataManager.h"; sourceTree = "<group>"; };
+		05AD715816E32BBE00AAB7D9 /* NSManagedObject+DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+DataManager.m"; sourceTree = "<group>"; };
+		05AD715916E32BBE00AAB7D9 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
+		05AD715A16E32BBE00AAB7D9 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
+		05AD716216E32BCD00AAB7D9 /* CameraFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraFactory.h; sourceTree = "<group>"; };
+		05AD716316E32BCD00AAB7D9 /* CameraFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraFactory.m; sourceTree = "<group>"; };
+		05AD716416E32BCD00AAB7D9 /* FilteredCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilteredCameraViewController.h; sourceTree = "<group>"; };
+		05AD716516E32BCD00AAB7D9 /* FilteredCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilteredCameraViewController.m; sourceTree = "<group>"; };
+		05AD716616E32BCD00AAB7D9 /* FilterFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterFactory.h; sourceTree = "<group>"; };
+		05AD716716E32BCD00AAB7D9 /* FilterFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterFactory.m; sourceTree = "<group>"; };
+		05AD716816E32BCD00AAB7D9 /* ImageInspectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageInspectViewController.h; sourceTree = "<group>"; };
+		05AD716916E32BCD00AAB7D9 /* ImageInspectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageInspectViewController.m; sourceTree = "<group>"; };
+		05AD716A16E32BCD00AAB7D9 /* ImageInspectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageInspectViewController.xib; sourceTree = "<group>"; };
+		05AD716B16E32BCD00AAB7D9 /* PassThrough.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = PassThrough.fsh; sourceTree = "<group>"; };
+		05AD716C16E32BCD00AAB7D9 /* SaturationCameraFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaturationCameraFilter.h; sourceTree = "<group>"; };
+		05AD716D16E32BCD00AAB7D9 /* SaturationCameraFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaturationCameraFilter.m; sourceTree = "<group>"; };
+		05AD716E16E32BCD00AAB7D9 /* WhiteColorOverlay.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = WhiteColorOverlay.fsh; sourceTree = "<group>"; };
+		05AD717716E32D7200AAB7D9 /* ViewGeneral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewGeneral.h; sourceTree = "<group>"; };
+		05AD717816E32D7200AAB7D9 /* ViewGeneral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewGeneral.m; sourceTree = "<group>"; };
+		05AD717B16E336DF00AAB7D9 /* NSArray+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Extensions.h"; sourceTree = "<group>"; };
+		05AD717C16E336DF00AAB7D9 /* NSArray+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Extensions.m"; sourceTree = "<group>"; };
+		05AD717D16E336DF00AAB7D9 /* NSObject+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Extensions.h"; sourceTree = "<group>"; };
+		05AD717E16E336DF00AAB7D9 /* NSObject+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Extensions.m"; sourceTree = "<group>"; };
+		05AD717F16E336DF00AAB7D9 /* UIImage+Alpha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Alpha.h"; sourceTree = "<group>"; };
+		05AD718016E336DF00AAB7D9 /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
+		05AD718116E336DF00AAB7D9 /* UIImage+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extensions.h"; sourceTree = "<group>"; };
+		05AD718216E336DF00AAB7D9 /* UIImage+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extensions.m"; sourceTree = "<group>"; };
+		05AD718316E336DF00AAB7D9 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		05AD718416E336DF00AAB7D9 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		05AD718516E336DF00AAB7D9 /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
+		05AD718616E336DF00AAB7D9 /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
+		05AD718716E336DF00AAB7D9 /* UITableViewCell+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+Extensions.h"; sourceTree = "<group>"; };
+		05AD718816E336DF00AAB7D9 /* UITableViewCell+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+Extensions.m"; sourceTree = "<group>"; };
+		05AD718916E336DF00AAB7D9 /* UIView+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extensions.h"; sourceTree = "<group>"; };
+		05AD718A16E336DF00AAB7D9 /* UIView+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extensions.m"; sourceTree = "<group>"; };
+		05AD718C16E336DF00AAB7D9 /* DiagonalGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiagonalGestureRecognizer.h; sourceTree = "<group>"; };
+		05AD718D16E336DF00AAB7D9 /* DiagonalGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiagonalGestureRecognizer.m; sourceTree = "<group>"; };
+		05AD718E16E336DF00AAB7D9 /* ParameterSliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParameterSliderView.h; sourceTree = "<group>"; };
+		05AD718F16E336DF00AAB7D9 /* ParameterSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParameterSliderView.m; sourceTree = "<group>"; };
+		05AD719016E336DF00AAB7D9 /* ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
+		05AD719116E336DF00AAB7D9 /* ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
+		05AD719216E336DF00AAB7D9 /* RoundedCornersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundedCornersView.h; sourceTree = "<group>"; };
+		05AD719316E336DF00AAB7D9 /* RoundedCornersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundedCornersView.m; sourceTree = "<group>"; };
+		05AD719416E336DF00AAB7D9 /* StreamOfViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamOfViews.h; sourceTree = "<group>"; };
+		05AD719516E336DF00AAB7D9 /* StreamOfViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamOfViews.m; sourceTree = "<group>"; };
+		05AD719616E336DF00AAB7D9 /* TransitionGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionGestureRecognizer.h; sourceTree = "<group>"; };
+		05AD719716E336DF00AAB7D9 /* TransitionGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitionGestureRecognizer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,10 +201,14 @@
 			children = (
 				0534C98716E2F50400EAD481 /* AppDelegate.h */,
 				0534C98816E2F50400EAD481 /* AppDelegate.m */,
+				05AD716116E32BCD00AAB7D9 /* Camera */,
+				05AD715316E32BBE00AAB7D9 /* Library */,
+				0534C97F16E2F50400EAD481 /* Supporting Files */,
 				0534C99016E2F50400EAD481 /* ViewController.h */,
 				0534C99116E2F50400EAD481 /* ViewController.m */,
 				0534C99316E2F50400EAD481 /* ViewController.xib */,
-				0534C97F16E2F50400EAD481 /* Supporting Files */,
+				05AD717716E32D7200AAB7D9 /* ViewGeneral.h */,
+				05AD717816E32D7200AAB7D9 /* ViewGeneral.m */,
 			);
 			path = shade;
 			sourceTree = "<group>";
@@ -155,6 +234,91 @@
 				0534C9A416E2F85A00EAD481 /* GPUImageTests.octest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		05AD715316E32BBE00AAB7D9 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				05AD717A16E336DF00AAB7D9 /* Categories */,
+				05AD715416E32BBE00AAB7D9 /* CoreData */,
+				05AD718B16E336DF00AAB7D9 /* Views */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		05AD715416E32BBE00AAB7D9 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				05AD715516E32BBE00AAB7D9 /* DataManager.h */,
+				05AD715616E32BBE00AAB7D9 /* DataManager.m */,
+				05AD715716E32BBE00AAB7D9 /* NSManagedObject+DataManager.h */,
+				05AD715816E32BBE00AAB7D9 /* NSManagedObject+DataManager.m */,
+				05AD715916E32BBE00AAB7D9 /* SFHFKeychainUtils.h */,
+				05AD715A16E32BBE00AAB7D9 /* SFHFKeychainUtils.m */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		05AD716116E32BCD00AAB7D9 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				05AD716216E32BCD00AAB7D9 /* CameraFactory.h */,
+				05AD716316E32BCD00AAB7D9 /* CameraFactory.m */,
+				05AD716416E32BCD00AAB7D9 /* FilteredCameraViewController.h */,
+				05AD716516E32BCD00AAB7D9 /* FilteredCameraViewController.m */,
+				05AD716616E32BCD00AAB7D9 /* FilterFactory.h */,
+				05AD716716E32BCD00AAB7D9 /* FilterFactory.m */,
+				05AD716816E32BCD00AAB7D9 /* ImageInspectViewController.h */,
+				05AD716916E32BCD00AAB7D9 /* ImageInspectViewController.m */,
+				05AD716A16E32BCD00AAB7D9 /* ImageInspectViewController.xib */,
+				05AD716B16E32BCD00AAB7D9 /* PassThrough.fsh */,
+				05AD716C16E32BCD00AAB7D9 /* SaturationCameraFilter.h */,
+				05AD716D16E32BCD00AAB7D9 /* SaturationCameraFilter.m */,
+				05AD716E16E32BCD00AAB7D9 /* WhiteColorOverlay.fsh */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		05AD717A16E336DF00AAB7D9 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				05AD717B16E336DF00AAB7D9 /* NSArray+Extensions.h */,
+				05AD717C16E336DF00AAB7D9 /* NSArray+Extensions.m */,
+				05AD717D16E336DF00AAB7D9 /* NSObject+Extensions.h */,
+				05AD717E16E336DF00AAB7D9 /* NSObject+Extensions.m */,
+				05AD717F16E336DF00AAB7D9 /* UIImage+Alpha.h */,
+				05AD718016E336DF00AAB7D9 /* UIImage+Alpha.m */,
+				05AD718116E336DF00AAB7D9 /* UIImage+Extensions.h */,
+				05AD718216E336DF00AAB7D9 /* UIImage+Extensions.m */,
+				05AD718316E336DF00AAB7D9 /* UIImage+Resize.h */,
+				05AD718416E336DF00AAB7D9 /* UIImage+Resize.m */,
+				05AD718516E336DF00AAB7D9 /* UIImage+RoundedCorner.h */,
+				05AD718616E336DF00AAB7D9 /* UIImage+RoundedCorner.m */,
+				05AD718716E336DF00AAB7D9 /* UITableViewCell+Extensions.h */,
+				05AD718816E336DF00AAB7D9 /* UITableViewCell+Extensions.m */,
+				05AD718916E336DF00AAB7D9 /* UIView+Extensions.h */,
+				05AD718A16E336DF00AAB7D9 /* UIView+Extensions.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		05AD718B16E336DF00AAB7D9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				05AD718C16E336DF00AAB7D9 /* DiagonalGestureRecognizer.h */,
+				05AD718D16E336DF00AAB7D9 /* DiagonalGestureRecognizer.m */,
+				05AD718E16E336DF00AAB7D9 /* ParameterSliderView.h */,
+				05AD718F16E336DF00AAB7D9 /* ParameterSliderView.m */,
+				05AD719016E336DF00AAB7D9 /* ProgressView.h */,
+				05AD719116E336DF00AAB7D9 /* ProgressView.m */,
+				05AD719216E336DF00AAB7D9 /* RoundedCornersView.h */,
+				05AD719316E336DF00AAB7D9 /* RoundedCornersView.m */,
+				05AD719416E336DF00AAB7D9 /* StreamOfViews.h */,
+				05AD719516E336DF00AAB7D9 /* StreamOfViews.m */,
+				05AD719616E336DF00AAB7D9 /* TransitionGestureRecognizer.h */,
+				05AD719716E336DF00AAB7D9 /* TransitionGestureRecognizer.m */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,6 +400,7 @@
 				0534C98D16E2F50400EAD481 /* Default@2x.png in Resources */,
 				0534C98F16E2F50400EAD481 /* Default-568h@2x.png in Resources */,
 				0534C99516E2F50400EAD481 /* ViewController.xib in Resources */,
+				05AD717316E32BCD00AAB7D9 /* ImageInspectViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +414,31 @@
 				0534C98516E2F50400EAD481 /* main.m in Sources */,
 				0534C98916E2F50400EAD481 /* AppDelegate.m in Sources */,
 				0534C99216E2F50400EAD481 /* ViewController.m in Sources */,
+				05AD715B16E32BBE00AAB7D9 /* DataManager.m in Sources */,
+				05AD715C16E32BBE00AAB7D9 /* NSManagedObject+DataManager.m in Sources */,
+				05AD715D16E32BBE00AAB7D9 /* SFHFKeychainUtils.m in Sources */,
+				05AD716F16E32BCD00AAB7D9 /* CameraFactory.m in Sources */,
+				05AD717016E32BCD00AAB7D9 /* FilteredCameraViewController.m in Sources */,
+				05AD717116E32BCD00AAB7D9 /* FilterFactory.m in Sources */,
+				05AD717216E32BCD00AAB7D9 /* ImageInspectViewController.m in Sources */,
+				05AD717416E32BCD00AAB7D9 /* PassThrough.fsh in Sources */,
+				05AD717516E32BCD00AAB7D9 /* SaturationCameraFilter.m in Sources */,
+				05AD717616E32BCD00AAB7D9 /* WhiteColorOverlay.fsh in Sources */,
+				05AD717916E32D7300AAB7D9 /* ViewGeneral.m in Sources */,
+				05AD719816E336DF00AAB7D9 /* NSArray+Extensions.m in Sources */,
+				05AD719916E336DF00AAB7D9 /* NSObject+Extensions.m in Sources */,
+				05AD719A16E336DF00AAB7D9 /* UIImage+Alpha.m in Sources */,
+				05AD719B16E336DF00AAB7D9 /* UIImage+Extensions.m in Sources */,
+				05AD719C16E336DF00AAB7D9 /* UIImage+Resize.m in Sources */,
+				05AD719D16E336DF00AAB7D9 /* UIImage+RoundedCorner.m in Sources */,
+				05AD719E16E336DF00AAB7D9 /* UITableViewCell+Extensions.m in Sources */,
+				05AD719F16E336DF00AAB7D9 /* UIView+Extensions.m in Sources */,
+				05AD71A016E336DF00AAB7D9 /* DiagonalGestureRecognizer.m in Sources */,
+				05AD71A116E336DF00AAB7D9 /* ParameterSliderView.m in Sources */,
+				05AD71A216E336DF00AAB7D9 /* ProgressView.m in Sources */,
+				05AD71A316E336DF00AAB7D9 /* RoundedCornersView.m in Sources */,
+				05AD71A416E336DF00AAB7D9 /* StreamOfViews.m in Sources */,
+				05AD71A516E336DF00AAB7D9 /* TransitionGestureRecognizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
