@@ -36,7 +36,7 @@
 + (CGRect)imageThumbnailRect;
 
 - (void)createViews:(UIView*)__containerView;
-- (void)addCapture:(UIImage*)__capture;
+- (void)addCapture:(Captue*)__capture;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 - (void)showProgressViewWithMessage:(NSString*)__progressMessage;
@@ -56,5 +56,7 @@
 - (void)transitionCameraToInspectImage;
 - (void)releaseCameraInspectImage;
 - (void)dragCameraToInspectImage:(CGPoint)__drag;
+- (void)releaseCamera;
+- (void)dragCamera:(CGPoint)_drag;
 
 @end

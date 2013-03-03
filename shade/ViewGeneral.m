@@ -146,7 +146,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     [self.calendarViewController updateEntryWithDate:_date];
 }
 
-- (void)addCapture:(UIImage*)__capture {
+- (void)addCapture:(Capture*)__capture {
     [self.imageInspectViewController addCapture:__capture];
 }
 
@@ -227,6 +227,17 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     if ([self.imageInspectViewController hasCaptures]) {
         [self drag:__drag view:self.cameraViewController.view];
     }
+}
+
+- (void)releaseCamera {
+    [self transition:[self horizontaltReleaseDuration:self.cameraViewController.view.frame.origin.x] withAnimation:^{
+        [self cameraViewPosition:[self.class inWindow]];
+    }
+     ];
+}
+
+- (void)dragCamera:(CGPoint)_drag {
+    [self drag:_drag view:self.cameraViewController.view];
 }
 
 #pragma mark -

@@ -50,6 +50,7 @@
 		05AD71A316E336DF00AAB7D9 /* RoundedCornersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719316E336DF00AAB7D9 /* RoundedCornersView.m */; };
 		05AD71A416E336DF00AAB7D9 /* StreamOfViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719516E336DF00AAB7D9 /* StreamOfViews.m */; };
 		05AD71A516E336DF00AAB7D9 /* TransitionGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719716E336DF00AAB7D9 /* TransitionGestureRecognizer.m */; };
+		05AD71A916E3D36600AAB7D9 /* ImageEntriesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71A816E3D36600AAB7D9 /* ImageEntriesView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,6 +142,8 @@
 		05AD719516E336DF00AAB7D9 /* StreamOfViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamOfViews.m; sourceTree = "<group>"; };
 		05AD719616E336DF00AAB7D9 /* TransitionGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionGestureRecognizer.h; sourceTree = "<group>"; };
 		05AD719716E336DF00AAB7D9 /* TransitionGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransitionGestureRecognizer.m; sourceTree = "<group>"; };
+		05AD71A716E3D36600AAB7D9 /* ImageEntriesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageEntriesView.h; sourceTree = "<group>"; };
+		05AD71A816E3D36600AAB7D9 /* ImageEntriesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageEntriesView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +271,8 @@
 				05AD716516E32BCD00AAB7D9 /* FilteredCameraViewController.m */,
 				05AD716616E32BCD00AAB7D9 /* FilterFactory.h */,
 				05AD716716E32BCD00AAB7D9 /* FilterFactory.m */,
+				05AD71A716E3D36600AAB7D9 /* ImageEntriesView.h */,
+				05AD71A816E3D36600AAB7D9 /* ImageEntriesView.m */,
 				05AD716816E32BCD00AAB7D9 /* ImageInspectViewController.h */,
 				05AD716916E32BCD00AAB7D9 /* ImageInspectViewController.m */,
 				05AD716A16E32BCD00AAB7D9 /* ImageInspectViewController.xib */,
@@ -439,6 +444,7 @@
 				05AD71A316E336DF00AAB7D9 /* RoundedCornersView.m in Sources */,
 				05AD71A416E336DF00AAB7D9 /* StreamOfViews.m in Sources */,
 				05AD71A516E336DF00AAB7D9 /* TransitionGestureRecognizer.m in Sources */,
+				05AD71A916E3D36600AAB7D9 /* ImageEntriesView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

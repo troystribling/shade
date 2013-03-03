@@ -15,15 +15,15 @@
 static CameraFactory* thisCameraFactory = nil;
 
 /////////////////////////////////////////////////////////////////////////////////////////
-@interface CameraFactory (PrivateAPI)
+@interface CameraFactory ()
 
 + (NSArray*)loadCameras;
-+ (NSDictionary*)loadCameraParemeters;
-- (CGFloat)scaledFilterValue:(NSNumber*)_value;
-- (NSNumber*)increasingParameter:(NSDictionary*)_parameter fromValue:(NSNumber*)_value;
-- (NSNumber*)decreasingParameter:(NSDictionary*)_parameter fromValue:(NSNumber*)_value;
-- (NSNumber*)mirroredMaximumParameter:(NSDictionary*)_parameter fromValue:(NSNumber*)_value;
-- (NSNumber*)mirroredMinimumParameter:(NSDictionary*)_parameter fromValue:(NSNumber*)_value;
++ (NSDictionary*)loadCameraParameters;
+- (CGFloat)scaledFilterValue:(NSNumber*)__value;
+- (NSNumber*)increasingParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value;
+- (NSNumber*)decreasingParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value;
+- (NSNumber*)mirroredMaximumParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value;
+- (NSNumber*)mirroredMinimumParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value;
 
 @end
 
@@ -31,32 +31,27 @@ static CameraFactory* thisCameraFactory = nil;
 @interface CameraFactory (ParameterValues)
 
 - (NSDictionary*)initialInstantCameraParameterValues;
-- (NSDictionary*)initialPixelCameraParameterValues;
 - (NSDictionary*)initialBoxCameraParameterValues;
 - (NSDictionary*)initialPlasticCameraParameterValues;
 
-- (NSDictionary*)instantCameraParameterValues:(NSNumber*)_value;
-- (NSDictionary*)pixelCameraParameterValues:(NSNumber*)_value;
-- (NSDictionary*)boxCameraParameterValues:(NSNumber*)_value;
-- (NSDictionary*)plasticCameraParameterValues:(NSNumber*)_value;
+- (NSDictionary*)instantCameraParameterValues:(NSNumber*)__value;
+- (NSDictionary*)boxCameraParameterValues:(NSNumber*)__value;
+- (NSDictionary*)plasticCameraParameterValues:(NSNumber*)__value;
 
 @end
 
 /////////////////////////////////////////////////////////////////////////////////////////
 @interface CameraFactory (Cameras)
 
-- (void)setIPhoneCamera:(GPUImageView*)_imageView;
-- (void)setInstantCamera:(GPUImageView*)_imageView;
-- (void)setPixelCamera:(GPUImageView*)_imageView;
-- (void)setBoxCamera:(GPUImageView*)_imageView;
-- (void)setPlasticCamera:(GPUImageView*)_imageView;
+- (void)setIPhoneCamera:(GPUImageView*)__imageView;
+- (void)setInstantCamera:(GPUImageView*)__imageView;
+- (void)setBoxCamera:(GPUImageView*)__imageView;
+- (void)setPlasticCamera:(GPUImageView*)__imageView;
 
 @end
 
 /////////////////////////////////////////////////////////////////////////////////////////
 @implementation CameraFactory
-
-@synthesize loadedCameras, loadedCameraParameters, camera, stillCamera, filter;
 
 #pragma mark -
 #pragma mark CameraFactory PrivayeApi
@@ -95,12 +90,12 @@ static CameraFactory* thisCameraFactory = nil;
     return [contextManager fetch:fetchRequest];    
 }
 
-+ (NSDictionary*)loadCameraParemeters {
++ (NSDictionary*)loadCameraParameters {
     NSString* cameraFile = [[NSBundle  mainBundle] pathForResource:@"CameraFilterParameters" ofType:@"plist"];
     return [[NSDictionary dictionaryWithContentsOfFile:cameraFile] objectForKey:@"CameraFilterParameters"];
 }
 
-- (void)setCameraFilter:(GPUImageOutput<GPUImageInput>*)_filter forView:(GPUImageView*)_imageView {
+- (void)setCameraFilter:(GPUImageOutput<GPUImageInput>*)__filter forView:(GPUImageView*)__imageView {
     if (self.stillCamera) {
         [self.stillCamera stopCameraCapture];
         [self.stillCamera removeAllTargets];
@@ -206,15 +201,6 @@ static CameraFactory* thisCameraFactory = nil;
                                        forKeys:[NSArray arrayWithObjects:@"blue", @"green", @"red", nil]];
 }
 
-- (NSDictionary*)pixelCameraParameterValues:(NSNumber*)_value {
-    NSDictionary* parameters = [self.loadedCameraParameters objectForKey:@"Pixel"];
-    NSDictionary* pixellateParameters = [[parameters objectForKey:@"GPUImagePixellateFilter"] objectForKey:@"FractionalWidthOfAPixel"];
-    NSDictionary* gaussianBlurParameters = [[parameters objectForKey:@"GPUImageGaussianBlurFilter"] objectForKey:@"BlurSize"];
-    return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[self increasingParameter:pixellateParameters fromValue:_value],
-                                                                         [self increasingParameter:gaussianBlurParameters fromValue:_value], nil]
-                         forKeys:[NSArray arrayWithObjects:@"pixelWidth", @"blurSize", nil]];
-}
-
 - (NSDictionary*)boxCameraParameterValues:(NSNumber*)_value {
     NSDictionary* parameters = [self.loadedCameraParameters objectForKey:@"Box"];
     
@@ -266,16 +252,6 @@ static CameraFactory* thisCameraFactory = nil;
     
 }
 
-- (NSDictionary*)initialPixelCameraParameterValues {
-    NSDictionary* parameters = [self.loadedCameraParameters objectForKey:@"Pixel"];
-    NSDictionary* gaussianBlurParameters = [[parameters objectForKey:@"GPUImageGaussianBlurFilter"] objectForKey:@"BlurSize"];
-    NSDictionary* pixelateParameters = [[parameters objectForKey:@"GPUImagePixellateFilter"] objectForKey:@"FractionalWidthOfAPixel"];
-    return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[gaussianBlurParameters objectForKey:@"initialValue"],
-                                                                         [pixelateParameters objectForKey:@"initialValue"], nil]
-                         forKeys:[NSArray arrayWithObjects:@"blurSize", @"pixelWidth", nil]];
-    
-}
-
 - (NSDictionary*)initialBoxCameraParameterValues {
     NSDictionary* parameters = [self.loadedCameraParameters objectForKey:@"Box"];
     
@@ -321,35 +297,6 @@ static CameraFactory* thisCameraFactory = nil;
     return instantFilter;
 }
 
-- (GPUImageOutput<GPUImageInput>*)filterPixelCamera {
-    NSDictionary* parameters = [self initialPixelCameraParameterValues];
-    GPUImageFilterGroup* filterGroup = [[GPUImageFilterGroup alloc] init];
-    
-    GPUImageToonFilter* toonFilter = [[GPUImageToonFilter alloc] init];
-    [toonFilter prepareForImageCapture];
-    
-    GPUImageGaussianBlurFilter* gaussianFilter = [[GPUImageGaussianBlurFilter alloc] init];
-    [gaussianFilter setBlurSize:[[parameters objectForKey:@"blurSize"] floatValue]];
-    [gaussianFilter prepareForImageCapture];
-    
-    GPUImagePixellateFilter* pixelFilter = [[GPUImagePixellateFilter alloc] init];
-    [pixelFilter setFractionalWidthOfAPixel:[[parameters objectForKey:@"pixelWidth"] floatValue]];
-    [pixelFilter prepareForImageCapture];
-    
-    [filterGroup addFilter:gaussianFilter];
-    [filterGroup addFilter:toonFilter];
-    [filterGroup addFilter:pixelFilter];
-    
-    [gaussianFilter addTarget:toonFilter];
-    [toonFilter addTarget:pixelFilter];
-    
-    [filterGroup setInitialFilters:[NSArray arrayWithObject:gaussianFilter]];
-    [filterGroup setTerminalFilter:pixelFilter];
-    [filterGroup prepareForImageCapture];
-   
-    return filterGroup;
-}
-
 - (GPUImageOutput<GPUImageInput>*)filterBoxCamera {
     SaturationCameraFilter* boxFilter = [[SaturationCameraFilter alloc] init];
     NSDictionary* parameters = [self initialBoxCameraParameterValues];
@@ -382,16 +329,7 @@ static CameraFactory* thisCameraFactory = nil;
     [instantFilter setRed:[[parameters objectForKey:@"red"] floatValue]];
 }
 
-- (void)setPixelCameraParameterValue:(NSNumber*)_value forFilter:(GPUImageOutput<GPUImageInput>*)_filter {    
-    NSDictionary* parameters = [self pixelCameraParameterValues:_value];
-    GPUImageFilterGroup* filterGroup = (GPUImageFilterGroup*)_filter;
-    GPUImageGaussianBlurFilter* gaussianBlurFilter = (GPUImageGaussianBlurFilter*)[filterGroup filterAtIndex:0];
-    [gaussianBlurFilter setBlurSize:[[parameters objectForKey:@"blurSize"] floatValue]];
-    GPUImagePixellateFilter* pixelateFilter = (GPUImagePixellateFilter*)[filterGroup filterAtIndex:2];
-    [pixelateFilter setFractionalWidthOfAPixel:[[parameters objectForKey:@"pixelWidth"] floatValue]];
-}
-
-- (void)setBoxCameraParameterValue:(NSNumber*)_value forFilter:(GPUImageOutput<GPUImageInput>*)_filter {    
+- (void)setBoxCameraParameterValue:(NSNumber*)_value forFilter:(GPUImageOutput<GPUImageInput>*)_filter {
     NSDictionary* parameters = [self boxCameraParameterValues:_value];
     SaturationCameraFilter* boxFilter = (SaturationCameraFilter*)_filter;
     [boxFilter setBlue:[[parameters objectForKey:@"blue"] floatValue]];
@@ -431,9 +369,6 @@ static CameraFactory* thisCameraFactory = nil;
         case CameraTypeInstant:
             [self setCameraFilter:[self filterInstantCamera] forView:_imageView];
             break;  
-        case CameraTypePixel:
-            [self setCameraFilter:[self filterPixelCamera] forView:_imageView];
-            break;
         case CameraTypeBox:
             [self setCameraFilter:[self filterBoxCamera] forView:_imageView];
             break;
@@ -455,9 +390,6 @@ static CameraFactory* thisCameraFactory = nil;
         case CameraTypeInstant:
             [self setInstantCameraParameterValue:_value forFilter:self.filter];
             break; 
-        case CameraTypePixel:
-            [self setPixelCameraParameterValue:_value forFilter:self.filter];
-            break;
         case CameraTypeBox:
             [self setBoxCameraParameterValue:_value forFilter:self.filter];
             break;

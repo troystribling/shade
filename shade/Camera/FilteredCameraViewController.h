@@ -7,32 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ParameterSelectionView.h"
 #import "TransitionGestureRecognizer.h"
-#import "ParameterSliderView.h"
 
 @protocol FilteredCameraViewControllerDelegate;
 
-@class ParameterSliderView;
 @class Camera;
 
-@interface FilteredCameraViewController : UIViewController <TransitionGestureRecognizerDelegate, ParameterSelectionViewDelegate, ParameterSliderViewDelegate>
+@interface FilteredCameraViewController : UIViewController <TransitionGestureRecognizerDelegate>
 
 @property(nonatomic, weak)      UIView*                                     containerView;
 @property(nonatomic, weak)      id<FilteredCameraViewControllerDelegate>    delegate;
-@property(nonatomic, strong)    ParameterSelectionView*                     cameraSelectionView;
 @property(nonatomic, strong)    IBOutlet UIGestureRecognizer*               captureImageGesture;
-@property(nonatomic, strong)    IBOutlet UIView*                            cameraControlsView;
-@property(nonatomic, strong)    IBOutlet UIView*                            cameraConfigView;
-@property(nonatomic, strong)    IBOutlet UIImageView*                       selectedCameraView;
-@property(nonatomic, strong)    IBOutlet UIImageView*                       cameraAutoAdjustView;
-@property(nonatomic, strong)    IBOutlet ParameterSliderView*               cameraParameterView;
 @property(nonatomic, strong)    TransitionGestureRecognizer*                transitionGestureRecognizer;
 @property(nonatomic, strong)    UIView*                                     shutterView;
-@property(nonatomic, assign)    BOOL                                        cameraConfigIsShown;
 
-+ (id)inView:(UIView*)_containerView;
++ (id)inView:(UIView*)__containerView;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil inView:(UIView*)_containerView;
+
+- (IBAction)captureStillImage:(id)__sender;
+- (IBAction)changeCamera:(id)__sender;
 
 @end
 

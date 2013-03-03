@@ -30,9 +30,9 @@ typedef enum {
 @property(nonatomic, strong) GPUImageOutput<GPUImageInput>*     filter;
 
 + (CameraFactory*)instance;
-- (void)setCamera:(Camera*)_camera forView:(GPUImageView*)_imageView;
-- (void)setCameraParmeterValue:(NSNumber*)_value;
-- (void)captureStillImage:(void(^)(NSData* imageData, NSError* error))_completionHandler;
+- (void)setCamera:(Camera*)__camera forView:(GPUImageView*)__imageView;
+- (void)setCameraParmeterValue:(NSNumber*)__value;
+- (void)captureStillImage:(void(^)(NSData* imageData, NSError* error))__completionHandler;
 - (Camera*)defaultCamera;
 - (NSArray*)cameras;
 
@@ -41,9 +41,8 @@ typedef enum {
 - (GPUImageOutput<GPUImageInput>*)filterBoxCamera;
 - (GPUImageOutput<GPUImageInput>*)filterPlasticCamera;
 
-- (void)setInstantCameraParameterValue:(NSNumber*)_value forFilter:(GPUImageOutput<GPUImageInput>*)_filter;
-- (void)setPixelCameraParameterValue:(NSNumber*)_value forFilter:(GPUImageOutput<GPUImageInput>*)_filter;
-- (void)setBoxCameraParameterValue:(NSNumber*)_value forFilter:(GPUImageOutput<GPUImageInput>*)_filter;
-- (void)setPlasticCameraParameterValue:(NSNumber*)_value forFilter:(GPUImageOutput<GPUImageInput>*)_filter;
+- (void)setInstantCameraParameterValue:(NSNumber*)__value forFilter:(GPUImageOutput<GPUImageInput>*)__filter;
+- (void)setBoxCameraParameterValue:(NSNumber*)__value forFilter:(GPUImageOutput<GPUImageInput>*)__filter;
+- (void)setPlasticCameraParameterValue:(NSNumber*)__value forFilter:(GPUImageOutput<GPUImageInput>*)__filter;
 
 @end

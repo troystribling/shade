@@ -29,20 +29,20 @@
 #pragma mark -
 #pragma mark ImageInspectViewController
 
-+ (id)inView:(UIView*)_containerView withDelegate:(id<ImageInspectViewControllerDelegate>)_delegate {
-    return [[ImageInspectViewController alloc] initWithNibName:@"ImageInspectViewController" bundle:nil inView:_containerView withDelegate:_delegate];
++ (id)inView:(UIView*)__containerView withDelegate:(id<ImageInspectViewControllerDelegate>)__delegate {
+    return [[ImageInspectViewController alloc] initWithNibName:@"ImageInspectViewController" bundle:nil inView:__containerView withDelegate:__delegate];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil inView:(UIView*)_containerView withDelegate:(id<ImageInspectViewControllerDelegate>)_delegate {
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil inView:(UIView*)__containerView withDelegate:(id<ImageInspectViewControllerDelegate>)__delegate {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        self.containerView = _containerView;
-        self.delegate = _delegate;
+        self.containerView = __containerView;
+        self.delegate = __delegate;
     }
     return self;
 }
 
-- (void)addCapture:(Capture*)_capture {
-    [self.entriesView addCaptureToRight:_capture];
+- (void)addCapture:(Capture*)__capture {
+    [self.entriesView addCaptureToRight:__capture];
 }
 
 - (BOOL)hasCaptures {
@@ -92,9 +92,9 @@
 #pragma mark -
 #pragma mark ImageEntriesViewDelegate
 
-- (void)dragEntries:(CGPoint)_drag {    
+- (void)dragEntries:(CGPoint)__drag {
     if ([self.delegate respondsToSelector:@selector(dragInspectImage:)]) {
-        [self.delegate dragInspectImage:_drag];
+        [self.delegate dragInspectImage:__drag];
     }
 }
 
@@ -116,7 +116,7 @@
     }
 }
 
-- (void)didRemoveAllEntries:(ImageEntriesView*)_entries {
+- (void)didRemoveAllEntries:(ImageEntriesView*)__entries {
     if ([self.delegate respondsToSelector:@selector(transitionFromInspectImage)]) {
         [self.delegate transitionFromInspectImage];
     }

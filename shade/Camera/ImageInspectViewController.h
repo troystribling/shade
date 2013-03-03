@@ -23,9 +23,9 @@
 @property(nonatomic, strong) ImageEntriesView*                      entriesView;
 
 
-+ (id)inView:(UIView*)_containerView withDelegate:(id<ImageInspectViewControllerDelegate>)_delegate;
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil inView:(UIView*)_containerView withDelegate:(id<ImageInspectViewControllerDelegate>)_delegate;
-- (void)addCapture:(Capture*)_capture;
++ (id)inView:(UIView*)__containerView withDelegate:(id<ImageInspectViewControllerDelegate>)__delegate;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle*)__nibBundleOrNil inView:(UIView*)__containerView withDelegate:(id<ImageInspectViewControllerDelegate>)__delegate;
+- (void)addCapture:(Capture*)__capture;
 - (BOOL)hasCaptures;
 
 @end
@@ -34,7 +34,7 @@
 
 @optional
 
-- (void)dragInspectImage:(CGPoint)_drag;
+- (void)dragInspectImage:(CGPoint)__drag;
 - (void)releaseInspectImage;
 - (void)transitionFromInspectImage;
 

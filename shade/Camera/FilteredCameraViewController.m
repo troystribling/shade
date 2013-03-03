@@ -17,35 +17,22 @@
 #define CAMERA_CONTROLS_TRANSITION    0.2f
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-@interface FilteredCameraViewController (PrivateAPI)
+@interface FilteredCameraViewController ()
 
-- (IBAction)captureStillImage:(id)sender;
-- (void)showCameraConfig;
-- (void)hideCameraConfig;
-- (void)showCameraControls;
-- (void)hideCameraControls;
+- (void)setCamera:(Camera*)__camera;
 - (void)openShutter;
 - (void)closeShutter;
 - (void)openShutterOnStart;
-- (void)setCamera:(Camera*)_camera;
-- (IBAction)toggleCameraConfiguration:(id)_sender;
-- (IBAction)openApplicationConfiguration:(id)_sender;
-- (IBAction)changeCamera:(id)sender;
-- (IBAction)toggleAutoAdjustment:(id)sender;
 
 @end
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation FilteredCameraViewController
 
-@synthesize containerView, delegate, cameraSelectionView, captureImageGesture, cameraControlsView, cameraConfigView, 
-            selectedCameraView, cameraAutoAdjustView, cameraParameterView, transitionGestureRecognizer,
-            shutterView, cameraConfigIsShown;
-
 #pragma mark -
 #pragma mark FilteredCameraViewController PrivateAPI
 
-- (IBAction)captureStillImage:(id)sender {
+- (IBAction)captureStillImage:(id)__sender {
     self.captureImageGesture.enabled = NO;
     [self closeShutter];
     [[CameraFactory instance] captureStillImage:^(NSData* imageData, NSError* error) {
@@ -62,81 +49,8 @@
     }];
 }
 
-- (void)showCameraConfig {
-    __block CGRect containerViewRect = CGRectMake(self.cameraConfigView.frame.origin.x, 0.0, 
-                                                  self.cameraConfigView.frame.size.width, self.cameraConfigView.frame.size.height);
-    [self.view addSubview:self.cameraConfigView];
-    [UIView animateWithDuration:CAMERA_CONTROLS_TRANSITION
-         delay:0.0
-         options:UIViewAnimationOptionCurveEaseOut
-         animations:^{
-             self.cameraConfigView.frame = containerViewRect;
-         }
-         completion:^(BOOL _finished){
-         }
-     ];
-}
-
-- (void)hideCameraConfig {
-    __block CGRect containerViewRect = CGRectMake(self.cameraConfigView.frame.origin.x, -self.cameraConfigView.frame.size.height, 
-                                                  self.cameraConfigView.frame.size.width, self.cameraConfigView.frame.size.height);
-    [UIView animateWithDuration:CAMERA_CONTROLS_TRANSITION
-        delay:0.0
-        options:UIViewAnimationOptionCurveEaseOut
-        animations:^{
-            self.cameraConfigView.frame = containerViewRect;
-        }
-        completion:^(BOOL _finished){
-            [self.cameraConfigView removeFromSuperview];
-        }
-     ];
-}
-
-- (void)showCameraControls {
-    __block CGRect containerViewRect = CGRectMake(self.cameraControlsView.frame.origin.x, self.view.frame.size.height - self.cameraControlsView.frame.size.height, 
-                                                  self.cameraControlsView.frame.size.width, self.cameraControlsView.frame.size.height);
-    [UIView animateWithDuration:CAMERA_CONTROLS_TRANSITION
-        delay:0.0
-        options:UIViewAnimationOptionCurveEaseOut
-        animations:^{
-         self.cameraControlsView.frame = containerViewRect;
-        }
-        completion:^(BOOL _finished){
-        }
-     ];    
-}
-
-- (void)hideCameraControls {
-    __block CGRect containerViewRect = CGRectMake(self.cameraControlsView.frame.origin.x, self.view.frame.size.height, 
-                                                  self.cameraControlsView.frame.size.width, self.cameraControlsView.frame.size.height);
-    [UIView animateWithDuration:CAMERA_CONTROLS_TRANSITION
-         delay:0.0
-         options:UIViewAnimationOptionCurveEaseOut
-         animations:^{
-             self.cameraControlsView.frame = containerViewRect;
-         }
-         completion:^(BOOL _finished){
-         }
-    ];
-}
-
-- (void)setCamera:(Camera*)_camera {
-    [[CameraFactory instance] setCamera:_camera forView:(GPUImageView*)self.view];
-    self.selectedCameraView.image = [UIImage imageNamed:_camera.imageFilename];
-    if ([_camera.hasAutoAdjust boolValue]) {
-        self.cameraAutoAdjustView.hidden = NO;
-    } else {
-        self.cameraAutoAdjustView.hidden = YES;
-    }
-    if ([_camera.hasParameter boolValue]) {
-        self.cameraParameterView.maxValue = [_camera.maximumValue floatValue];
-        self.cameraParameterView.minValue = [_camera.minimumValue floatValue];
-        self.cameraParameterView.initialValue = [_camera.value floatValue];
-        [self.cameraParameterView setParameterSliderValue];
-        self.cameraParameterView.hidden = NO;
-    } else {
-        self.cameraParameterView.hidden = YES;
-    }
+- (void)setCamera:(Camera*)__camera {
+    [[CameraFactory instance] setCamera:__camera forView:(GPUImageView*)self.view];
 }
 
 - (void)closeShutter {
@@ -182,77 +96,25 @@
     ];
 }
 
-- (IBAction)toggleCameraConfiguration:(id)_sender {
-    if (self.cameraConfigIsShown) {
-        [self hideCameraConfig];
-        self.cameraConfigIsShown = NO;
-    } else {
-        [self showCameraConfig];
-        self.cameraConfigIsShown = YES;
-    }
-}
-
-- (IBAction)openApplicationConfiguration:(id)_sender {
-    
-}
-
-- (IBAction)toggleAutoAdjustment:(id)sender {
-    
-}
-
-- (IBAction)changeCamera:(id)sender {
-    CGRect configViewRect = self.cameraConfigView.frame;
-    CGRect controlsViewRect = self.cameraControlsView.frame;
-    __block CGRect showConfigViewRect = CGRectMake(configViewRect.origin.x, -configViewRect.size.height, configViewRect.size.width, configViewRect.size.height);
-    __block CGRect showControlViewRect = CGRectMake(controlsViewRect.origin.x, self.view.frame.size.height, controlsViewRect.size.width, controlsViewRect.size.height);
-    __block CGRect hideConfigViewRect = CGRectMake(configViewRect.origin.x, 0.0, configViewRect.size.width, configViewRect.size.height);
-    __block CGRect hideControlViewRect = CGRectMake(controlsViewRect.origin.x, self.view.frame.size.height - controlsViewRect.size.height, controlsViewRect.size.width, controlsViewRect.size.height);
-    self.cameraSelectionView = [ParameterSelectionView initInView:self.view 
-        withDelegate:self 
-        showAnimation:^{
-           self.cameraConfigView.frame = showConfigViewRect;
-           self.cameraControlsView.frame = showControlViewRect;
-        }
-        hideAnimation:^{
-            [UIView animateWithDuration:CAMERA_CONTROLS_TRANSITION
-                 animations:^{
-                     self.cameraConfigView.frame = hideConfigViewRect;
-                     self.cameraControlsView.frame = hideControlViewRect;
-                 } 
-                 completion:^(BOOL _finished) {
-                 }
-            ];
-        }
-        andTitle:@"Cameras"
-    ];
-}
-
 #pragma mark -
 #pragma mark FilteredCameraViewController
 
-+ (id)inView:(UIView*)_containerView {
-    return [[FilteredCameraViewController alloc] initWithNibName:@"FilteredCameraViewController" bundle:nil inView:_containerView];
++ (id)inView:(UIView*)__containerView {
+    return [[FilteredCameraViewController alloc] initWithNibName:@"FilteredCameraViewController" bundle:nil inView:__containerView];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil inView:(UIView*)_containerView {
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil inView:(UIView*)__containerView {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.containerView = _containerView;
+        self.containerView = __containerView;
         self.transitionGestureRecognizer = [TransitionGestureRecognizer initWithDelegate:self inView:self.view relativeToView:self.containerView];
-        self.cameraConfigIsShown = NO;
-        self.cameraParameterView.delegate = self;
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.cameraConfigView.frame = CGRectMake(self.cameraConfigView.frame.origin.x, -self.cameraConfigView.frame.size.height, self.cameraConfigView.frame.size.width, self.cameraConfigView.frame.size.height);
-    self.cameraControlsView.frame = CGRectMake(self.cameraControlsView.frame.origin.x, self.view.frame.size.height + self.cameraControlsView.frame.size.height, self.cameraControlsView.frame.size.width, self.cameraControlsView.frame.size.height);
-    [self.cameraConfigView removeFromSuperview];
     [self openShutterOnStart];
-    GPUImageView* gpuImageView = (GPUImageView*)self.view;
-    gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
     [self setCamera:[[CameraFactory instance] defaultCamera]];
 }
 
@@ -298,11 +160,9 @@
 }
 
 - (void)didSwipeRight:(CGPoint)_location withVelocity:(CGPoint)_velocity {
-    [[ViewGeneral instance] transitionCameraToAlbums];    
 }
 
 - (void)didSwipeLeft:(CGPoint)_location withVelocity:(CGPoint)_velocity {
-    [[ViewGeneral instance] transitionCameraToCalendar];    
 }
 
 - (void)didSwipeUp:(CGPoint)_location withVelocity:(CGPoint)_velocity {
@@ -314,53 +174,16 @@
 }
 
 - (void)didReachMaxDragRight:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {
-    [[ViewGeneral instance] transitionCameraToAlbums];    
 }
 
 - (void)didReachMaxDragLeft:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {    
-    [[ViewGeneral instance] transitionCameraToCalendar];    
 }
 
 - (void)didReachMaxDragUp:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {    
-    [[CameraFactory instance].stillCamera rotateCamera];
 }
 
 - (void)didReachMaxDragDown:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {    
     [[ViewGeneral instance] transitionCameraToInspectImage];
 }
-
-#pragma mark -
-#pragma mark ParameterSelectionViewDelegate
-
-- (NSArray*)loadParameters {
-    return [[CameraFactory instance] cameras];
-}
-
-- (void)configureParemeterCell:(ParameterSelectionCell*)_parameterCell withParameter:(id)_parameter {
-    _parameterCell.parameterIcon.image = [UIImage imageNamed:[_parameter valueForKey:@"imageFilename"]];
-    _parameterCell.parameterLabel.text = [_parameter valueForKey:@"name"];
-}
-
-- (void)selectedParameter:(id)_parameter {
-    self.selectedCameraView.image = [UIImage imageNamed:[_parameter valueForKey:@"imageFilename"]];
-    [self setCamera:_parameter];
-    [self.cameraSelectionView removeView];
-}
-
-- (BOOL)canEdit {
-    return NO;
-}
-
-- (void)done {
-    [self.cameraSelectionView removeView];
-}
-
-#pragma mark -
-#pragma mark ParameterSliderViewDelegate
-
--(void)parameterSliderValueChanged:(ParameterSliderView*)_parameterSlider {
-    [[CameraFactory instance] setCameraParmeterValue:[NSNumber numberWithFloat:[_parameterSlider value]]];
-}
-
 
 @end
