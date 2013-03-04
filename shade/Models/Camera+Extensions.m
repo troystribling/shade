@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 Troy Stribling. All rights reserved.
 //
 
-#import "DataManager.h"
-#import "NSManagedObject+DataManager.h"
 #import "Camera+Extensions.h"
 
 @interface Camera (PrivateAPI)

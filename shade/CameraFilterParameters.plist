@@ -73,33 +73,6 @@
 				</dict>
 			</dict>
 		</dict>
-		<key>Pixel</key>
-		<dict>
-			<key>GPUImageGaussianBlurFilter</key>
-			<dict>
-				<key>BlurSize</key>
-				<dict>
-					<key>maximumValue</key>
-					<integer>3</integer>
-					<key>minimumValue</key>
-					<integer>1</integer>
-					<key>initialValue</key>
-					<integer>2</integer>
-				</dict>
-			</dict>
-			<key>GPUImagePixellateFilter</key>
-			<dict>
-				<key>FractionalWidthOfAPixel</key>
-				<dict>
-					<key>maximumValue</key>
-					<real>0.02</real>
-					<key>minimumValue</key>
-					<real>0.01</real>
-					<key>initialValue</key>
-					<real>0.015</real>
-				</dict>
-			</dict>
-		</dict>
 		<key>Box</key>
 		<dict>
 			<key>GPUImageSaturationFilter</key>

@@ -26,7 +26,6 @@
 		0534C9AF16E2F8F900EAD481 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0534C9AE16E2F8F900EAD481 /* AVFoundation.framework */; };
 		05AD715B16E32BBE00AAB7D9 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715616E32BBE00AAB7D9 /* DataManager.m */; };
 		05AD715C16E32BBE00AAB7D9 /* NSManagedObject+DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715816E32BBE00AAB7D9 /* NSManagedObject+DataManager.m */; };
-		05AD715D16E32BBE00AAB7D9 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715A16E32BBE00AAB7D9 /* SFHFKeychainUtils.m */; };
 		05AD716F16E32BCD00AAB7D9 /* CameraFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716316E32BCD00AAB7D9 /* CameraFactory.m */; };
 		05AD717016E32BCD00AAB7D9 /* FilteredCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716516E32BCD00AAB7D9 /* FilteredCameraViewController.m */; };
 		05AD717116E32BCD00AAB7D9 /* FilterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716716E32BCD00AAB7D9 /* FilterFactory.m */; };
@@ -60,6 +59,11 @@
 		05AD71CA16E3FD4C00AAB7D9 /* Capture.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71C916E3FD4C00AAB7D9 /* Capture.m */; };
 		05AD71CC16E40F6A00AAB7D9 /* CameraFilterParameters.plist in Resources */ = {isa = PBXBuildFile; fileRef = 05AD71CB16E40F6A00AAB7D9 /* CameraFilterParameters.plist */; };
 		05AD71D216E41DB700AAB7D9 /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71D116E41DB700AAB7D9 /* Camera.m */; };
+		05AD71D516E42FAC00AAB7D9 /* CameraFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71D416E42FAC00AAB7D9 /* CameraFilter.m */; };
+		05AD71D816E42FE200AAB7D9 /* InstantCameraFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71D716E42FE100AAB7D9 /* InstantCameraFilter.m */; };
+		05AD71DB16E4302000AAB7D9 /* BoxCameraFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71DA16E4301F00AAB7D9 /* BoxCameraFilter.m */; };
+		05AD71DE16E4306100AAB7D9 /* PlasticCameraFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71DD16E4306100AAB7D9 /* PlasticCameraFilter.m */; };
+		05AD71E116E473D600AAB7D9 /* PassThoughFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71E016E473D500AAB7D9 /* PassThoughFilter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,8 +110,6 @@
 		05AD715616E32BBE00AAB7D9 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
 		05AD715716E32BBE00AAB7D9 /* NSManagedObject+DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+DataManager.h"; sourceTree = "<group>"; };
 		05AD715816E32BBE00AAB7D9 /* NSManagedObject+DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+DataManager.m"; sourceTree = "<group>"; };
-		05AD715916E32BBE00AAB7D9 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
-		05AD715A16E32BBE00AAB7D9 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		05AD716216E32BCD00AAB7D9 /* CameraFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraFactory.h; sourceTree = "<group>"; };
 		05AD716316E32BCD00AAB7D9 /* CameraFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraFactory.m; sourceTree = "<group>"; };
 		05AD716416E32BCD00AAB7D9 /* FilteredCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilteredCameraViewController.h; sourceTree = "<group>"; };
@@ -168,6 +170,16 @@
 		05AD71CB16E40F6A00AAB7D9 /* CameraFilterParameters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CameraFilterParameters.plist; sourceTree = "<group>"; };
 		05AD71D016E41DB700AAB7D9 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		05AD71D116E41DB700AAB7D9 /* Camera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Camera.m; sourceTree = "<group>"; };
+		05AD71D316E42FAC00AAB7D9 /* CameraFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraFilter.h; sourceTree = "<group>"; };
+		05AD71D416E42FAC00AAB7D9 /* CameraFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraFilter.m; sourceTree = "<group>"; };
+		05AD71D616E42FE100AAB7D9 /* InstantCameraFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstantCameraFilter.h; sourceTree = "<group>"; };
+		05AD71D716E42FE100AAB7D9 /* InstantCameraFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstantCameraFilter.m; sourceTree = "<group>"; };
+		05AD71D916E4301F00AAB7D9 /* BoxCameraFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoxCameraFilter.h; sourceTree = "<group>"; };
+		05AD71DA16E4301F00AAB7D9 /* BoxCameraFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoxCameraFilter.m; sourceTree = "<group>"; };
+		05AD71DC16E4306000AAB7D9 /* PlasticCameraFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlasticCameraFilter.h; sourceTree = "<group>"; };
+		05AD71DD16E4306100AAB7D9 /* PlasticCameraFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlasticCameraFilter.m; sourceTree = "<group>"; };
+		05AD71DF16E473D400AAB7D9 /* PassThoughFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassThoughFilter.h; sourceTree = "<group>"; };
+		05AD71E016E473D500AAB7D9 /* PassThoughFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PassThoughFilter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -283,8 +295,6 @@
 				05AD715616E32BBE00AAB7D9 /* DataManager.m */,
 				05AD715716E32BBE00AAB7D9 /* NSManagedObject+DataManager.h */,
 				05AD715816E32BBE00AAB7D9 /* NSManagedObject+DataManager.m */,
-				05AD715916E32BBE00AAB7D9 /* SFHFKeychainUtils.h */,
-				05AD715A16E32BBE00AAB7D9 /* SFHFKeychainUtils.m */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -292,8 +302,12 @@
 		05AD716116E32BCD00AAB7D9 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				05AD71D916E4301F00AAB7D9 /* BoxCameraFilter.h */,
+				05AD71DA16E4301F00AAB7D9 /* BoxCameraFilter.m */,
 				05AD716216E32BCD00AAB7D9 /* CameraFactory.h */,
 				05AD716316E32BCD00AAB7D9 /* CameraFactory.m */,
+				05AD71D316E42FAC00AAB7D9 /* CameraFilter.h */,
+				05AD71D416E42FAC00AAB7D9 /* CameraFilter.m */,
 				05AD716416E32BCD00AAB7D9 /* FilteredCameraViewController.h */,
 				05AD716516E32BCD00AAB7D9 /* FilteredCameraViewController.m */,
 				05AD716616E32BCD00AAB7D9 /* FilterFactory.h */,
@@ -303,7 +317,13 @@
 				05AD716816E32BCD00AAB7D9 /* ImageInspectViewController.h */,
 				05AD716916E32BCD00AAB7D9 /* ImageInspectViewController.m */,
 				05AD716A16E32BCD00AAB7D9 /* ImageInspectViewController.xib */,
+				05AD71D616E42FE100AAB7D9 /* InstantCameraFilter.h */,
+				05AD71D716E42FE100AAB7D9 /* InstantCameraFilter.m */,
+				05AD71DF16E473D400AAB7D9 /* PassThoughFilter.h */,
+				05AD71E016E473D500AAB7D9 /* PassThoughFilter.m */,
 				05AD716B16E32BCD00AAB7D9 /* PassThrough.fsh */,
+				05AD71DC16E4306000AAB7D9 /* PlasticCameraFilter.h */,
+				05AD71DD16E4306100AAB7D9 /* PlasticCameraFilter.m */,
 				05AD716C16E32BCD00AAB7D9 /* SaturationCameraFilter.h */,
 				05AD716D16E32BCD00AAB7D9 /* SaturationCameraFilter.m */,
 				05AD716E16E32BCD00AAB7D9 /* WhiteColorOverlay.fsh */,
@@ -470,7 +490,6 @@
 				0534C99216E2F50400EAD481 /* ViewController.m in Sources */,
 				05AD715B16E32BBE00AAB7D9 /* DataManager.m in Sources */,
 				05AD715C16E32BBE00AAB7D9 /* NSManagedObject+DataManager.m in Sources */,
-				05AD715D16E32BBE00AAB7D9 /* SFHFKeychainUtils.m in Sources */,
 				05AD716F16E32BCD00AAB7D9 /* CameraFactory.m in Sources */,
 				05AD717016E32BCD00AAB7D9 /* FilteredCameraViewController.m in Sources */,
 				05AD717116E32BCD00AAB7D9 /* FilterFactory.m in Sources */,
@@ -501,6 +520,11 @@
 				05AD71C716E3FB8400AAB7D9 /* Capture+Extensions.m in Sources */,
 				05AD71CA16E3FD4C00AAB7D9 /* Capture.m in Sources */,
 				05AD71D216E41DB700AAB7D9 /* Camera.m in Sources */,
+				05AD71D516E42FAC00AAB7D9 /* CameraFilter.m in Sources */,
+				05AD71D816E42FE200AAB7D9 /* InstantCameraFilter.m in Sources */,
+				05AD71DB16E4302000AAB7D9 /* BoxCameraFilter.m in Sources */,
+				05AD71DE16E4306100AAB7D9 /* PlasticCameraFilter.m in Sources */,
+				05AD71E116E473D600AAB7D9 /* PassThoughFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

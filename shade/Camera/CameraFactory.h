@@ -10,31 +10,21 @@
 #import "GPUImage.h"
 
 @class Camera;
+@class CameraFilter;
 @class FilteredCameraViewController;
 
 @interface CameraFactory : NSObject
 
-@property(nonatomic, strong) NSArray*                           loadedCameras;
-@property(nonatomic, strong) NSArray*                           filters;
-@property(nonatomic, strong) NSDictionary*                      loadedCameraParameters;
-@property(nonatomic, strong) Camera*                            camera;
-@property(nonatomic, strong) GPUImageStillCamera*               stillCamera;
-@property(nonatomic, strong) GPUImageOutput<GPUImageInput>*     filter;
+@property(nonatomic, strong) NSArray                            *loadedCameras;
+@property(nonatomic, strong) NSArray                            *cameraFilters;
+@property(nonatomic, strong) Camera                             *camera;
+@property(nonatomic, strong) GPUImageStillCamera                *stillCamera;
 
 + (CameraFactory*)instance;
 - (void)setCamera:(Camera*)__camera forView:(GPUImageView*)__imageView;
-- (void)setCameraParmeterValue:(NSNumber*)__value;
+- (void)setCameraParameterValue:(NSNumber*)__value;
 - (void)captureStillImage:(void(^)(NSData* imageData, NSError* error))__completionHandler;
 - (Camera*)defaultCamera;
 - (NSArray*)cameras;
-
-- (GPUImageOutput<GPUImageInput>*)filterInstantCamera;
-- (GPUImageOutput<GPUImageInput>*)filterPixelCamera;
-- (GPUImageOutput<GPUImageInput>*)filterBoxCamera;
-- (GPUImageOutput<GPUImageInput>*)filterPlasticCamera;
-
-- (void)setInstantCameraParameterValue:(NSNumber*)__value forFilter:(GPUImageOutput<GPUImageInput>*)__filter;
-- (void)setBoxCameraParameterValue:(NSNumber*)__value forFilter:(GPUImageOutput<GPUImageInput>*)__filter;
-- (void)setPlasticCameraParameterValue:(NSNumber*)__value forFilter:(GPUImageOutput<GPUImageInput>*)__filter;
 
 @end
