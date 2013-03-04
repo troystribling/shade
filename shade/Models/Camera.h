@@ -14,10 +14,10 @@
 
 @property (nonatomic, retain) NSDate * createdAt;
 @property (nonatomic, retain) NSDate * updatedAt;
-@property (nonatomic, retain) NSNumber * cameraId;
+@property (nonatomic, retain) NSNumber * identifier;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * hasParameter;
-@property (nonatomic, retain) NSNumber * maximimValue;
+@property (nonatomic, retain) NSNumber * maximumValue;
 @property (nonatomic, retain) NSNumber * minimumValue;
 @property (nonatomic, retain) NSNumber * value;
 @property (nonatomic, retain) NSNumber * purchased;

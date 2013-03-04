@@ -13,10 +13,10 @@
 
 @dynamic createdAt;
 @dynamic updatedAt;
-@dynamic cameraId;
+@dynamic identifier;
 @dynamic name;
 @dynamic hasParameter;
-@dynamic maximimValue;
+@dynamic maximumValue;
 @dynamic minimumValue;
 @dynamic value;
 @dynamic purchased;

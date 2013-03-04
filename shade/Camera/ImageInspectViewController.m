@@ -7,9 +7,8 @@
 //
 
 #import "ImageInspectViewController.h"
-#import "ImageEntryView.h"
 #import "UIImage+Resize.h"
-#import "Capture.h"
+#import "Capture+Extensions.h"
 #import "CaptureManager.h"
 #import "ViewGeneral.h"
 

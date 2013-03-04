@@ -8,6 +8,19 @@
 
 #import "Camera.h"
 
+typedef enum {
+    CameraTypeIPhone,
+    CameraTypeInstant,
+    CameraTypeBox,
+    CameraTypePlastic
+} CameraType;
+
 @interface Camera (Extensions)
+
++ (NSArray*)loadCameras;
++ (NSDictionary*)loadCameraParameters;
+
++ (Camera*)findFirstWithCameraId:(NSInteger)__cameraId inContext:(NSManagedObjectContext *)context;
++ (Camera*)findFirstWithCameraId:(NSInteger)__cameraId;
 
 @end

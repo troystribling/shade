@@ -10,7 +10,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "ViewGeneral.h"
 #import "UIImage+Resize.h"
-#import "ImageDisplay.h"
+#import "Image+Extensions.h"
 
 #import "ImageEditViewController.h"
 #import "ProgressView.h"

@@ -9,7 +9,7 @@
 #import "CameraFactory.h"
 #import "FilteredCameraViewController.h"
 #import "SaturationCameraFilter.h"
-#import "DataContextManager.h"
+#import "Camera+Extensions.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 static CameraFactory* thisCameraFactory = nil;
@@ -17,8 +17,6 @@ static CameraFactory* thisCameraFactory = nil;
 /////////////////////////////////////////////////////////////////////////////////////////
 @interface CameraFactory ()
 
-+ (NSArray*)loadCameras;
-+ (NSDictionary*)loadCameraParameters;
 - (CGFloat)scaledFilterValue:(NSNumber*)__value;
 - (NSNumber*)increasingParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value;
 - (NSNumber*)decreasingParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value;
@@ -56,45 +54,6 @@ static CameraFactory* thisCameraFactory = nil;
 #pragma mark -
 #pragma mark CameraFactory PrivayeApi
 
-+ (NSArray*)loadCameras {
-    DataContextManager* contextManager = [DataContextManager instance];
-    
-    NSString* cameraFile = [[NSBundle  mainBundle] pathForResource:@"Cameras" ofType:@"plist"];
-    NSArray* configuredCameras = [[NSDictionary dictionaryWithContentsOfFile:cameraFile] objectForKey:@"cameras"];
-    NSInteger configuredCameraCount = [configuredCameras count];
-    
-    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription* cameraEntity = [NSEntityDescription entityForName:@"Camera" inManagedObjectContext:contextManager.mainObjectContext];
-    [fetchRequest setEntity:cameraEntity];   
-    NSInteger cameraCount = [contextManager count:fetchRequest];
-    
-    if (cameraCount < configuredCameraCount) {
-        for (int i = 0; i < (configuredCameraCount - cameraCount); i++) {
-            Camera* camera = (Camera*)[NSEntityDescription insertNewObjectForEntityForName:@"Camera" inManagedObjectContext:contextManager.mainObjectContext];
-            NSDictionary* configuredCamera = [configuredCameras objectAtIndex:(cameraCount + i)];
-            camera.cameraId             = [configuredCamera objectForKey:@"cameraId"];
-            camera.name                 = [configuredCamera objectForKey:@"name"];
-            camera.imageFilename        = [configuredCamera objectForKey:@"imageFilename"];
-            camera.hasParameter         = [configuredCamera objectForKey:@"hasParameter"];
-            camera.maximumValue         = [configuredCamera objectForKey:@"maximumValue"];
-            camera.minimumValue         = [configuredCamera objectForKey:@"minimumValue"];
-            camera.value                = [configuredCamera objectForKey:@"value"];
-            camera.hasAutoAdjust        = [configuredCamera objectForKey:@"hasAutoAdjust"];
-            camera.autoAdjustEnabled    = [configuredCamera objectForKey:@"autoAdjustEnabled"];
-            camera.hidden               = [configuredCamera objectForKey:@"hidden"];
-            camera.purchased            = [configuredCamera objectForKey:@"purchased"];
-            [contextManager save];
-        }
-    }
-    
-    return [contextManager fetch:fetchRequest];    
-}
-
-+ (NSDictionary*)loadCameraParameters {
-    NSString* cameraFile = [[NSBundle  mainBundle] pathForResource:@"CameraFilterParameters" ofType:@"plist"];
-    return [[NSDictionary dictionaryWithContentsOfFile:cameraFile] objectForKey:@"CameraFilterParameters"];
-}
-
 - (void)setCameraFilter:(GPUImageOutput<GPUImageInput>*)__filter forView:(GPUImageView*)__imageView {
     if (self.stillCamera) {
         [self.stillCamera stopCameraCapture];
@@ -111,8 +70,8 @@ static CameraFactory* thisCameraFactory = nil;
 
 }
 
-- (void)captureStillImage:(void(^)(NSData* imageData, NSError* error))_completionHandler {
-    [self.stillCamera capturePhotoAsJPEGProcessedUpToFilter:self.filter withCompletionHandler:_completionHandler];
+- (void)captureStillImage:(void(^)(NSData* imageData, NSError* error))__completionHandler {
+    [self.stillCamera capturePhotoAsJPEGProcessedUpToFilter:self.filter withCompletionHandler:__completionHandler];
 }
 
 - (CGFloat)scaledFilterValue:(NSNumber*)_value {
@@ -120,12 +79,12 @@ static CameraFactory* thisCameraFactory = nil;
     return [_value floatValue ] / parameterRange;
 }
 
-- (NSNumber*)increasingParameter:(NSDictionary*)_parameter fromValue:(NSNumber*)_value {
+- (NSNumber*)increasingParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value {
     CGFloat mappedValue = 0.0f;
-    CGFloat value = [_value floatValue];
-    CGFloat initialValue = [[_parameter objectForKey:@"initialValue"] floatValue];
-    CGFloat maximumValue = [[_parameter objectForKey:@"maximumValue"] floatValue];
-    CGFloat minimumValue = [[_parameter objectForKey:@"minimumValue"] floatValue];
+    CGFloat value = [__value floatValue];
+    CGFloat initialValue = [[__parameter objectForKey:@"initialValue"] floatValue];
+    CGFloat maximumValue = [[__parameter objectForKey:@"maximumValue"] floatValue];
+    CGFloat minimumValue = [[__parameter objectForKey:@"minimumValue"] floatValue];
     CGFloat upperRange = (maximumValue - initialValue);
     CGFloat lowerRange = (initialValue - minimumValue);
     if (value > 0.5f) {
@@ -136,12 +95,12 @@ static CameraFactory* thisCameraFactory = nil;
     return [NSNumber numberWithFloat:mappedValue];
 }
 
-- (NSNumber*)decreasingParameter:(NSDictionary*)_parameter fromValue:(NSNumber*)_value {
+- (NSNumber*)decreasingParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value {
     CGFloat mappedValue = 0.0f;
-    CGFloat value =[_value floatValue];
-    CGFloat initialValue = [[_parameter objectForKey:@"initialValue"] floatValue];
-    CGFloat maximumValue = [[_parameter objectForKey:@"maximumValue"] floatValue];
-    CGFloat minimumValue = [[_parameter objectForKey:@"minimumValue"] floatValue];
+    CGFloat value =[__value floatValue];
+    CGFloat initialValue = [[__parameter objectForKey:@"initialValue"] floatValue];
+    CGFloat maximumValue = [[__parameter objectForKey:@"maximumValue"] floatValue];
+    CGFloat minimumValue = [[__parameter objectForKey:@"minimumValue"] floatValue];
     CGFloat upperRange = (initialValue - minimumValue);
     CGFloat lowerRange = (maximumValue - initialValue);
     if (value > 0.5f) {
@@ -154,11 +113,11 @@ static CameraFactory* thisCameraFactory = nil;
 
 
 // initial value is equal to maximum value
-- (NSNumber*)mirroredMaximumParameter:(NSDictionary*)_parameter fromValue:(NSNumber*)_value {
+- (NSNumber*)mirroredMaximumParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value {
     CGFloat mappedValue = 0.0f;
     CGFloat value = [_value floatValue];
-    CGFloat initialValue = [[_parameter objectForKey:@"initialValue"] floatValue];
-    CGFloat minimumValue = [[_parameter objectForKey:@"minimumValue"] floatValue];
+    CGFloat initialValue = [[__parameter objectForKey:@"initialValue"] floatValue];
+    CGFloat minimumValue = [[__parameter objectForKey:@"minimumValue"] floatValue];
     CGFloat range = (initialValue - minimumValue);
     if (value > 0.5f) {
         mappedValue = initialValue - 2.0f * range * (value - 0.5f); 
@@ -169,11 +128,11 @@ static CameraFactory* thisCameraFactory = nil;
 }
 
 // initial value is equal to minimum value
-- (NSNumber*)mirroredMinimumParameter:(NSDictionary*)_parameter fromValue:(NSNumber*)_value {
+- (NSNumber*)mirroredMinimumParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value {
     CGFloat mappedValue = 0.0f;
-    CGFloat value =[_value floatValue];
-    CGFloat initialValue = [[_parameter objectForKey:@"initialValue"] floatValue];
-    CGFloat maximumValue = [[_parameter objectForKey:@"maximumValue"] floatValue];
+    CGFloat value =[__value floatValue];
+    CGFloat initialValue = [[__parameter objectForKey:@"initialValue"] floatValue];
+    CGFloat maximumValue = [[__parameter objectForKey:@"maximumValue"] floatValue];
     CGFloat range = (maximumValue - initialValue);
     if (value > 0.5f) {
         mappedValue = initialValue + 2.0f * range * (value - 0.5f); 
@@ -187,7 +146,7 @@ static CameraFactory* thisCameraFactory = nil;
 #pragma mark -
 #pragma mark CameraFactory (ParameterValues)
 
-- (NSDictionary*)instantCameraParameterValues:(NSNumber*)_value {
+- (NSDictionary*)instantCameraParameterValues:(NSNumber*)__value {
     NSDictionary* parameters = [self.loadedCameraParameters objectForKey:@"Instant"];
     
     NSDictionary* rgbParameters = [parameters objectForKey:@"GPUImageRGBFilter"];
@@ -195,13 +154,13 @@ static CameraFactory* thisCameraFactory = nil;
     NSDictionary* greenParameters = [rgbParameters objectForKey:@"Green"];
     NSDictionary* redParameters = [rgbParameters objectForKey:@"Red"];
     
-    return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[self increasingParameter:blueParameters fromValue:_value],
-                                                                         [self increasingParameter:greenParameters fromValue:_value],
-                                                                         [self decreasingParameter:redParameters fromValue:_value], nil]
+    return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[self increasingParameter:blueParameters fromValue:__value],
+                                                                         [self increasingParameter:greenParameters fromValue:__value],
+                                                                         [self decreasingParameter:redParameters fromValue:__value], nil]
                                        forKeys:[NSArray arrayWithObjects:@"blue", @"green", @"red", nil]];
 }
 
-- (NSDictionary*)boxCameraParameterValues:(NSNumber*)_value {
+- (NSDictionary*)boxCameraParameterValues:(NSNumber*)__value {
     NSDictionary* parameters = [self.loadedCameraParameters objectForKey:@"Box"];
     
     NSDictionary* rgbParameters = [parameters objectForKey:@"GPUImageRGBFilter"];
@@ -211,14 +170,14 @@ static CameraFactory* thisCameraFactory = nil;
 
     NSDictionary* vignetteParameters = [[parameters objectForKey:@"GPUImageVignetteFilter"] objectForKey:@"VignetteEnd"];
     
-    return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[self decreasingParameter:blueParameters fromValue:_value],
-                                                                         [self increasingParameter:greenParameters fromValue:_value],
-                                                                         [self increasingParameter:redParameters fromValue:_value],
-                                                                         [self mirroredMaximumParameter:vignetteParameters fromValue:_value], nil]
+    return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[self decreasingParameter:blueParameters fromValue:__value],
+                                                                         [self increasingParameter:greenParameters fromValue:__value],
+                                                                         [self increasingParameter:redParameters fromValue:__value],
+                                                                         [self mirroredMaximumParameter:vignetteParameters fromValue:__value], nil]
                          forKeys:[NSArray arrayWithObjects:@"blue", @"green", @"red", @"vignette", nil]];
 }
 
-- (NSDictionary*)plasticCameraParameterValues:(NSNumber*)_value {
+- (NSDictionary*)plasticCameraParameterValues:(NSNumber*)__value {
     NSDictionary* parameters = [self.loadedCameraParameters objectForKey:@"Plastic"];
 
     NSDictionary* rgbParameters = [parameters objectForKey:@"GPUImageRGBFilter"];
@@ -226,9 +185,9 @@ static CameraFactory* thisCameraFactory = nil;
     NSDictionary* greenParameters = [rgbParameters objectForKey:@"Green"];
     NSDictionary* redParameters = [rgbParameters objectForKey:@"Red"];
     
-    return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[self increasingParameter:blueParameters fromValue:_value],
-                                                [self increasingParameter:greenParameters fromValue:_value],
-                                                [self decreasingParameter:redParameters fromValue:_value], nil]
+    return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[self increasingParameter:blueParameters fromValue:__value],
+                                                [self increasingParameter:greenParameters fromValue:__value],
+                                                [self decreasingParameter:redParameters fromValue:__value], nil]
                                        forKeys:[NSArray arrayWithObjects:@"blue", @"green", @"red", nil]];
 }
 
@@ -353,38 +312,34 @@ static CameraFactory* thisCameraFactory = nil;
     @synchronized(self) {
         if (thisCameraFactory == nil) {
             thisCameraFactory = [[self alloc] init];
-            thisCameraFactory.loadedCameras = [self loadCameras];
-            thisCameraFactory.loadedCameraParameters = [self loadCameraParemeters];
         }
     }
     return thisCameraFactory;
 }
 
-- (void)setCamera:(Camera*)_camera forView:(GPUImageView*)_imageView {
-    self.camera = _camera;
-    switch ([_camera.cameraId intValue]) {
-        case CameraTypeIPhone:
-            [self setCameraFilter:[[GPUImageFilter alloc] initWithFragmentShaderFromFile:@"PassThrough"] forView:_imageView];
-            break;
-        case CameraTypeInstant:
-            [self setCameraFilter:[self filterInstantCamera] forView:_imageView];
-            break;  
-        case CameraTypeBox:
-            [self setCameraFilter:[self filterBoxCamera] forView:_imageView];
-            break;
-        case CameraTypePlastic:
-            [self setCameraFilter:[self filterPlasticCamera] forView:_imageView];
-            break;
-        default:
-            break;
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.loadedCameras = [Camera loadCameras];
+        self.loadedCameraParameters = [Camera loadCameraParemeters];
+        self.filters = @[[[GPUImageFilter alloc] initWithFragmentShaderFromFile:@"PassThrough"],
+                         [self filterInstantCamera],
+                         [self filterBoxCamera],
+                         [self filterPlasticCamera]];
     }
-    [self setCameraParmeterValue:_camera.value];
+    self;
+}
+
+- (void)setCamera:(Camera*)__camera forView:(GPUImageView*)__imageView {
+    self.camera = __camera;
+    [self setCameraFilter:[self.filters objectAtIndex:[self.camera.identifier intValue]] forView:__imageView];
+    [self setCameraParmeterValue:self.camera.value];
 }
 
 - (void)setCameraParmeterValue:(NSNumber*)_value {
     self.camera.value = _value;
     [[DataContextManager instance] save];
-    switch ([self.camera.cameraId intValue]) {
+    switch ([self.camera.identifier intValue]) {
         case CameraTypeIPhone:
             break;
         case CameraTypeInstant:

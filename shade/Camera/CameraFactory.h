@@ -8,22 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "GPUImage.h"
-#import "Camera.h"
 
 @class Camera;
 @class FilteredCameraViewController;
 
-typedef enum {
-    CameraTypeIPhone,
-    CameraTypeInstant,
-    CameraTypePixel,
-    CameraTypeBox,
-    CameraTypePlastic
-} CameraType;
-
 @interface CameraFactory : NSObject
 
 @property(nonatomic, strong) NSArray*                           loadedCameras;
+@property(nonatomic, strong) NSArray*                           filters;
 @property(nonatomic, strong) NSDictionary*                      loadedCameraParameters;
 @property(nonatomic, strong) Camera*                            camera;
 @property(nonatomic, strong) GPUImageStillCamera*               stillCamera;
