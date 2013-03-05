@@ -25,7 +25,6 @@ static DataManager* thisDataManager = nil;
 @synthesize managedObjectContext        = __managedObjectContext;
 @synthesize managedObjectModel          = __managedObjectModel;
 @synthesize persistentStoreCoordinator  = __persistentStoreCoordinator;
-@synthesize modelURL, persistantStoreName;
 
 #pragma mark -
 #pragma mark DataContextManager
@@ -48,7 +47,7 @@ static DataManager* thisDataManager = nil;
 - (id)init {
     self = [super init];
     if (self) {
-        self.backgroundQueue = dispatch_queue_create("com.genmobapp.dataManager", NULL);
+        self.backgroundQueue = dispatch_queue_create("com.imaginaryproducts.dataManager", NULL);
     }
     return self;
 }

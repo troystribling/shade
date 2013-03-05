@@ -12,6 +12,7 @@
 
 @class ImageInspectViewController;
 @class ProgressView;
+@class Capture;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 @interface ViewGeneral : NSObject <FilteredCameraViewControllerDelegate, ImageInspectViewControllerDelegate> {
@@ -36,7 +37,7 @@
 + (CGRect)imageThumbnailRect;
 
 - (void)createViews:(UIView*)__containerView;
-- (void)addCapture:(Captue*)__capture;
+- (void)addCapture:(Capture*)__capture;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 - (void)showProgressViewWithMessage:(NSString*)__progressMessage;

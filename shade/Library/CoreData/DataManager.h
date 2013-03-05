@@ -20,7 +20,7 @@
 @property (nonatomic, strong, readonly) NSPersistentStoreCoordinator*   persistentStoreCoordinator;
 @property (nonatomic, strong)           NSURL*                          modelURL;
 @property (nonatomic, strong)           NSString*                       persistantStoreName;
-@property(nonatomic, assign)            dispatch_queue_t                backgroundQueue;
+@property (nonatomic, assign)           dispatch_queue_t                backgroundQueue;
 
 
 + (DataManager*)create;

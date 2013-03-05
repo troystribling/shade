@@ -11,6 +11,14 @@
 
 @implementation PlasticCameraFilter
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        NSDictionary *parameters = [Camera loadCameraParameters];
+        self.filterParameters = [parameters objectForKey:@"Plastic"];
+    }
+}
+
 - (NSDictionary*)initialParameterValues {
     NSDictionary* contrastParameters = [[self.filterParameters objectForKey:@"GPUImageContrastFilter"] objectForKey:@"Contrast"];
     NSDictionary* rgbParameters = [self.filterParameters objectForKey:@"GPUImageRGBFilter"];

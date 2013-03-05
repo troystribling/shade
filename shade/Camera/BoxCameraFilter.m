@@ -8,8 +8,17 @@
 
 #import "BoxCameraFilter.h"
 #import "SaturationCameraFilter.m"
+#import "Camera+Extensions.h" 
 
 @implementation BoxCameraFilter
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        NSDictionary *parameters = [Camera loadCameraParameters];
+        self.filterParameters = [parameters objectForKey:@"Box"];
+    }
+}
 
 - (NSDictionary*)initialParameterValues {    
     NSDictionary* contrastParameters = [[self.filterParameters objectForKey:@"GPUImageContrastFilter"] objectForKey:@"Contrast"];

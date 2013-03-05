@@ -14,6 +14,7 @@
 
 @protocol ImageInspectViewControllerDelegate;
 @class ImageEntryView;
+@class Capture;
  
 @interface ImageInspectViewController : UIViewController <UIImagePickerControllerDelegate, ImageEntriesViewDelegate, DiagonalGestureRecognizerDelegate> {
 }

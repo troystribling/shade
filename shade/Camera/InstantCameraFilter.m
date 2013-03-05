@@ -11,6 +11,14 @@
 
 @implementation InstantCameraFilter
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        NSDictionary *parameters = [Camera loadCameraParameters];
+        self.filterParameters = [parameters objectForKey:@"Instant"];
+    }
+}
+
 - (NSDictionary*)initialParameterValues {
     NSDictionary* contrastParameters = [[self.filterParameters objectForKey:@"GPUImageContrastFilter"] objectForKey:@"Contrast"];
     NSDictionary* vignetteParameters = [[self.filterParameters objectForKey:@"GPUImageVignetteFilter"] objectForKey:@"VignetteEnd"];

@@ -9,14 +9,12 @@
 #import "ImageInspectViewController.h"
 #import "UIImage+Resize.h"
 #import "Capture+Extensions.h"
-#import "CaptureManager.h"
 #import "ViewGeneral.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-@interface ImageInspectViewController (PrivateAPI)
+@interface ImageInspectViewController ()
 
 - (void)saveCapture:(ImageEntryView*)_selectedView;
-- (CLLocationManager*)locationManager;
 
 @end
 
@@ -32,7 +30,10 @@
     return [[ImageInspectViewController alloc] initWithNibName:@"ImageInspectViewController" bundle:nil inView:__containerView withDelegate:__delegate];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil inView:(UIView*)__containerView withDelegate:(id<ImageInspectViewControllerDelegate>)__delegate {
+- (id)initWithNibName:(NSString *)nibNameOrNil
+               bundle:(NSBundle *)nibBundleOrNil
+               inView:(UIView*)__containerView
+         withDelegate:(id<ImageInspectViewControllerDelegate>)__delegate {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         self.containerView = __containerView;
         self.delegate = __delegate;

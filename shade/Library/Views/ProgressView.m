@@ -57,7 +57,7 @@
 }
 
 - (void)addDisplayView:(NSString*)_displayMessage {
-    CGSize messageSize = [_displayMessage sizeWithFont:[UIFont systemFontOfSize:21.0] constrainedToSize:CGSizeMake(DISPLAY_MESSAGE_WIDTH, self.frame.size.height) lineBreakMode:UILineBreakModeWordWrap];
+    CGSize messageSize = [_displayMessage sizeWithFont:[UIFont systemFontOfSize:21.0] constrainedToSize:CGSizeMake(DISPLAY_MESSAGE_WIDTH, self.frame.size.height) lineBreakMode:NSLineBreakByWordWrapping];
     CGRect messageLabelRect = CGRectMake(self.center.x - 0.5 * DISPLAY_MESSAGE_WIDTH, 
                                          self.center.y - 0.5 * messageSize.height, 
                                          DISPLAY_MESSAGE_WIDTH, 
@@ -73,8 +73,8 @@
     self.displayMessage.backgroundColor = [UIColor clearColor];
     self.displayMessage.alpha = 1.0;
     self.displayMessage.numberOfLines = 0;
-    self.displayMessage.textAlignment = UITextAlignmentCenter;
-    self.displayMessage.lineBreakMode = UILineBreakModeWordWrap;
+    self.displayMessage.textAlignment = NSTextAlignmentCenter;
+    self.displayMessage.lineBreakMode = NSLineBreakByWordWrapping;
     self.displayView = [RoundedCornersView withFrame:displayViewRect];
     self.displayView.alpha = .8;
     self.displayView.backgroundColor = [UIColor blackColor];

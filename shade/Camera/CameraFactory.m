@@ -72,10 +72,7 @@ static CameraFactory* thisCameraFactory = nil;
     if (self) {
         self.loadedCameras = [Camera loadCameras];
         NSDictionary *parameters = [Camera loadCameraParameters];
-        self.cameraFilters = @[[[PassThoughFilter alloc] initWithParameters:nil],
-                               [[InstantCameraFilter alloc] initWithParameters:[parameters objectForKey:@"Instant"]],
-                               [[BoxCameraFilter alloc] initWithParameters:[parameters objectForKey:@"Box"]],
-                               [[PlasticCameraFilter alloc] initWithParameters:[parameters objectForKey:@"Plastic"]]];
+        self.cameraFilters = @[[[PassThoughFilter alloc] init], [[InstantCameraFilter alloc] init], [[BoxCameraFilter alloc] init], [[PlasticCameraFilter alloc] init]];
     }
     self;
 }

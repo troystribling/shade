@@ -12,6 +12,7 @@
 #import "StreamOfViews.h"
 
 @protocol ImageEntriesViewDelegate;
+@class Capture;
 
 @interface ImageEntriesView : UIView <StreamOfViewsDelegate, DiagonalGestureRecognizerDelegate> {
 }
