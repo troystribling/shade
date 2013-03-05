@@ -21,6 +21,7 @@ static CameraFactory* thisCameraFactory = nil;
 @interface CameraFactory ()
 
 - (CGFloat)scaledFilterValue:(NSNumber*)__value;
+- (CameraFilter*)cameraFilter;
 
 @end
 
@@ -28,31 +29,35 @@ static CameraFactory* thisCameraFactory = nil;
 @implementation CameraFactory
 
 #pragma mark -
-#pragma mark CameraFactory PrivayeApi
+#pragma mark CameraFactory Private API
 
 - (void)setCameraFilter:(GPUImageOutput<GPUImageInput>*)__filter forView:(GPUImageView*)__imageView {
     if (self.stillCamera) {
         [self.stillCamera stopCameraCapture];
         [self.stillCamera removeAllTargets];
-        [self.filter removeAllTargets];
+        [__filter removeAllTargets];
     }
     self.stillCamera = [[GPUImageStillCamera alloc] init];
     self.stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
-    self.filter = __filter;
-    [self.filter prepareForImageCapture];    
-    [self.stillCamera addTarget:_filter];
-    [self.filter addTarget:_imageView];  
+    [__filter prepareForImageCapture];    
+    [self.stillCamera addTarget:__filter];
+    [__filter addTarget:__imageView];
     [self.stillCamera startCameraCapture];
 
 }
 
 - (void)captureStillImage:(void(^)(NSData* imageData, NSError* error))__completionHandler {
-    [self.stillCamera capturePhotoAsJPEGProcessedUpToFilter:self.filter withCompletionHandler:__completionHandler];
+    CameraFilter *camerFilter = [self cameraFilter];
+    [self.stillCamera capturePhotoAsJPEGProcessedUpToFilter:camerFilter.filter withCompletionHandler:__completionHandler];
 }
 
 - (CGFloat)scaledFilterValue:(NSNumber*)_value {
     CGFloat parameterRange = [self.camera.maximumValue floatValue] - [self.camera.minimumValue floatValue];
     return [_value floatValue ] / parameterRange;
+}
+
+- (CameraFilter*)cameraFilter {
+    return [self.cameraFilters objectAtIndex:[self.camera.identifier intValue]];
 }
 
 #pragma mark -
@@ -71,17 +76,16 @@ static CameraFactory* thisCameraFactory = nil;
     self = [super init];
     if (self) {
         self.loadedCameras = [Camera loadCameras];
-        NSDictionary *parameters = [Camera loadCameraParameters];
         self.cameraFilters = @[[[PassThoughFilter alloc] init], [[InstantCameraFilter alloc] init], [[BoxCameraFilter alloc] init], [[PlasticCameraFilter alloc] init]];
     }
-    self;
+    return self;
 }
 
 - (void)setCamera:(Camera*)__camera forView:(GPUImageView*)__imageView {
     self.camera = __camera;
-    CameraFilter *camerFilter = [self.cameraFilters objectAtIndex:[self.camera.identifier intValue]];
+    CameraFilter *camerFilter = [self cameraFilter];
     [self setCameraFilter:camerFilter.filter forView:__imageView];
-    [self setCameraParmeterValue:self.camera.value];
+    [self setCameraParameterValue:self.camera.value];
 }
 
 - (void)setCameraParameterValue:(NSNumber*)__value {

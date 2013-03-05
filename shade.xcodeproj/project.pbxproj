@@ -617,8 +617,10 @@
 		0534C99916E2F50400EAD481 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "shade/shade-Prefix.pch";
+				HEADER_SEARCH_PATHS = "External/GPUImage/framework/**";
 				INFOPLIST_FILE = "shade/shade-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -628,8 +630,10 @@
 		0534C99A16E2F50400EAD481 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "shade/shade-Prefix.pch";
+				HEADER_SEARCH_PATHS = "External/GPUImage/framework/**";
 				INFOPLIST_FILE = "shade/shade-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

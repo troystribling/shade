@@ -10,9 +10,8 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "ViewGeneral.h"
 #import "UIImage+Resize.h"
-#import "Image+Extensions.h"
+#import "UIImage+Extensions.h"
 
-#import "ImageEditViewController.h"
 #import "ProgressView.h"
 
 #define HORIZONTAL_TRANSITION_ANIMATION_SPEED           500.0f
@@ -61,9 +60,9 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     }
 }
 
-- (void)drag:(CGPoint)_drag view:(UIView*)_view {
+- (void)drag:(CGPoint)__drag view:(UIView*)__view {
     if (self.notAnimating) {
-        _view.transform = CGAffineTransformTranslate(_view.transform, _drag.x, _drag.y);
+        __view.transform = CGAffineTransformTranslate(__view.transform, __drag.x, _drag.y);
     }
 }
 
