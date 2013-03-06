@@ -29,6 +29,7 @@
 		058E984416E5983D00C4DDFA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 058E984316E5983D00C4DDFA /* CoreLocation.framework */; };
 		058E984516E5993F00C4DDFA /* PassThrough.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 05AD716B16E32BCD00AAB7D9 /* PassThrough.fsh */; };
 		058E984616E5993F00C4DDFA /* WhiteColorOverlay.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 05AD716E16E32BCD00AAB7D9 /* WhiteColorOverlay.fsh */; };
+		058E985616E7043900C4DDFA /* ImageEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 058E985516E7043900C4DDFA /* ImageEntryView.m */; };
 		05AD715B16E32BBE00AAB7D9 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715616E32BBE00AAB7D9 /* DataManager.m */; };
 		05AD715C16E32BBE00AAB7D9 /* NSManagedObject+DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715816E32BBE00AAB7D9 /* NSManagedObject+DataManager.m */; };
 		05AD716F16E32BCD00AAB7D9 /* CameraFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716316E32BCD00AAB7D9 /* CameraFactory.m */; };
@@ -112,6 +113,8 @@
 		058E983C16E5943300C4DDFA /* UIAlertView+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Extensions.m"; sourceTree = "<group>"; };
 		058E984116E5962500C4DDFA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		058E984316E5983D00C4DDFA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		058E985416E7043900C4DDFA /* ImageEntryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageEntryView.h; sourceTree = "<group>"; };
+		058E985516E7043900C4DDFA /* ImageEntryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageEntryView.m; sourceTree = "<group>"; };
 		05AD715516E32BBE00AAB7D9 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
 		05AD715616E32BBE00AAB7D9 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
 		05AD715716E32BBE00AAB7D9 /* NSManagedObject+DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+DataManager.h"; sourceTree = "<group>"; };
@@ -320,6 +323,8 @@
 				05AD716516E32BCD00AAB7D9 /* FilteredCameraViewController.m */,
 				05AD71A716E3D36600AAB7D9 /* ImageEntriesView.h */,
 				05AD71A816E3D36600AAB7D9 /* ImageEntriesView.m */,
+				058E985416E7043900C4DDFA /* ImageEntryView.h */,
+				058E985516E7043900C4DDFA /* ImageEntryView.m */,
 				05AD716816E32BCD00AAB7D9 /* ImageInspectViewController.h */,
 				05AD716916E32BCD00AAB7D9 /* ImageInspectViewController.m */,
 				05AD716A16E32BCD00AAB7D9 /* ImageInspectViewController.xib */,
@@ -533,6 +538,7 @@
 				05AD71DE16E4306100AAB7D9 /* PlasticCameraFilter.m in Sources */,
 				05AD71E116E473D600AAB7D9 /* PassThoughFilter.m in Sources */,
 				058E983D16E5943300C4DDFA /* UIAlertView+Extensions.m in Sources */,
+				058E985616E7043900C4DDFA /* ImageEntryView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

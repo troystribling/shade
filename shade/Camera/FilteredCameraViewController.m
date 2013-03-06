@@ -10,7 +10,6 @@
 #import "ParameterSliderView.h"
 #import "ViewGeneral.h"
 #import "CameraFactory.h"
-#import "CaptureManager.h"
 
 #define CAMERA_SHUTTER_TRANSITION     0.2f
 #define CAMERA_SHUTTER_DELAY          1.5f
@@ -91,7 +90,6 @@
         }
         completion:^(BOOL _finished) {
             [self.shutterView removeFromSuperview];
-            [self showCameraControls];
         }
     ];
 }

@@ -54,7 +54,7 @@
 // initial value is equal to maximum value
 - (NSNumber*)mirroredMaximumParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value {
     CGFloat mappedValue = 0.0f;
-    CGFloat value = [_value floatValue];
+    CGFloat value = [__value floatValue];
     CGFloat initialValue = [[__parameter objectForKey:@"initialValue"] floatValue];
     CGFloat minimumValue = [[__parameter objectForKey:@"minimumValue"] floatValue];
     CGFloat range = (initialValue - minimumValue);

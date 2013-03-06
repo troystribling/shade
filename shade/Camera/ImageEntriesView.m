@@ -7,6 +7,7 @@
 //
 
 #import "ImageEntriesView.h"
+#import "ImageEntryView.h"
 #import "StreamOfViews.h"
 #import "Capture+Extensions.h"
 

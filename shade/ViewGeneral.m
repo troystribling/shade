@@ -62,7 +62,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 
 - (void)drag:(CGPoint)__drag view:(UIView*)__view {
     if (self.notAnimating) {
-        __view.transform = CGAffineTransformTranslate(__view.transform, __drag.x, _drag.y);
+        __view.transform = CGAffineTransformTranslate(__view.transform, __drag.x, __drag.y);
     }
 }
 
@@ -130,21 +130,6 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     [[[UIAlertView alloc] initWithTitle:[error localizedDescription] message:[error localizedFailureReason] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK button title") otherButtonTitles:nil] show];    
 }
 
-+ (CGRect)imageThumbnailRect {
-    CGFloat width = [[UIScreen mainScreen] bounds].size.width / THUMBNAILS_IN_ROW;
-    return CGRectMake(0.0, 0.0, width, width);
-}
-
-- (void)createViews:(UIView*)__view {
-    self.view = __view;
-    [self initImageInspectView:__view];
-    [self initCameraView:__view];
-}
-
-- (void)updateCalendarEntryWithDate:(NSDate*)_date {
-    [self.calendarViewController updateEntryWithDate:_date];
-}
-
 - (void)addCapture:(Capture*)__capture {
     [self.imageInspectViewController addCapture:__capture];
 }
@@ -156,7 +141,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     if (self.progressView == nil) {
         self.progressView = [ProgressView progressView];
     }
-    [self.progressView progressWithMessage:_progressMessage inView:self.containerView];
+    [self.progressView progressWithMessage:__progressMessage inView:self.view];
 }
 
 - (void)removeProgressView {
@@ -168,18 +153,18 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 
 - (void)initImageInspectView:(UIView*)__view {
     if (self.imageInspectViewController == nil) {
-        self.imageInspectViewController = [ImageInspectViewController inView:_containerView withDelegate:self];
+        self.imageInspectViewController = [ImageInspectViewController inView:__view withDelegate:self];
     } 
     [self imageInspectViewPosition:[self.class overWindow]];
-    [_containerView addSubview:self.imageInspectViewController.view];
+    [__view addSubview:self.imageInspectViewController.view];
 }
 
 - (void)imageInspectViewHidden:(BOOL)__hidden {
-    self.imageInspectViewController.view.hidden = _hidden;
+    self.imageInspectViewController.view.hidden = __hidden;
 }
 
 - (void)imageInspectViewPosition:(CGRect)__rect {
-    self.imageInspectViewController.view.frame = _rect;
+    self.imageInspectViewController.view.frame = __rect;
 }
 
 #pragma mark - 
