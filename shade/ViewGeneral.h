@@ -7,15 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FilteredCameraViewController.h"
 #import "ImageInspectViewController.h"
 
 @class ImageInspectViewController;
+@class FilteredCameraViewController;
 @class ProgressView;
 @class Capture;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
-@interface ViewGeneral : NSObject <FilteredCameraViewControllerDelegate, ImageInspectViewControllerDelegate> {
+@interface ViewGeneral : NSObject <ImageInspectViewControllerDelegate> {
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------
@@ -34,7 +34,6 @@
 + (CGRect)leftOfWindow;
 + (CGRect)rightOfWindow;
 + (void)alertOnError:(NSError*)error;
-+ (CGRect)imageThumbnailRect;
 
 - (void)createViews:(UIView*)__containerView;
 - (void)addCapture:(Capture*)__capture;

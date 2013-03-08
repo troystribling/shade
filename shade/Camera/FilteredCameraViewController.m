@@ -10,6 +10,8 @@
 #import "ParameterSliderView.h"
 #import "ViewGeneral.h"
 #import "CameraFactory.h"
+#import "Capture+Extensions.h"
+#import "DataManager.h"
 
 #define CAMERA_SHUTTER_TRANSITION     0.2f
 #define CAMERA_SHUTTER_DELAY          1.5f
@@ -40,9 +42,9 @@
         }
         else {
             UIImage* capturedImage = [[UIImage alloc] initWithData:imageData];
-            [[CaptureManager instance] createCaptureInBackgroundForImage:capturedImage];
+            [Capture createForImage:capturedImage];
         }             
-        [[CaptureManager instance] waitForCaptureImageQueue];
+        [[DataManager instance] waitForQueueToEmpty];
         self.captureImageGesture.enabled = YES;
         [self openShutter];
     }];

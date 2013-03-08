@@ -21,7 +21,7 @@
 - (NSNumber*)mirroredMinimumParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value;
 
 - (NSDictionary*)initialParameterValues;
-- (GPUImageOutput<GPUImageInput>*)filter;
+- (GPUImageOutput<GPUImageInput>*)createFilter;
 - (NSDictionary*)parameterValues:(NSNumber*)__value;
 - (void)setParameterValue:(NSNumber*)__value;
 

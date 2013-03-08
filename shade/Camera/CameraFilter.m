@@ -13,9 +13,10 @@
 - (id)initWithParameters:(NSDictionary*)__parameters {
     self = [super init];
     if (self) {
-        self.filter = [self initFilter];
+        self.filter = [self createFilter];
         self.filterParameters = __parameters;
     }
+    return self;
 }
 
 - (NSNumber*)increasingParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value {
@@ -87,7 +88,7 @@
     return [NSDictionary dictionary];
 }
 
-- (GPUImageOutput<GPUImageInput>*)initFilter {
+- (GPUImageOutput<GPUImageInput>*)createFilter {
     return nil;
 }
 

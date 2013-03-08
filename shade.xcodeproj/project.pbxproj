@@ -36,7 +36,7 @@
 		05AD717016E32BCD00AAB7D9 /* FilteredCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716516E32BCD00AAB7D9 /* FilteredCameraViewController.m */; };
 		05AD717216E32BCD00AAB7D9 /* ImageInspectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716916E32BCD00AAB7D9 /* ImageInspectViewController.m */; };
 		05AD717316E32BCD00AAB7D9 /* ImageInspectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05AD716A16E32BCD00AAB7D9 /* ImageInspectViewController.xib */; };
-		05AD717516E32BCD00AAB7D9 /* SaturationCameraFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716D16E32BCD00AAB7D9 /* SaturationCameraFilter.m */; };
+		05AD717516E32BCD00AAB7D9 /* SaturationFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716D16E32BCD00AAB7D9 /* SaturationFilter.m */; };
 		05AD717916E32D7300AAB7D9 /* ViewGeneral.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD717816E32D7200AAB7D9 /* ViewGeneral.m */; };
 		05AD719816E336DF00AAB7D9 /* NSArray+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD717C16E336DF00AAB7D9 /* NSArray+Extensions.m */; };
 		05AD719916E336DF00AAB7D9 /* NSObject+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD717E16E336DF00AAB7D9 /* NSObject+Extensions.m */; };
@@ -127,8 +127,8 @@
 		05AD716916E32BCD00AAB7D9 /* ImageInspectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageInspectViewController.m; sourceTree = "<group>"; };
 		05AD716A16E32BCD00AAB7D9 /* ImageInspectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageInspectViewController.xib; sourceTree = "<group>"; };
 		05AD716B16E32BCD00AAB7D9 /* PassThrough.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = PassThrough.fsh; sourceTree = "<group>"; };
-		05AD716C16E32BCD00AAB7D9 /* SaturationCameraFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaturationCameraFilter.h; sourceTree = "<group>"; };
-		05AD716D16E32BCD00AAB7D9 /* SaturationCameraFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaturationCameraFilter.m; sourceTree = "<group>"; };
+		05AD716C16E32BCD00AAB7D9 /* SaturationFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaturationFilter.h; sourceTree = "<group>"; };
+		05AD716D16E32BCD00AAB7D9 /* SaturationFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaturationFilter.m; sourceTree = "<group>"; };
 		05AD716E16E32BCD00AAB7D9 /* WhiteColorOverlay.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = WhiteColorOverlay.fsh; sourceTree = "<group>"; };
 		05AD717716E32D7200AAB7D9 /* ViewGeneral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewGeneral.h; sourceTree = "<group>"; };
 		05AD717816E32D7200AAB7D9 /* ViewGeneral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewGeneral.m; sourceTree = "<group>"; };
@@ -335,8 +335,8 @@
 				05AD716B16E32BCD00AAB7D9 /* PassThrough.fsh */,
 				05AD71DC16E4306000AAB7D9 /* PlasticCameraFilter.h */,
 				05AD71DD16E4306100AAB7D9 /* PlasticCameraFilter.m */,
-				05AD716C16E32BCD00AAB7D9 /* SaturationCameraFilter.h */,
-				05AD716D16E32BCD00AAB7D9 /* SaturationCameraFilter.m */,
+				05AD716C16E32BCD00AAB7D9 /* SaturationFilter.h */,
+				05AD716D16E32BCD00AAB7D9 /* SaturationFilter.m */,
 				05AD716E16E32BCD00AAB7D9 /* WhiteColorOverlay.fsh */,
 			);
 			path = Camera;
@@ -508,7 +508,7 @@
 				05AD716F16E32BCD00AAB7D9 /* CameraFactory.m in Sources */,
 				05AD717016E32BCD00AAB7D9 /* FilteredCameraViewController.m in Sources */,
 				05AD717216E32BCD00AAB7D9 /* ImageInspectViewController.m in Sources */,
-				05AD717516E32BCD00AAB7D9 /* SaturationCameraFilter.m in Sources */,
+				05AD717516E32BCD00AAB7D9 /* SaturationFilter.m in Sources */,
 				05AD717916E32D7300AAB7D9 /* ViewGeneral.m in Sources */,
 				05AD719816E336DF00AAB7D9 /* NSArray+Extensions.m in Sources */,
 				05AD719916E336DF00AAB7D9 /* NSObject+Extensions.m in Sources */,

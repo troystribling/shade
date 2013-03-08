@@ -11,6 +11,7 @@
 #import "ViewGeneral.h"
 #import "UIImage+Resize.h"
 #import "UIImage+Extensions.h"
+#import "FilteredCameraViewController.h"
 
 #import "ProgressView.h"
 
@@ -127,7 +128,17 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 
 + (void)alertOnError:(NSError*)error {
     NSLog(@"Had and Error %@, %@", error, [error userInfo]);
-    [[[UIAlertView alloc] initWithTitle:[error localizedDescription] message:[error localizedFailureReason] delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", @"OK button title") otherButtonTitles:nil] show];    
+    [[[UIAlertView alloc] initWithTitle:[error localizedDescription]
+                                message:[error localizedFailureReason]
+                               delegate:nil
+                      cancelButtonTitle:NSLocalizedString(@"OK", @"OK button title")
+                      otherButtonTitles:nil] show];
+}
+
+- (void)createViews:(UIView*)__view {
+    self.view = __view;
+    [self initImageInspectView:__view];
+    [self initCameraView:__view];
 }
 
 - (void)addCapture:(Capture*)__capture {
@@ -175,7 +186,6 @@ static ViewGeneral* thisViewControllerGeneral = nil;
         self.cameraViewController = [FilteredCameraViewController inView:__view];
     } 
     [self cameraViewPosition:[self.class inWindow]];
-    self.cameraViewController.delegate = self;
     [__view addSubview:self.cameraViewController.view];
 }
 

@@ -7,16 +7,17 @@
 //
 
 #import "PlasticCameraFilter.h"
-#import "SaturationCameraFilter.m"
+#import "SaturationFilter.h"
+#import "Camera+Extensions.h"
 
 @implementation PlasticCameraFilter
 
 - (id)init {
     self = [super init];
     if (self) {
-        NSDictionary *parameters = [Camera loadCameraParameters];
-        self.filterParameters = [parameters objectForKey:@"Plastic"];
+        self.filterParameters = [[Camera loadCameraParameters] objectForKey:@"Plastic"];
     }
+    return self;
 }
 
 - (NSDictionary*)initialParameterValues {
@@ -31,9 +32,9 @@
              @"vignette":   [vignetteParameters objectForKey:@"initialValue"]};
 }
 
-- (GPUImageOutput<GPUImageInput>*)initFilter {
-    SaturationCameraFilter* plasticFilter = [[SaturationCameraFilter alloc] init];
-    NSDictionary* parameters = [self initialPlasticCameraParameterValues];
+- (GPUImageOutput<GPUImageInput>*)createFilter {
+    SaturationFilter* plasticFilter = [[SaturationFilter alloc] init];
+    NSDictionary* parameters = [self initialParameterValues];
     [plasticFilter setSaturation:[[parameters objectForKey:@"saturation"] floatValue]];
     [plasticFilter setContrast:[[parameters objectForKey:@"contrast"] floatValue]];
     [plasticFilter setBlue:[[parameters objectForKey:@"blue"] floatValue]];
@@ -52,8 +53,8 @@
 }
 
 - (void)setParameterValue:(NSNumber*)__value{
-    NSDictionary* parameters = [self parameterValues:_value];
-    SaturationCameraFilter* plasticFilter = (SaturationCameraFilter*)self.filter;
+    NSDictionary* parameters = [self parameterValues:__value];
+    SaturationFilter* plasticFilter = (SaturationFilter*)self.filter;
     [plasticFilter setBlue:[[parameters objectForKey:@"blue"] floatValue]];
     [plasticFilter setGreen:[[parameters objectForKey:@"green"] floatValue]];
     [plasticFilter setRed:[[parameters objectForKey:@"red"] floatValue]];

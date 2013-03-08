@@ -7,16 +7,17 @@
 //
 
 #import "InstantCameraFilter.h"
-#import "SaturationCameraFilter.m"
+#import "SaturationFilter.h"
+#import "Camera+Extensions.h"
 
 @implementation InstantCameraFilter
 
 - (id)init {
     self = [super init];
     if (self) {
-        NSDictionary *parameters = [Camera loadCameraParameters];
-        self.filterParameters = [parameters objectForKey:@"Instant"];
+        self.filterParameters = [[Camera loadCameraParameters] objectForKey:@"Instant"];
     }
+    return self;
 }
 
 - (NSDictionary*)initialParameterValues {
@@ -32,9 +33,9 @@
              @"vignette" :  [vignetteParameters objectForKey:@"initialValue"]};    
 }
 
-- (GPUImageOutput<GPUImageInput>*)initFilter {
-    SaturationCameraFilter* instantFilter = [[SaturationCameraFilter alloc] init];
-    NSDictionary* parameters = [self initialInstantCameraParameterValues];
+- (GPUImageOutput<GPUImageInput>*)createFilter {
+    SaturationFilter* instantFilter = [[SaturationFilter alloc] init];
+    NSDictionary* parameters = [self initialParameterValues];
     [instantFilter setSaturation:[[parameters objectForKey:@"saturation"] floatValue]];
     [instantFilter setContrast:[[parameters objectForKey:@"contrast"] floatValue]];
     [instantFilter setBlue:[[parameters objectForKey:@"blue"] floatValue]];
@@ -54,8 +55,8 @@
 }
 
 - (void)setParameterValue:(NSNumber*)__value {
-    NSDictionary* parameters = [self parameterValues:_value];
-    SaturationCameraFilter* instantFilter = (SaturationCameraFilter*)self.filter;
+    NSDictionary* parameters = [self parameterValues:__value];
+    SaturationFilter* instantFilter = (SaturationFilter*)self.filter;
     [instantFilter setBlue:[[parameters objectForKey:@"blue"] floatValue]];
     [instantFilter setGreen:[[parameters objectForKey:@"green"] floatValue]];
     [instantFilter setRed:[[parameters objectForKey:@"red"] floatValue]];

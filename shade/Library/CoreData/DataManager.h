@@ -30,6 +30,7 @@
 - (NSManagedObjectContext*)createContext;
 - (void)mergeChangesFromContextDidSaveNotification:(NSNotification*)notification;
 - (void)performInBackground:(void(^)(NSManagedObjectContext* contexr))operation;
+- (void)waitForQueueToEmpty;
 
 - (BOOL)save;
 - (BOOL)saveInContext:(NSManagedObjectContext*)_context;

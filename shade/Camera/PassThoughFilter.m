@@ -10,7 +10,7 @@
 
 @implementation PassThoughFilter
 
-- (GPUImageOutput<GPUImageInput>*)initFilter {
+- (GPUImageOutput<GPUImageInput>*)createFilter {
     return [[GPUImageFilter alloc] initWithFragmentShaderFromFile:@"PassThrough"];
 }
 

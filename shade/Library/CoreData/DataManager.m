@@ -71,6 +71,10 @@ static DataManager* thisDataManager = nil;
     });
 }
 
+- (void)waitForQueueToEmpty {
+    dispatch_sync(self.backgroundQueue, ^{});
+}
+
 - (BOOL)save {
     return [self saveInContext:__managedObjectContext];
 }

@@ -17,7 +17,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @interface ImageEntriesView ()
 
-- (void)loadCapture:(Capture*)__capture;
 - (void)moveLeft;
 - (void)moveRight;
 - (BOOL)canAddRightView;
@@ -33,7 +32,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation ImageEntriesView
 
-@synthesize containerView, delegate, entriesStreamView, diagonalGestures, entries, inViewIndex, leftMostIndex, rightMostIndex;
 
 #pragma mark -
 #pragma mark ImageEntriesView
@@ -42,11 +40,11 @@
     return [[ImageEntriesView alloc] initWithFrame:_frame andDelegate:_delegate];
 }
 
-- (id)initWithFrame:(CGRect)_frame andDelegate:(id<ImageEntriesViewDelegate>)_delegate {
+- (id)initWithFrame:(CGRect)_frame andDelegate:(id<ImageEntriesViewDelegate>)__delegate {
     if ((self = [super initWithFrame:_frame])) {
         self.backgroundColor = [UIColor whiteColor];
         self.userInteractionEnabled = YES;
-        self.delegate = _delegate;
+        self.delegate = __delegate;
         self.entries = [NSMutableArray arrayWithCapacity:10];
         self.entriesStreamView = [StreamOfViews withFrame:self.frame delegate:self relativeToView:self.containerView];
         self.diagonalGestures = [DiagonalGestureRecognizer initWithDelegate:self];
@@ -76,9 +74,7 @@
         if ([self entryCount] > 0) {
             self.rightMostIndex++;
         }
-        [self.entriesStreamView addViewToRight:[ImageEntryView withFrame:self.frame capture:__capture andDelegate:self]];
-    } else {
-        [[DataContextManager instance].mainObjectContext refreshObject:__capture mergeChanges:NO];
+        [self.entriesStreamView addViewToRight:[ImageEntryView withFrame:self.frame capture:__capture]];
     }
     [self.entries addObject:__capture];
 }
@@ -93,9 +89,7 @@
             self.inViewIndex++;
             self.rightMostIndex++;
         }
-        [self.entriesStreamView addViewToLeft:[ImageEntryView withFrame:self.frame capture:__capture andDelegate:self]];
-    } else {
-        [[DataContextManager instance].mainObjectContext refreshObject:__capture mergeChanges:NO];
+        [self.entriesStreamView addViewToLeft:[ImageEntryView withFrame:self.frame capture:__capture]];
     }
     [self.entries insertObject:__capture atIndex:0];
 }
@@ -113,12 +107,10 @@
     if ([self canAddRightView]) {
         self.rightMostIndex++;
         Capture* capture = [self.entries objectAtIndex:self.rightMostIndex];
-        [self.entriesStreamView addViewToRight:[ImageEntryView withFrame:self.frame capture:capture andDelegate:self]];
+        [self.entriesStreamView addViewToRight:[ImageEntryView withFrame:self.frame capture:capture]];
     }
     if ([self canRemoveLeftView]) {
         [self.entriesStreamView removeFirstView];
-        Capture* capture = [self.entries objectAtIndex:self.leftMostIndex];
-        [[DataContextManager instance].mainObjectContext refreshObject:capture mergeChanges:NO];
         self.leftMostIndex++;
     }
 }
@@ -127,12 +119,10 @@
     if ([self canAddLeftView]) {
         self.leftMostIndex--;
         Capture* capture = [self.entries objectAtIndex:self.leftMostIndex];
-        [self.entriesStreamView addViewToLeft:[ImageEntryView withFrame:self.frame capture:capture andDelegate:self]];
+        [self.entriesStreamView addViewToLeft:[ImageEntryView withFrame:self.frame capture:capture]];
     }
     if ([self canRemoveRightView]) {
         [self.entriesStreamView removeLastView];
-        Capture* capture = [self.entries objectAtIndex:self.rightMostIndex];
-        [[DataContextManager instance].mainObjectContext refreshObject:capture mergeChanges:NO];
         self.rightMostIndex--;
     }
 }
@@ -179,9 +169,7 @@
                 if (i > 0) {
                     self.rightMostIndex++;
                 }
-                [self.entriesStreamView addViewToRight:[ImageEntryView withFrame:self.frame capture:capture andDelegate:self]];
-            } else {
-                [[DataContextManager instance].mainObjectContext refreshObject:capture mergeChanges:NO];
+                [self.entriesStreamView addViewToRight:[ImageEntryView withFrame:self.frame capture:capture]];
             }
         }
     }
@@ -259,15 +247,12 @@
 
 -(void)didCheck {
     ImageEntryView* entry = (ImageEntryView*)[self.entriesStreamView displayedView];
-    entry.capture.cached = [NSNumber numberWithBool:NO];
-    [CaptureManager saveCapture:entry.capture];
     [self.entriesStreamView moveDisplayedViewDownAndRemove];
     [self removeEntry:entry];
 }
 
 -(void)didDiagonalSwipe {
     ImageEntryView* entry = (ImageEntryView*)[self.entriesStreamView displayedView];
-    [CaptureManager deleteCapture:entry.capture];
     [self.entriesStreamView moveDisplayedViewDiagonallyAndRemove];
     [self removeEntry:entry];
 }

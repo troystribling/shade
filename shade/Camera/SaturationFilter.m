@@ -1,14 +1,14 @@
 //
-//  InstantCameraFilter.m
+//  SaturationFilter.m
 //  photio
 //
 //  Created by Troy Stribling on 6/24/12.
 //  Copyright (c) 2012 imaginaryProducts. All rights reserved.
 //
 
-#import "SaturationCameraFilter.h"
+#import "SaturationFilter.h"
 
-NSString *const kInstantCameraFilterragmentShaderString = SHADER_STRING
+NSString *const kSaturationFilterFragmentShaderString = SHADER_STRING
 (
  varying highp vec2 textureCoordinate;
  uniform sampler2D inputImageTexture;
@@ -42,7 +42,7 @@ NSString *const kInstantCameraFilterragmentShaderString = SHADER_STRING
  }
  );
 
-@implementation SaturationCameraFilter
+@implementation SaturationFilter
 
 @synthesize saturation = _saturation;
 @synthesize contrast = _contrast;
@@ -50,10 +50,10 @@ NSString *const kInstantCameraFilterragmentShaderString = SHADER_STRING
 @synthesize vignetteStart =_vignetteStart, vignetteEnd = _vignetteEnd;
 
 #pragma mark -
-#pragma mark InstantCameraFilter
+#pragma mark SaturationFilter
 
 - (id)init {
-    if (!(self = [super initWithFragmentShaderFromString:kInstantCameraFilterragmentShaderString])) {
+    if (!(self = [super initWithFragmentShaderFromString:kSaturationFilterFragmentShaderString])) {
 		return nil;
     }
     

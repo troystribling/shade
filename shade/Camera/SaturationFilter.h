@@ -1,5 +1,5 @@
 //
-//  SaturationCameraFilter.h
+//  SaturationFilter.h
 //  photio
 //
 //  Created by Troy Stribling on 6/24/12.
@@ -8,7 +8,7 @@
 
 #import "GPUImageFilter.h"
 
-@interface SaturationCameraFilter : GPUImageFilter {
+@interface SaturationFilter : GPUImageFilter {
 
     GLint saturationUniform;
 
