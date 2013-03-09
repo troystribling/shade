@@ -26,7 +26,7 @@
 
 + (id)inView:(UIView*)__containerView withDelegate:(id<ImageInspectViewControllerDelegate>)__delegate;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle*)__nibBundleOrNil inView:(UIView*)__containerView withDelegate:(id<ImageInspectViewControllerDelegate>)__delegate;
-- (void)addCapture:(Capture*)__capture;
+- (void)addCapture:(Capture*)__capture andImage:(UIImage*)__image;
 - (BOOL)hasCaptures;
 
 @end

@@ -37,7 +37,7 @@
     return self;
 }
 
-- (void)addCapture:(Capture*)__capture {
+- (void)addCapture:(Capture*)__capture andImage:(UIImage*)__image {
     [self.entriesView addCaptureToRight:__capture];
 }
 

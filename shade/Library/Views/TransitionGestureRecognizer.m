@@ -242,6 +242,7 @@
         self.gestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(touched:)];
         [self.view addGestureRecognizer:self.gestureRecognizer];
         self.totalDragDistance = CGPointMake(0.0, 0.0);
+        self.acceptTouches = NO;
     }
     return self;
 }

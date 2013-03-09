@@ -12,6 +12,7 @@
 #import "StreamOfViews.h"
 
 @protocol ImageEntriesViewDelegate;
+@class ImageEntryView;
 @class Capture;
 
 @interface ImageEntriesView : UIView <StreamOfViewsDelegate, DiagonalGestureRecognizerDelegate> {
@@ -29,8 +30,8 @@
 + (id)withFrame:(CGRect)_frame andDelegate:(id<ImageEntriesViewDelegate>)_delegate;
 - (id)initWithFrame:(CGRect)frame andDelegate:(id<ImageEntriesViewDelegate>)_delegate;
 - (NSInteger)entryCount;
-- (void)addCaptureToRight:(Capture*)__capture;
-- (void)addCaptureToLeft:(Capture*)__capture;
+- (void)addEntryToRight:(ImageEntryView*)__entry;
+- (void)addEntryToLeft:(ImageEntryView*)__entry;
 
 @end
 

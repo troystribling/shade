@@ -22,7 +22,7 @@ typedef enum {
 + (NSArray*)loadCameras;
 + (NSDictionary*)loadCameraParameters;
 
-+ (Camera*)findFirstWithCameraId:(NSInteger)__cameraId inContext:(NSManagedObjectContext *)context;
++ (Camera*)findFirstWithCameraId:(NSInteger)__cameraId inContext:(NSManagedObjectContext*)__context;
 + (Camera*)findFirstWithCameraId:(NSInteger)__cameraId;
 
 @end

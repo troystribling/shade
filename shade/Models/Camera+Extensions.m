@@ -44,8 +44,8 @@
 #pragma mark -
 #pragma mark Queries
 
-+ (Camera*)findFirstWithCameraId:(NSInteger)__cameraId inContext:(NSManagedObjectContext *)context {
-    return [self findFirstWithPredicate:[NSPredicate predicateWithFormat:@"cameraId == %@", [NSNumber numberWithInt:__cameraId]] inContext:context];
++ (Camera*)findFirstWithCameraId:(NSInteger)__cameraId inContext:(NSManagedObjectContext *)__context {
+    return [self findFirstWithPredicate:[NSPredicate predicateWithFormat:@"cameraId == %@", [NSNumber numberWithInt:__cameraId]] inContext:__context];
 }
 
 + (Camera*)findFirstWithCameraId:(NSInteger)__cameraId {

@@ -17,7 +17,6 @@
 #define CAMERA_SHUTTER_DELAY          1.5f
 #define CAMERA_CONTROLS_TRANSITION    0.2f
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @interface FilteredCameraViewController ()
 
 - (void)setCamera:(Camera*)__camera;
@@ -27,28 +26,10 @@
 
 @end
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation FilteredCameraViewController
 
 #pragma mark -
 #pragma mark FilteredCameraViewController PrivateAPI
-
-- (IBAction)captureStillImage:(id)__sender {
-    self.captureImageGesture.enabled = NO;
-    [self closeShutter];
-    [[CameraFactory instance] captureStillImage:^(NSData* imageData, NSError* error) {
-        if (error) {
-            [ViewGeneral alertOnError:error];
-        }
-        else {
-            UIImage* capturedImage = [[UIImage alloc] initWithData:imageData];
-            [Capture createForImage:capturedImage];
-        }             
-        [[DataManager instance] waitForQueueToEmpty];
-        self.captureImageGesture.enabled = YES;
-        [self openShutter];
-    }];
-}
 
 - (void)setCamera:(Camera*)__camera {
     [[CameraFactory instance] setCamera:__camera forView:(GPUImageView*)self.view];
@@ -128,6 +109,23 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+- (IBAction)captureStillImage:(id)__sender {
+    self.captureImageGesture.enabled = NO;
+    [self closeShutter];
+    [[CameraFactory instance] captureStillImage:^(NSData* imageData, NSError* error) {
+        if (error) {
+            [ViewGeneral alertOnError:error];
+        }
+        else {
+            UIImage* capturedImage = [[UIImage alloc] initWithData:imageData];
+            [Capture createForImage:capturedImage];
+        }
+        [[DataManager instance] waitForQueueToEmpty];
+        self.captureImageGesture.enabled = YES;
+        [self openShutter];
+    }];
+}
+
 #pragma mark -
 #pragma mark TransitionGestureRecognizerDelegate
 
@@ -182,6 +180,7 @@
 }
 
 - (void)didReachMaxDragUp:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {    
+    [[CameraFactory instance].stillCamera rotateCamera];
 }
 
 - (void)didReachMaxDragDown:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {    

@@ -68,18 +68,18 @@
     return [self.entries count];
 }
 
-- (void)addCaptureToRight:(Capture*)__capture {
+- (void)addEntryToRight:(ImageEntryView*)__entry {
     NSInteger rightWidth = self.rightMostIndex - self.inViewIndex;
     if (rightWidth < LOADED_ENTRIES_BUFFER) {
         if ([self entryCount] > 0) {
             self.rightMostIndex++;
         }
-        [self.entriesStreamView addViewToRight:[ImageEntryView withFrame:self.frame capture:__capture]];
+        [self.entriesStreamView addViewToRight:__entry];
     }
-    [self.entries addObject:__capture];
+    [self.entries addObject:__entry];
 }
 
-- (void)addCaptureToLeft:(Capture*)__capture {
+- (void)addEntryToLeft:(ImageEntryView*)__entry {
     NSInteger leftWidth = self.inViewIndex - self.leftMostIndex;
     if (leftWidth < LOADED_ENTRIES_BUFFER) {
         if (self.inViewIndex > LOADED_ENTRIES_BUFFER) {
@@ -89,9 +89,9 @@
             self.inViewIndex++;
             self.rightMostIndex++;
         }
-        [self.entriesStreamView addViewToLeft:[ImageEntryView withFrame:self.frame capture:__capture]];
+        [self.entriesStreamView addViewToLeft:__entry];
     }
-    [self.entries insertObject:__capture atIndex:0];
+    [self.entries insertObject:__entry atIndex:0];
 }
 
 - (void)singleTapGesture {
