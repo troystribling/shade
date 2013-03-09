@@ -12,6 +12,7 @@
 #import "UIImage+Resize.h"
 #import "UIImage+Extensions.h"
 #import "FilteredCameraViewController.h"
+#import "ImageInspectViewController.h"
 
 #import "ProgressView.h"
 
@@ -141,8 +142,8 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     [self initCameraView:__view];
 }
 
-- (void)addCapture:(Capture*)__capture {
-    [self.imageInspectViewController addCapture:__capture];
+- (void)addCapture:(Capture*)__capture andImage:(UIImage *)__image {
+    [self.imageInspectViewController addCapture:__capture andImage:__image];
 }
 
 #pragma mark - 
@@ -164,7 +165,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 
 - (void)initImageInspectView:(UIView*)__view {
     if (self.imageInspectViewController == nil) {
-        self.imageInspectViewController = [ImageInspectViewController inView:__view withDelegate:self];
+        self.imageInspectViewController = [ImageInspectViewController inView:__view];
     } 
     [self imageInspectViewPosition:[self.class overWindow]];
     [__view addSubview:self.imageInspectViewController.view];
@@ -248,7 +249,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     ];    
 }
 
-- (void)transitionFromInspectImage {
+- (void)transitionInspectImageToCamera {
     [self transition:[self verticalTransitionDuration:self.imageInspectViewController.view.frame.origin.y] withAnimation:^{
             [self cameraViewPosition:[self.class inWindow]];
             [self imageInspectViewPosition:[self.class overWindow]];

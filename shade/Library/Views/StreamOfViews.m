@@ -202,7 +202,7 @@
     if ((self = [super initWithFrame:_frame])) {
         self.delegate = _delegate;
         self.transitionGestureRecognizer = [TransitionGestureRecognizer initWithDelegate:self inView:self relativeToView:_relativeView];
-        self.streamOfViews = [NSMutableArray arrayWithCapacity:10];
+        self.streamOfViews = [NSMutableArray array];
         self.inViewIndex = 0;
         self.notAnimating = YES;
         self.backgroundColor = [UIColor blackColor];
@@ -317,6 +317,10 @@
 
 - (void)enabled:(BOOL)_enabled {
     [self.transitionGestureRecognizer enabled:_enabled];
+}
+
+- (NSInteger)count {
+    return [self.streamOfViews count];
 }
 
 #pragma mark -

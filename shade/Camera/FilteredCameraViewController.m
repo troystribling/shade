@@ -129,61 +129,61 @@
 #pragma mark -
 #pragma mark TransitionGestureRecognizerDelegate
 
-- (void)didDragRight:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {
+- (void)didDragRight:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
     [[ViewGeneral instance] dragCamera:_drag];    
 }
 
-- (void)didDragLeft:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {    
+- (void)didDragLeft:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {    
     [[ViewGeneral instance] dragCamera:_drag];    
 }
 
-- (void)didDragUp:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {
+- (void)didDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
 }
 
-- (void)didDragDown:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {
-    [[ViewGeneral instance] dragCameraToInspectImage:_drag];
+- (void)didDragDown:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    [[ViewGeneral instance] dragCameraToInspectImage:__drag];
 }
 
-- (void)didReleaseRight:(CGPoint)_location {
+- (void)didReleaseRight:(CGPoint)__location {
     [[ViewGeneral instance] releaseCamera];
 }
 
-- (void)didReleaseLeft:(CGPoint)_location {
+- (void)didReleaseLeft:(CGPoint)__location {
     [[ViewGeneral instance] releaseCamera];
 }
 
-- (void)didReleaseUp:(CGPoint)_location {
+- (void)didReleaseUp:(CGPoint)__location {
 }
 
-- (void)didReleaseDown:(CGPoint)_location {
+- (void)didReleaseDown:(CGPoint)__location {
     [[ViewGeneral instance] releaseCameraInspectImage];
 }
 
-- (void)didSwipeRight:(CGPoint)_location withVelocity:(CGPoint)_velocity {
+- (void)didSwipeRight:(CGPoint)__location withVelocity:(CGPoint)__velocity {
 }
 
-- (void)didSwipeLeft:(CGPoint)_location withVelocity:(CGPoint)_velocity {
+- (void)didSwipeLeft:(CGPoint)__location withVelocity:(CGPoint)__velocity {
 }
 
-- (void)didSwipeUp:(CGPoint)_location withVelocity:(CGPoint)_velocity {
+- (void)didSwipeUp:(CGPoint)__location withVelocity:(CGPoint)__velocity {
     [[CameraFactory instance].stillCamera rotateCamera];
 }
 
-- (void)didSwipeDown:(CGPoint)_location withVelocity:(CGPoint)_velocity {
+- (void)didSwipeDown:(CGPoint)__location withVelocity:(CGPoint)__velocity {
     [[ViewGeneral instance] transitionCameraToInspectImage];
 }
 
-- (void)didReachMaxDragRight:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {
+- (void)didReachMaxDragRight:(CGPoint)_drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
 }
 
-- (void)didReachMaxDragLeft:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {    
+- (void)didReachMaxDragLeft:(CGPoint)_drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {    
 }
 
-- (void)didReachMaxDragUp:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {    
+- (void)didReachMaxDragUp:(CGPoint)_drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {    
     [[CameraFactory instance].stillCamera rotateCamera];
 }
 
-- (void)didReachMaxDragDown:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {    
+- (void)didReachMaxDragDown:(CGPoint)_drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {    
     [[ViewGeneral instance] transitionCameraToInspectImage];
 }
 

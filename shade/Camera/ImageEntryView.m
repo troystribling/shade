@@ -8,6 +8,7 @@
 
 #import "ImageEntryView.h"
 #import "Capture+Extensions.h"
+#import "ViewGeneral.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @interface ImageEntryView (PrivateAPI)
@@ -24,13 +25,15 @@
 #pragma mark -
 #pragma mark ImageEntryView
 
-+ (id)withFrame:(CGRect)__frame capture:(Capture*)__capture {
-    return  [[ImageEntryView alloc] initWithFrame:__frame capture:__capture];
++ (id)withCapture:(Capture*)__capture andImage:(UIImage*)__image {
+    return  [[ImageEntryView alloc] initWithCapture:__capture andImage:__image];
 }
 
-- (id)initWithFrame:(CGRect)__frame capture:(Capture*)__capture {
-    if ((self = [super initWithFrame:(CGRect)__frame])) {
+- (id)initWithCapture:(Capture*)__capture andImage:(UIImage*)__image {
+    if ((self = [super initWithImage:__image])) {
         self.capture = __capture;
+        self.contentMode = UIViewContentModeScaleAspectFill;
+        self.clipsToBounds = YES;
     }
     return self;
 }

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ImageInspectViewController.h"
 
 @class ImageInspectViewController;
 @class FilteredCameraViewController;
@@ -15,7 +14,7 @@
 @class Capture;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
-@interface ViewGeneral : NSObject <ImageInspectViewControllerDelegate> {
+@interface ViewGeneral : NSObject {
 }
 
 //-----------------------------------------------------------------------------------------------------------------------------------
@@ -36,7 +35,7 @@
 + (void)alertOnError:(NSError*)error;
 
 - (void)createViews:(UIView*)__containerView;
-- (void)addCapture:(Capture*)__capture;
+- (void)addCapture:(Capture*)__capture andImage:(UIImage *)__image;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 - (void)showProgressViewWithMessage:(NSString*)__progressMessage;
@@ -58,5 +57,10 @@
 - (void)dragCameraToInspectImage:(CGPoint)__drag;
 - (void)releaseCamera;
 - (void)dragCamera:(CGPoint)_drag;
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+- (void)dragInspectImage:(CGPoint)__drag;
+- (void)releaseInspectImage;
+- (void)transitionInspectImageToCamera;
 
 @end

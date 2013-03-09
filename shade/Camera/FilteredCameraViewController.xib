@@ -49,7 +49,7 @@
 				<array key="IBUIGestureRecognizers" id="0"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
-			<object class="IBUITapGestureRecognizer" id="1073253458"/>
+			<object class="IBUITapGestureRecognizer" id="472636650"/>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<array class="NSMutableArray" key="connectionRecords">
@@ -65,7 +65,7 @@
 					<object class="IBCocoaTouchOutletCollectionConnection" key="connection">
 						<string key="label">gestureRecognizers</string>
 						<reference key="source" ref="191373211"/>
-						<reference key="destination" ref="1073253458"/>
+						<reference key="destination" ref="472636650"/>
 						<string key="cachedDesigntimeCollectionClassName">NSArray</string>
 						<bool key="addsContentToExistingCollection">YES</bool>
 					</object>
@@ -74,7 +74,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">captureStillImage:</string>
-						<reference key="source" ref="1073253458"/>
+						<reference key="source" ref="472636650"/>
 						<reference key="destination" ref="372490531"/>
 					</object>
 					<int key="connectionID">46</int>
@@ -108,7 +108,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">44</int>
-						<reference key="object" ref="1073253458"/>
+						<reference key="object" ref="472636650"/>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Capture Still Image</string>
 					</object>

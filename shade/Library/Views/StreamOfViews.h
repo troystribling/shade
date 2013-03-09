@@ -32,6 +32,7 @@
 - (void)reset;
 - (BOOL)enabled;
 - (void)enabled:(BOOL)_enabled;
+- (NSInteger)count;
 
 @end
 

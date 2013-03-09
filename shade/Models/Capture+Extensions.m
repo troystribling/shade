@@ -7,10 +7,13 @@
 //
 
 #import "Capture+Extensions.h"
+#import "ViewGeneral.h"
 
 @implementation Capture (Extensions)
 
 + (void)createForImage:(UIImage*)__image {
+    Capture *capture = [Capture create];
+    [[ViewGeneral instance] addCapture:capture andImage:__image];
 }
 
 @end

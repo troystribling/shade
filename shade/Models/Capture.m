@@ -2,7 +2,7 @@
 //  Capture.m
 //  shade
 //
-//  Created by Troy Stribling on 3/3/13.
+//  Created by Troy Stribling on 3/9/13.
 //  Copyright (c) 2013 Troy Stribling. All rights reserved.
 //
 
@@ -12,7 +12,7 @@
 @implementation Capture
 
 @dynamic createdAt;
-@dynamic updatedt;
 @dynamic imageName;
+@dynamic updatedAt;
 
 @end

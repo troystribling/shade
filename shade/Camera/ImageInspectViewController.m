@@ -7,9 +7,10 @@
 //
 
 #import "ImageInspectViewController.h"
+#import "ViewGeneral.h"
+#import "ImageEntryView.h"
 #import "UIImage+Resize.h"
 #import "Capture+Extensions.h"
-#import "ViewGeneral.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @interface ImageInspectViewController ()
@@ -22,27 +23,25 @@
 #pragma mark -
 #pragma mark ImageInspectViewController
 
-+ (id)inView:(UIView*)__containerView withDelegate:(id<ImageInspectViewControllerDelegate>)__delegate {
-    return [[ImageInspectViewController alloc] initWithNibName:@"ImageInspectViewController" bundle:nil inView:__containerView withDelegate:__delegate];
++ (id)inView:(UIView*)__containerView {
+    return [[ImageInspectViewController alloc] initWithNibName:@"ImageInspectViewController" bundle:nil inView:__containerView];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil
                bundle:(NSBundle *)nibBundleOrNil
-               inView:(UIView*)__containerView
-         withDelegate:(id<ImageInspectViewControllerDelegate>)__delegate {
+               inView:(UIView*)__containerView {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         self.containerView = __containerView;
-        self.delegate = __delegate;
     }
     return self;
 }
 
 - (void)addCapture:(Capture*)__capture andImage:(UIImage*)__image {
-    [self.entriesView addCaptureToRight:__capture];
+    [self.entriesStreamView addViewToRight:[ImageEntryView withCapture:__capture andImage:__image]];
 }
 
 - (BOOL)hasCaptures {
-    return [self.entriesView entryCount] > 0;
+    return [self.entriesStreamView count] > 0;
 }
 
 #pragma mark -
@@ -53,8 +52,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.entriesView = [ImageEntriesView withFrame:self.view.frame andDelegate:self];
-    [self.view addSubview:self.entriesView];
+    self.entriesStreamView = [StreamOfViews withFrame:self.view.frame delegate:self relativeToView:self.containerView];
+    self.diagonalGestures = [DiagonalGestureRecognizer initWithDelegate:self];
+    [self.entriesStreamView.transitionGestureRecognizer.gestureRecognizer requireGestureRecognizerToFail:self.diagonalGestures];
+    [self.view addGestureRecognizer:self.diagonalGestures];
+    [self.view addSubview:self.entriesStreamView];
 }
 
 - (void)viewDidUnload {
@@ -86,36 +88,49 @@
 }
 
 #pragma mark -
-#pragma mark ImageEntriesViewDelegate
+#pragma mark StreamOfViewsDelegate
 
-- (void)dragEntries:(CGPoint)__drag {
-    if ([self.delegate respondsToSelector:@selector(dragInspectImage:)]) {
-        [self.delegate dragInspectImage:__drag];
-    }
+- (void)didDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    [[ViewGeneral instance] dragInspectImage:__drag];
 }
 
-- (void)releaseEntries {    
-    if ([self.delegate respondsToSelector:@selector(releaseInspectImage)]) {
-        [self.delegate releaseInspectImage];
-    }
+- (void)didDragDown:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
 }
 
-- (void)transitionUpFromEntries {    
-    if ([self.delegate respondsToSelector:@selector(transitionFromInspectImage)]) {
-        [self.delegate transitionFromInspectImage];
-    }
+- (void)didReleaseUp:(CGPoint)_location {
+    [[ViewGeneral instance] releaseInspectImage];
 }
 
-- (void)transitionDownFromEntries {
-    if ([self.delegate respondsToSelector:@selector(releaseInspectImage)]) {
-        [self.delegate releaseInspectImage];
-    }
+- (void)didReleaseDown:(CGPoint)__location {
 }
 
-- (void)didRemoveAllEntries:(ImageEntriesView*)__entries {
-    if ([self.delegate respondsToSelector:@selector(transitionFromInspectImage)]) {
-        [self.delegate transitionFromInspectImage];
-    }
+- (void)didSwipeUp:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    [[ViewGeneral instance] transitionInspectImageToCamera];
+}
+
+- (void)didSwipeDown:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+}
+
+- (void)didReachMaxDragUp:(CGPoint)__drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
+    [[ViewGeneral instance] transitionInspectImageToCamera];
+}
+
+- (void)didReachMaxDragDown:(CGPoint)__drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
+}
+
+- (void)didRemoveAllViews {
+    [[ViewGeneral instance] transitionInspectImageToCamera];
+}
+
+#pragma mark -
+#pragma mark DiagonalGestrureRecognizerDelegate
+
+-(void)didCheck {
+    [self.entriesStreamView moveDisplayedViewDownAndRemove];
+}
+
+-(void)didDiagonalSwipe {
+    [self.entriesStreamView moveDisplayedViewDiagonallyAndRemove];
 }
 
 @end
