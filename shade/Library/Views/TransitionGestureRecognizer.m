@@ -29,8 +29,6 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TransitionGestureRecognizer 
 
-@synthesize lastTouch, delegate, gestureRecognizer, view, relativeView, totalDragDistance, dragDirection, acceptTouches;
-
 #pragma mark -
 #pragma mark TransitionGestureRecognizer PrivateAPI
 
@@ -236,11 +234,11 @@
     return [[self alloc] initWithDelegate:_delegate inView:_view relativeToView:(UIView*)_relativeView];
 }
 
-- (id)initWithDelegate:(id<TransitionGestureRecognizerDelegate>)_delegate inView:(UIView*)_view relativeToView:(UIView*)_relativeView {
+- (id)initWithDelegate:(id<TransitionGestureRecognizerDelegate>)__delegate inView:(UIView*)__view relativeToView:(UIView*)__relativeView {
     if (self = [super init]) {
-        self.delegate = _delegate;
-        self.view = _view;
-        self.relativeView = _relativeView;
+        self.delegate = __delegate;
+        self.view = __view;
+        self.relativeView = __relativeView;
         self.gestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(touched:)];
         [self.view addGestureRecognizer:self.gestureRecognizer];
         self.totalDragDistance = CGPointMake(0.0, 0.0);

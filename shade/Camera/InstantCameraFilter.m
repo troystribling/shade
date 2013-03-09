@@ -16,6 +16,7 @@
     self = [super init];
     if (self) {
         self.filterParameters = [[Camera loadCameraParameters] objectForKey:@"Instant"];
+        self.filter = [self createFilter];
     }
     return self;
 }

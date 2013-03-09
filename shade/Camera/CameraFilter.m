@@ -11,10 +11,16 @@
 @implementation CameraFilter
 
 - (id)initWithParameters:(NSDictionary*)__parameters {
+    self = [self init];
+    if (self) {
+        self.filterParameters = __parameters;
+    }
+    return self;
+}
+
+- (id)init {
     self = [super init];
     if (self) {
-        self.filter = [self createFilter];
-        self.filterParameters = __parameters;
     }
     return self;
 }

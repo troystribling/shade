@@ -24,6 +24,8 @@
 		0534C9AB16E2F8E000EAD481 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0534C9AA16E2F8E000EAD481 /* QuartzCore.framework */; };
 		0534C9AD16E2F8E800EAD481 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0534C9AC16E2F8E800EAD481 /* OpenGLES.framework */; };
 		0534C9AF16E2F8F900EAD481 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0534C9AE16E2F8F900EAD481 /* AVFoundation.framework */; };
+		058D050B16EAE09F000506D7 /* FilteredCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058D050A16EAE09F000506D7 /* FilteredCameraViewController.xib */; };
+		058D051116EAE15A000506D7 /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = 058D051016EAE15A000506D7 /* Camera.m */; };
 		058E983D16E5943300C4DDFA /* UIAlertView+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 058E983C16E5943300C4DDFA /* UIAlertView+Extensions.m */; };
 		058E984216E5962500C4DDFA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 058E984116E5962500C4DDFA /* CoreData.framework */; };
 		058E984416E5983D00C4DDFA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 058E984316E5983D00C4DDFA /* CoreLocation.framework */; };
@@ -61,7 +63,6 @@
 		05AD71C716E3FB8400AAB7D9 /* Capture+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71C616E3FB8400AAB7D9 /* Capture+Extensions.m */; };
 		05AD71CA16E3FD4C00AAB7D9 /* Capture.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71C916E3FD4C00AAB7D9 /* Capture.m */; };
 		05AD71CC16E40F6A00AAB7D9 /* CameraFilterParameters.plist in Resources */ = {isa = PBXBuildFile; fileRef = 05AD71CB16E40F6A00AAB7D9 /* CameraFilterParameters.plist */; };
-		05AD71D216E41DB700AAB7D9 /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71D116E41DB700AAB7D9 /* Camera.m */; };
 		05AD71D516E42FAC00AAB7D9 /* CameraFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71D416E42FAC00AAB7D9 /* CameraFilter.m */; };
 		05AD71D816E42FE200AAB7D9 /* InstantCameraFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71D716E42FE100AAB7D9 /* InstantCameraFilter.m */; };
 		05AD71DB16E4302000AAB7D9 /* BoxCameraFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71DA16E4301F00AAB7D9 /* BoxCameraFilter.m */; };
@@ -83,6 +84,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = BCF1A34414DDB1EC00852800;
 			remoteInfo = GPUImageTests;
+		};
+		058D051316EAE971000506D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0534C99B16E2F85900EAD481 /* GPUImage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = BCF1A33314DDB1EC00852800;
+			remoteInfo = GPUImage;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -109,6 +117,9 @@
 		0534C9AA16E2F8E000EAD481 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0534C9AC16E2F8E800EAD481 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		0534C9AE16E2F8F900EAD481 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		058D050A16EAE09F000506D7 /* FilteredCameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilteredCameraViewController.xib; sourceTree = "<group>"; };
+		058D050F16EAE15A000506D7 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		058D051016EAE15A000506D7 /* Camera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Camera.m; sourceTree = "<group>"; };
 		058E983B16E5943300C4DDFA /* UIAlertView+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Extensions.h"; sourceTree = "<group>"; };
 		058E983C16E5943300C4DDFA /* UIAlertView+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Extensions.m"; sourceTree = "<group>"; };
 		058E984116E5962500C4DDFA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -175,8 +186,6 @@
 		05AD71C816E3FD4C00AAB7D9 /* Capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Capture.h; sourceTree = "<group>"; };
 		05AD71C916E3FD4C00AAB7D9 /* Capture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Capture.m; sourceTree = "<group>"; };
 		05AD71CB16E40F6A00AAB7D9 /* CameraFilterParameters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CameraFilterParameters.plist; sourceTree = "<group>"; };
-		05AD71D016E41DB700AAB7D9 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
-		05AD71D116E41DB700AAB7D9 /* Camera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Camera.m; sourceTree = "<group>"; };
 		05AD71D316E42FAC00AAB7D9 /* CameraFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraFilter.h; sourceTree = "<group>"; };
 		05AD71D416E42FAC00AAB7D9 /* CameraFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraFilter.m; sourceTree = "<group>"; };
 		05AD71D616E42FE100AAB7D9 /* InstantCameraFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstantCameraFilter.h; sourceTree = "<group>"; };
@@ -321,6 +330,7 @@
 				05AD71D416E42FAC00AAB7D9 /* CameraFilter.m */,
 				05AD716416E32BCD00AAB7D9 /* FilteredCameraViewController.h */,
 				05AD716516E32BCD00AAB7D9 /* FilteredCameraViewController.m */,
+				058D050A16EAE09F000506D7 /* FilteredCameraViewController.xib */,
 				05AD71A716E3D36600AAB7D9 /* ImageEntriesView.h */,
 				05AD71A816E3D36600AAB7D9 /* ImageEntriesView.m */,
 				058E985416E7043900C4DDFA /* ImageEntryView.h */,
@@ -391,8 +401,8 @@
 			children = (
 				05AD71C216E3FB6F00AAB7D9 /* Camera+Extensions.h */,
 				05AD71C316E3FB6F00AAB7D9 /* Camera+Extensions.m */,
-				05AD71D016E41DB700AAB7D9 /* Camera.h */,
-				05AD71D116E41DB700AAB7D9 /* Camera.m */,
+				058D050F16EAE15A000506D7 /* Camera.h */,
+				058D051016EAE15A000506D7 /* Camera.m */,
 				05AD71C516E3FB8400AAB7D9 /* Capture+Extensions.h */,
 				05AD71C616E3FB8400AAB7D9 /* Capture+Extensions.m */,
 				05AD71C816E3FD4C00AAB7D9 /* Capture.h */,
@@ -420,6 +430,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				058D051416EAE971000506D7 /* PBXTargetDependency */,
 			);
 			name = shade;
 			productName = shade;
@@ -490,6 +501,7 @@
 				05AD717316E32BCD00AAB7D9 /* ImageInspectViewController.xib in Resources */,
 				05AD71BB16E3F84A00AAB7D9 /* Cameras.plist in Resources */,
 				05AD71CC16E40F6A00AAB7D9 /* CameraFilterParameters.plist in Resources */,
+				058D050B16EAE09F000506D7 /* FilteredCameraViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,7 +543,6 @@
 				05AD71C416E3FB6F00AAB7D9 /* Camera+Extensions.m in Sources */,
 				05AD71C716E3FB8400AAB7D9 /* Capture+Extensions.m in Sources */,
 				05AD71CA16E3FD4C00AAB7D9 /* Capture.m in Sources */,
-				05AD71D216E41DB700AAB7D9 /* Camera.m in Sources */,
 				05AD71D516E42FAC00AAB7D9 /* CameraFilter.m in Sources */,
 				05AD71D816E42FE200AAB7D9 /* InstantCameraFilter.m in Sources */,
 				05AD71DB16E4302000AAB7D9 /* BoxCameraFilter.m in Sources */,
@@ -539,10 +550,19 @@
 				05AD71E116E473D600AAB7D9 /* PassThoughFilter.m in Sources */,
 				058E983D16E5943300C4DDFA /* UIAlertView+Extensions.m in Sources */,
 				058E985616E7043900C4DDFA /* ImageEntryView.m in Sources */,
+				058D051116EAE15A000506D7 /* Camera.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		058D051416EAE971000506D7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GPUImage;
+			targetProxy = 058D051316EAE971000506D7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		0534C98116E2F50400EAD481 /* InfoPlist.strings */ = {
@@ -628,6 +648,7 @@
 				GCC_PREFIX_HEADER = "shade/shade-Prefix.pch";
 				HEADER_SEARCH_PATHS = "External/GPUImage/framework/**";
 				INFOPLIST_FILE = "shade/shade-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -641,6 +662,7 @@
 				GCC_PREFIX_HEADER = "shade/shade-Prefix.pch";
 				HEADER_SEARCH_PATHS = "External/GPUImage/framework/**";
 				INFOPLIST_FILE = "shade/shade-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

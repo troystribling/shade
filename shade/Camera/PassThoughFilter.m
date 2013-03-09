@@ -10,6 +10,14 @@
 
 @implementation PassThoughFilter
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.filter = [self createFilter];
+    }
+    return self;
+}
+
 - (GPUImageOutput<GPUImageInput>*)createFilter {
     return [[GPUImageFilter alloc] initWithFragmentShaderFromFile:@"PassThrough"];
 }

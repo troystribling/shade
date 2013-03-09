@@ -115,6 +115,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self openShutterOnStart];
+    GPUImageView* gpuImageView = (GPUImageView*)self.view;
+    gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
     [self setCamera:[[CameraFactory instance] defaultCamera]];
 }
 
