@@ -31,7 +31,7 @@
 static ViewGeneral* thisViewControllerGeneral = nil;
 
 /////////////////////////////////////////////////////////////////////////////////////////
-@interface ViewGeneral (PrivateAPI)
+@interface ViewGeneral ()
 
 - (void)transition:(CGFloat)_duration withAnimation:(void(^)(void))_animation;
 - (void)drag:(CGPoint)_drag view:(UIView*)_view;

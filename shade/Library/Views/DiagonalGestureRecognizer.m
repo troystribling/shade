@@ -11,7 +11,7 @@
 #define DETECT_DIAGONAL_SWIPE_MIN_SLOPE       0.25
 #define DETECT_DIAGONAL_SWIPE_MAX_SLOPE       8.0
 
-@interface DiagonalGestureRecognizer (PrivateAPI)
+@interface DiagonalGestureRecognizer ()
 
 - (BOOL)diagonalSwipeFor:(CGFloat)_deltaX and:(CGFloat)_deltaY;
 - (void)diagonalStateInit;

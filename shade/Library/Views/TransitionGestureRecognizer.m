@@ -12,7 +12,7 @@
 #define MAX_DRAG_FACTOR         0.3f
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TransitionGestureRecognizer (PrivateAPI)
+@interface TransitionGestureRecognizer ()
 
 - (void)touched:(UIPanGestureRecognizer*)_recognizer;
 - (void)delegateDrag:(CGPoint)_delta from:(CGPoint)_location withVelocity:(CGPoint)_velocity;

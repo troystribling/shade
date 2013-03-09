@@ -14,10 +14,8 @@
 #define DEFAULT_MAX_VALUE               1.0
 #define DEFAULT_INITIAL_VALUE           0.5
 
-@interface ParameterSliderView (PrivateAPI)
+@interface ParameterSliderView ()
 
-- (void)valueChanged;
-- (void)drawParameterViewBorder;
 - (void)addSubviews;
 
 @end

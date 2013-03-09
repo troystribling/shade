@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@protocol ImageEntryViewDelegate;
-
 @class Capture;
 
 @interface ImageEntryView : UIImageView

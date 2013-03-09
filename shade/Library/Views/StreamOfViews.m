@@ -15,13 +15,12 @@
 #define REMOVE_DISPLAYED_VIEW_DOWN_DURATION             0.5
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-@interface StreamOfViews (PrivateAPI)
+@interface StreamOfViews ()
 
 - (void)dragView:(CGPoint)_drag;
 - (void)releaseView:(CGFloat)_duration;
 - (void)moveViewsLeft;
 - (void)moveViewsRight;
-- (void)moveViewDown;
 - (UIView*)removeDisplayedView;
 - (void)replaceRemovedView;
 - (BOOL)canMoveLeft;

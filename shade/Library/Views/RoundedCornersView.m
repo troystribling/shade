@@ -9,7 +9,7 @@
 #import "RoundedCornersView.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface RoundedCornersView (PrivateAPI)
+@interface RoundedCornersView ()
 
 - (void)configureLayer;
 

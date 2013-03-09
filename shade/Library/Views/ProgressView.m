@@ -14,7 +14,7 @@
 #define DISPLAY_MESSAGE_WIDTH       200.0
 #define DISPLAY_REMOVE_DURATION     0.5
 
-@interface ProgressView (PrivateAPI)
+@interface ProgressView ()
 
 - (void)addDisplayView:(NSString*)_displayMessage;
 
