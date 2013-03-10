@@ -40,7 +40,6 @@
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication*)application {
-    [[ViewGeneral instance] waitForSaveImageQueueToEmpty];
 }
 
 @end

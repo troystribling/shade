@@ -13,7 +13,8 @@
 #import "UIImage+Extensions.h"
 #import "FilteredCameraViewController.h"
 #import "ImageInspectViewController.h"
-
+#import "UIAlertView+Extensions.h"
+#import "ImageEntryView.h"
 #import "ProgressView.h"
 
 #define HORIZONTAL_TRANSITION_ANIMATION_SPEED           500.0f
@@ -34,6 +35,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 - (CGFloat)horizontaltReleaseDuration:(CGFloat)_offset;
 - (CGFloat)verticalTransitionDuration:(CGFloat)_offset;
 - (CGFloat)horizontalTransitionDuration:(CGFloat)_offset;
++ (NSString*)imageFilenameForID:(NSString*)__fileId;
 
 @end
 
@@ -79,6 +81,10 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 - (CGFloat)horizontalTransitionDuration:(CGFloat)_offset {
     CGRect screenBounds = [self.class screenBounds];
     return (screenBounds.size.width  - abs(_offset)) / HORIZONTAL_TRANSITION_ANIMATION_SPEED;    
+}
+
++ (NSString*)imageFilenameForID:(NSString*)__fileId {
+    return [NSString stringWithFormat:@"Documents/%@.png", __fileId];
 }
 
 #pragma mark - 
@@ -151,20 +157,39 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 
 - (void)writeImage:(UIImage*)__image withId:(NSString*)__fileId {
     dispatch_async(self.saveImageQueue, ^{
-        NSString* imageFilename = [NSString stringWithFormat:@"Documents/%@.png", __fileId];
-        [UIImagePNGRepresentation(__image) writeToFile:[NSHomeDirectory() stringByAppendingPathComponent:imageFilename] atomically:YES];
+        NSData* image = UIImagePNGRepresentation(__image);
+        [image writeToFile:[NSHomeDirectory() stringByAppendingPathComponent:[self.class imageFilenameForID:__fileId]] atomically:YES];
     });
 }
 
 - (UIImage*)readImageWithId:(NSString*)__fileId {
-    return nil;
+    return [UIImage imageWithContentsOfFile:[self.class imageFilenameForID:__fileId]];
 }
 
 - (void)deleteImageWithId:(NSString*)__fileId {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString* filename = [self.class imageFilenameForID:__fileId];
+    if ([fileManager fileExistsAtPath:filename]) {
+        [self showProgressViewWithMessage:@"Deleting"];
+        NSError *error;
+        [fileManager removeItemAtPath:filename error:&error];
+        [self removeProgressView];
+        if (error) {
+            [UIAlertView alertOnError:error];
+        }
+    }
 }
 
-- (void)waitForSaveImageQueueToEmpty {
-    dispatch_sync(self.saveImageQueue, ^{});
+- (void)finishedSavingImageEntryToCameraRoll:(UIImage*)_image didFinishSavingWithError:(NSError*)__error contextInfo:(void*)__context {
+    [self removeProgressView];
+    if (__error) {
+        [UIAlertView alertOnError:__error];
+    }
+}
+
+- (void)saveImageEntryToCameraRoll:(ImageEntryView*)__entry {
+    [self showProgressViewWithMessage:@"Saving to Camera Roll"];
+    UIImageWriteToSavedPhotosAlbum(__entry.image, self, @selector(finishedSavingImageEntryToCameraRoll:didFinishSavingWithError:contextInfo:), nil);
 }
 
 #pragma mark - 

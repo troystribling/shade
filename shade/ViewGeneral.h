@@ -12,6 +12,7 @@
 @class FilteredCameraViewController;
 @class ProgressView;
 @class Capture;
+@class ImageEntryView;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 @interface ViewGeneral : NSObject {
@@ -40,7 +41,8 @@
 - (void)writeImage:(UIImage*)__image withId:(NSString*)__fileId;
 - (UIImage*)readImageWithId:(NSString*)__fileId;
 - (void)deleteImageWithId:(NSString*)__fileId;
-- (void)waitForSaveImageQueueToEmpty;
+- (void)finishedSavingImageEntryToCameraRoll:(UIImage*)_image didFinishSavingWithError:(NSError*)__error contextInfo:(void*)__context;
+- (void)saveImageEntryToCameraRoll:(ImageEntryView*)__entry;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 - (void)showProgressViewWithMessage:(NSString*)__progressMessage;

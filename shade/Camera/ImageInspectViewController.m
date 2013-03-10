@@ -11,8 +11,11 @@
 #import "ImageEntryView.h"
 #import "UIImage+Resize.h"
 #import "Capture+Extensions.h"
+#import "UIAlertView+Extensions.h"
 
 @interface ImageInspectViewController ()
+
+- (void)loadCaptures;
 
 @end
 
@@ -45,6 +48,14 @@
 #pragma mark -
 #pragma mark ImageInspectViewController (PrivateAPI)
 
+- (void)loadCaptures {
+    NSArray *captures = [Capture findAll];
+    for (Capture *capture in captures) {
+        UIImage *image = [[ViewGeneral instance] readImageWithId:[NSString stringWithFormat:@"%@", capture.createdAt]];
+        [self addCapture:capture andImage:image];
+    }
+}
+
 #pragma mark -
 #pragma mark UIViewController
 
@@ -55,6 +66,7 @@
     [self.entriesStreamView.transitionGestureRecognizer.gestureRecognizer requireGestureRecognizerToFail:self.diagonalGestures];
     [self.view addGestureRecognizer:self.diagonalGestures];
     [self.view addSubview:self.entriesStreamView];
+    [self loadCaptures];
 }
 
 - (void)viewDidUnload {
@@ -124,11 +136,17 @@
 #pragma mark DiagonalGestrureRecognizerDelegate
 
 -(void)didCheck {
+    ImageEntryView *entryView = (ImageEntryView*)[self.entriesStreamView displayedView];
     [self.entriesStreamView moveDisplayedViewDownAndRemove];
+    [[ViewGeneral instance] saveImageEntryToCameraRoll:entryView];
+    [entryView.capture destroy];
 }
 
 -(void)didDiagonalSwipe {
+    ImageEntryView *entryView = (ImageEntryView*)[self.entriesStreamView displayedView];
     [self.entriesStreamView moveDisplayedViewDiagonallyAndRemove];
+    [[ViewGeneral instance] deleteImageWithId:[NSString stringWithFormat:@"%@", entryView.capture.createdAt]];
+    [entryView.capture destroy];
 }
 
 @end
