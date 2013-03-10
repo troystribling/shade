@@ -13,7 +13,10 @@
 
 + (void)createForImage:(UIImage*)__image {
     Capture *capture = [Capture create];
-    [[ViewGeneral instance] addCapture:capture andImage:__image];
+    [capture save];
+    ViewGeneral *viewGeneral = [ViewGeneral instance];
+    [viewGeneral addCapture:capture andImage:__image];
+    [viewGeneral writeImage:__image withId:[NSString stringWithFormat:@"%@", capture.createdAt]];
 }
 
 @end

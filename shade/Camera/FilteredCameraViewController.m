@@ -120,7 +120,6 @@
             UIImage* capturedImage = [[UIImage alloc] initWithData:imageData];
             [Capture createForImage:capturedImage];
         }
-        [[DataManager instance] waitForQueueToEmpty];
         self.captureImageGesture.enabled = YES;
         [self openShutter];
     }];

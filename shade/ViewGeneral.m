@@ -20,12 +20,7 @@
 #define VERTICAL_TRANSITION_ANIMATION_SPEED             600.0f
 #define RELEASE_ANIMATION_SPEED                         150.0f
 #define VIEW_MIN_SPACING                                25
-#define SAVE_IMAGE_DELAY                                0.65f
-#define OPEN_SHUTTER_TRANSITION                         0.25
-#define OPEN_SHUTTER_DELAY                              1.0
-#define MAX_COMMENT_LINES                               5
-#define COMMENT_YOFFSET                                 15
-
+#define MAX_PENDING_IMAGE_SAVES                         5
 
 /////////////////////////////////////////////////////////////////////////////////////////
 static ViewGeneral* thisViewControllerGeneral = nil;
@@ -93,7 +88,6 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     @synchronized(self) {
         if (thisViewControllerGeneral == nil) {
             thisViewControllerGeneral = [[self alloc] init]; 
-            thisViewControllerGeneral.notAnimating = YES;
         }
     }
     return thisViewControllerGeneral;
@@ -136,14 +130,41 @@ static ViewGeneral* thisViewControllerGeneral = nil;
                       otherButtonTitles:nil] show];
 }
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.notAnimating = YES;
+        self.saveImageQueue = dispatch_queue_create("com.imaginaryproducts.shade", NULL);
+    }
+    return self;
+}
+
 - (void)createViews:(UIView*)__view {
     self.view = __view;
-    [self initImageInspectView:__view];
-    [self initCameraView:__view];
+    [self createImageInspectView:__view];
+    [self createCameraView:__view];
 }
 
 - (void)addCapture:(Capture*)__capture andImage:(UIImage *)__image {
     [self.imageInspectViewController addCapture:__capture andImage:__image];
+}
+
+- (void)writeImage:(UIImage*)__image withId:(NSString*)__fileId {
+    dispatch_async(self.saveImageQueue, ^{
+        NSString* imageFilename = [NSString stringWithFormat:@"Documents/%@.png", __fileId];
+        [UIImagePNGRepresentation(__image) writeToFile:[NSHomeDirectory() stringByAppendingPathComponent:imageFilename] atomically:YES];
+    });
+}
+
+- (UIImage*)readImageWithId:(NSString*)__fileId {
+    return nil;
+}
+
+- (void)deleteImageWithId:(NSString*)__fileId {
+}
+
+- (void)waitForSaveImageQueueToEmpty {
+    dispatch_sync(self.saveImageQueue, ^{});
 }
 
 #pragma mark - 
@@ -163,7 +184,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 #pragma mark - 
 #pragma mark ImageInspectViewController
 
-- (void)initImageInspectView:(UIView*)__view {
+- (void)createImageInspectView:(UIView*)__view {
     if (self.imageInspectViewController == nil) {
         self.imageInspectViewController = [ImageInspectViewController inView:__view];
     } 
@@ -182,7 +203,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 #pragma mark - 
 #pragma mark CameraViewController
 
-- (void)initCameraView:(UIView*)__view {
+- (void)createCameraView:(UIView*)__view {
     if (self.cameraViewController == nil) {
         self.cameraViewController = [FilteredCameraViewController inView:__view];
     } 
@@ -227,8 +248,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 - (void)releaseCamera {
     [self transition:[self horizontaltReleaseDuration:self.cameraViewController.view.frame.origin.x] withAnimation:^{
         [self cameraViewPosition:[self.class inWindow]];
-    }
-     ];
+    }];
 }
 
 - (void)dragCamera:(CGPoint)_drag {
@@ -256,6 +276,5 @@ static ViewGeneral* thisViewControllerGeneral = nil;
         }
     ];    
 }
-
 
 @end

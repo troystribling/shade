@@ -23,6 +23,7 @@
 @property(nonatomic, strong) ImageInspectViewController*    imageInspectViewController;
 @property(nonatomic, strong) FilteredCameraViewController*  cameraViewController;
 @property(nonatomic, strong) ProgressView*                  progressView;
+@property(nonatomic, strong) dispatch_queue_t               saveImageQueue;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 + (ViewGeneral*)instance;
@@ -36,18 +37,22 @@
 
 - (void)createViews:(UIView*)__containerView;
 - (void)addCapture:(Capture*)__capture andImage:(UIImage *)__image;
+- (void)writeImage:(UIImage*)__image withId:(NSString*)__fileId;
+- (UIImage*)readImageWithId:(NSString*)__fileId;
+- (void)deleteImageWithId:(NSString*)__fileId;
+- (void)waitForSaveImageQueueToEmpty;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 - (void)showProgressViewWithMessage:(NSString*)__progressMessage;
 - (void)removeProgressView;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
-- (void)initImageInspectView:(UIView*)__containerView;
+- (void)createImageInspectView:(UIView*)__containerView;
 - (void)imageInspectViewPosition:(CGRect)__rec;
 - (void)imageInspectViewHidden:(BOOL)__hidden;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
-- (void)initCameraView:(UIView*)__containerView;
+- (void)createCameraView:(UIView*)__containerView;
 - (void)cameraViewPosition:(CGRect)__rec;
 - (void)cameraViewHidden:(BOOL)__hidden;
 

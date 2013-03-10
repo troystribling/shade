@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "DataManager.h"
 #import "ViewController.h"
+#import "ViewGeneral.h"
 
 @implementation AppDelegate
 
@@ -36,6 +37,10 @@
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
+}
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication*)application {
+    [[ViewGeneral instance] waitForSaveImageQueueToEmpty];
 }
 
 @end
