@@ -118,7 +118,11 @@
         }
         else {
             UIImage* capturedImage = [[UIImage alloc] initWithData:imageData];
-            [Capture createForImage:capturedImage];
+            Capture *capture = [Capture create];
+            [capture save];
+            ViewGeneral *viewGeneral = [ViewGeneral instance];
+            [viewGeneral addCapture:capture andImage:capturedImage];
+            [viewGeneral writeImage:capturedImage withId:[capture imageID]];
         }
         self.captureImageGesture.enabled = YES;
         [self openShutter];

@@ -24,7 +24,6 @@
 @property(nonatomic, strong) ImageInspectViewController*    imageInspectViewController;
 @property(nonatomic, strong) FilteredCameraViewController*  cameraViewController;
 @property(nonatomic, strong) ProgressView*                  progressView;
-@property(nonatomic, strong) dispatch_queue_t               saveImageQueue;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 + (ViewGeneral*)instance;
@@ -41,8 +40,6 @@
 - (void)writeImage:(UIImage*)__image withId:(NSString*)__fileId;
 - (UIImage*)readImageWithId:(NSString*)__fileId;
 - (void)deleteImageWithId:(NSString*)__fileId;
-- (void)finishedSavingImageEntryToCameraRoll:(UIImage*)_image didFinishSavingWithError:(NSError*)__error contextInfo:(void*)__context;
-- (void)saveImageEntryToCameraRoll:(ImageEntryView*)__entry;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 - (void)showProgressViewWithMessage:(NSString*)__progressMessage;

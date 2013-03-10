@@ -11,12 +11,10 @@
 
 @implementation Capture (Extensions)
 
-+ (void)createForImage:(UIImage*)__image {
-    Capture *capture = [Capture create];
-    [capture save];
-    ViewGeneral *viewGeneral = [ViewGeneral instance];
-    [viewGeneral addCapture:capture andImage:__image];
-    [viewGeneral writeImage:__image withId:[NSString stringWithFormat:@"%@", capture.createdAt]];
+- (NSString*)imageID {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"YYYYDDD-HHmmssSSS"];
+    return [dateFormatter stringFromDate:self.createdAt];
 }
 
 @end

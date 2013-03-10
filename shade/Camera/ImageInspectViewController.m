@@ -16,6 +16,7 @@
 @interface ImageInspectViewController ()
 
 - (void)loadCaptures;
+- (void)saveDisplayedImageEntryToCameraRoll;
 
 @end
 
@@ -51,9 +52,26 @@
 - (void)loadCaptures {
     NSArray *captures = [Capture findAll];
     for (Capture *capture in captures) {
-        UIImage *image = [[ViewGeneral instance] readImageWithId:[NSString stringWithFormat:@"%@", capture.createdAt]];
+        UIImage *image = [[ViewGeneral instance] readImageWithId:[capture imageID]];
         [self addCapture:capture andImage:image];
     }
+}
+
+- (void)finishedSavingImageEntryToCameraRoll:(UIImage*)_image didFinishSavingWithError:(NSError*)__error contextInfo:(void*)__context {
+    if (__error) {
+        [[ViewGeneral instance] removeProgressView];
+        [UIAlertView alertOnError:__error];
+    } else {
+        [[ViewGeneral instance] deleteImageWithId:[self.displayedImageEntry.capture imageID]];
+        [self.displayedImageEntry.capture destroy];
+        self.displayedImageEntry = nil;
+        [[ViewGeneral instance] removeProgressView];
+    }
+}
+
+- (void)saveDisplayedImageEntryToCameraRoll {
+    [[ViewGeneral instance] showProgressViewWithMessage:@"Saving to Camera Roll"];
+    UIImageWriteToSavedPhotosAlbum(self.displayedImageEntry.image, self, @selector(finishedSavingImageEntryToCameraRoll:didFinishSavingWithError:contextInfo:), nil);
 }
 
 #pragma mark -
@@ -136,16 +154,18 @@
 #pragma mark DiagonalGestrureRecognizerDelegate
 
 -(void)didCheck {
-    ImageEntryView *entryView = (ImageEntryView*)[self.entriesStreamView displayedView];
+    self.displayedImageEntry = (ImageEntryView*)[self.entriesStreamView displayedView];
     [self.entriesStreamView moveDisplayedViewDownAndRemove];
-    [[ViewGeneral instance] saveImageEntryToCameraRoll:entryView];
-    [entryView.capture destroy];
+    [self saveDisplayedImageEntryToCameraRoll];
 }
 
 -(void)didDiagonalSwipe {
     ImageEntryView *entryView = (ImageEntryView*)[self.entriesStreamView displayedView];
     [self.entriesStreamView moveDisplayedViewDiagonallyAndRemove];
-    [[ViewGeneral instance] deleteImageWithId:[NSString stringWithFormat:@"%@", entryView.capture.createdAt]];
+    ViewGeneral *viewGeneral = [ViewGeneral instance];
+    [viewGeneral showProgressViewWithMessage:@"Deleting"];
+    [viewGeneral deleteImageWithId:[entryView.capture imageID]];
+    [viewGeneral removeProgressView];
     [entryView.capture destroy];
 }
 

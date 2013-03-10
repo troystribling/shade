@@ -84,7 +84,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 }
 
 + (NSString*)imageFilenameForID:(NSString*)__fileId {
-    return [NSString stringWithFormat:@"Documents/%@.png", __fileId];
+    return [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@.png", __fileId]];
 }
 
 #pragma mark - 
@@ -140,7 +140,6 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     self = [super init];
     if (self) {
         self.notAnimating = YES;
-        self.saveImageQueue = dispatch_queue_create("com.imaginaryproducts.shade", NULL);
     }
     return self;
 }
@@ -156,40 +155,32 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 }
 
 - (void)writeImage:(UIImage*)__image withId:(NSString*)__fileId {
-    dispatch_async(self.saveImageQueue, ^{
+    dispatch_queue_t saveImageQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);;
+    dispatch_async(saveImageQueue, ^{
         NSData* image = UIImagePNGRepresentation(__image);
-        [image writeToFile:[NSHomeDirectory() stringByAppendingPathComponent:[self.class imageFilenameForID:__fileId]] atomically:YES];
+        [image writeToFile:[self.class imageFilenameForID:__fileId] atomically:YES];
     });
 }
 
 - (UIImage*)readImageWithId:(NSString*)__fileId {
-    return [UIImage imageWithContentsOfFile:[self.class imageFilenameForID:__fileId]];
+    NSString *imageFilename = [self.class imageFilenameForID:__fileId];
+    UIImage *image = nil;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:imageFilename]) {
+        image = [UIImage imageWithContentsOfFile:imageFilename];
+    }
+    return image;
 }
 
 - (void)deleteImageWithId:(NSString*)__fileId {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString* filename = [self.class imageFilenameForID:__fileId];
     if ([fileManager fileExistsAtPath:filename]) {
-        [self showProgressViewWithMessage:@"Deleting"];
         NSError *error;
         [fileManager removeItemAtPath:filename error:&error];
-        [self removeProgressView];
         if (error) {
             [UIAlertView alertOnError:error];
         }
     }
-}
-
-- (void)finishedSavingImageEntryToCameraRoll:(UIImage*)_image didFinishSavingWithError:(NSError*)__error contextInfo:(void*)__context {
-    [self removeProgressView];
-    if (__error) {
-        [UIAlertView alertOnError:__error];
-    }
-}
-
-- (void)saveImageEntryToCameraRoll:(ImageEntryView*)__entry {
-    [self showProgressViewWithMessage:@"Saving to Camera Roll"];
-    UIImageWriteToSavedPhotosAlbum(__entry.image, self, @selector(finishedSavingImageEntryToCameraRoll:didFinishSavingWithError:contextInfo:), nil);
 }
 
 #pragma mark - 
@@ -203,7 +194,8 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 }
 
 - (void)removeProgressView {
-    [self.progressView remove]; 
+    [self.progressView remove];
+    self.progressView = nil;
 }
 
 #pragma mark - 

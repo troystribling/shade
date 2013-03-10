@@ -12,6 +12,6 @@
 
 @interface Capture (Extensions)
 
-+ (void)createForImage:(UIImage*)__image;
+- (NSString*)imageID;
 
 @end
