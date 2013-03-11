@@ -8,9 +8,9 @@
 
 #import "FilteredCameraViewController.h"
 #import "ParameterSliderView.h"
+#import "Capture+Extensions.h"
 #import "ViewGeneral.h"
 #import "CameraFactory.h"
-#import "Capture+Extensions.h"
 #import "DataManager.h"
 
 #define CAMERA_SHUTTER_TRANSITION     0.2f
@@ -19,7 +19,6 @@
 
 @interface FilteredCameraViewController ()
 
-- (void)setCamera:(Camera*)__camera;
 - (void)openShutter;
 - (void)closeShutter;
 - (void)openShutterOnStart;
@@ -30,10 +29,6 @@
 
 #pragma mark -
 #pragma mark FilteredCameraViewController PrivateAPI
-
-- (void)setCamera:(Camera*)__camera {
-    [[CameraFactory instance] setCamera:__camera forView:(GPUImageView*)self.view];
-}
 
 - (void)closeShutter {
     self.shutterView.alpha = 0.0;
@@ -98,7 +93,7 @@
     [self openShutterOnStart];
     GPUImageView* gpuImageView = (GPUImageView*)self.view;
     gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-    [self setCamera:[[CameraFactory instance] defaultCamera]];
+    [[CameraFactory instance] setCameraWithId:[[CameraFactory instance] defaultCameraId] forView:(GPUImageView*)self.view];
 }
 
 - (void)viewDidUnload {
@@ -133,11 +128,11 @@
 #pragma mark TransitionGestureRecognizerDelegate
 
 - (void)didDragRight:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
-    [[ViewGeneral instance] dragCamera:_drag];    
+//    [[ViewGeneral instance] dragCamera:_drag];    
 }
 
 - (void)didDragLeft:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {    
-    [[ViewGeneral instance] dragCamera:_drag];    
+//    [[ViewGeneral instance] dragCamera:_drag];    
 }
 
 - (void)didDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
@@ -163,9 +158,11 @@
 }
 
 - (void)didSwipeRight:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    [[CameraFactory instance] setRightCameraForView:(GPUImageView*)self.view];
 }
 
 - (void)didSwipeLeft:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    [[CameraFactory instance] setLeftCameraForView:(GPUImageView*)self.view];
 }
 
 - (void)didSwipeUp:(CGPoint)__location withVelocity:(CGPoint)__velocity {
@@ -177,9 +174,11 @@
 }
 
 - (void)didReachMaxDragRight:(CGPoint)_drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    [[CameraFactory instance] setRightCameraForView:(GPUImageView*)self.view];
 }
 
 - (void)didReachMaxDragLeft:(CGPoint)_drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {    
+    [[CameraFactory instance] setLeftCameraForView:(GPUImageView*)self.view];
 }
 
 - (void)didReachMaxDragUp:(CGPoint)_drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {    

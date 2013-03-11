@@ -8,7 +8,6 @@
 
 #import "CameraFactory.h"
 #import "FilteredCameraViewController.h"
-#import "Camera+Extensions.h"
 #import "InstantCameraFilter.h"
 #import "BoxCameraFilter.h"
 #import "PlasticCameraFilter.h"
@@ -20,6 +19,8 @@ static CameraFactory* thisCameraFactory = nil;
 /////////////////////////////////////////////////////////////////////////////////////////
 @interface CameraFactory ()
 
+- (void)setCamera:(Camera*)__camera forView:(GPUImageView*)__imageView;
+- (void)setCameraFilter:(GPUImageOutput<GPUImageInput>*)__filter forView:(GPUImageView*)__imageView;
 - (CGFloat)scaledFilterValue:(NSNumber*)__value;
 - (CameraFilter*)cameraFilter;
 
@@ -30,6 +31,13 @@ static CameraFactory* thisCameraFactory = nil;
 
 #pragma mark -
 #pragma mark CameraFactory Private API
+
+- (void)setCamera:(Camera*)__camera forView:(GPUImageView*)__imageView {
+    self.camera = __camera;
+    CameraFilter *camerFilter = [self cameraFilter];
+    [self setCameraFilter:camerFilter.filter forView:__imageView];
+    [self setCameraParameterValue:self.camera.value];
+}
 
 - (void)setCameraFilter:(GPUImageOutput<GPUImageInput>*)__filter forView:(GPUImageView*)__imageView {
     if (self.stillCamera) {
@@ -44,11 +52,6 @@ static CameraFactory* thisCameraFactory = nil;
     [__filter addTarget:__imageView];
     [self.stillCamera startCameraCapture];
 
-}
-
-- (void)captureStillImage:(void(^)(NSData* imageData, NSError* error))__completionHandler {
-    CameraFilter *camerFilter = [self cameraFilter];
-    [self.stillCamera capturePhotoAsJPEGProcessedUpToFilter:camerFilter.filter withCompletionHandler:__completionHandler];
 }
 
 - (CGFloat)scaledFilterValue:(NSNumber*)_value {
@@ -81,11 +84,10 @@ static CameraFactory* thisCameraFactory = nil;
     return self;
 }
 
-- (void)setCamera:(Camera*)__camera forView:(GPUImageView*)__imageView {
-    self.camera = __camera;
-    CameraFilter *camerFilter = [self cameraFilter];
-    [self setCameraFilter:camerFilter.filter forView:__imageView];
-    [self setCameraParameterValue:self.camera.value];
+- (void)setCameraWithId:(CameraId)__cameraId forView:(GPUImageView*)__imageView {
+    self.cameraId = __cameraId;
+    Camera *camera = [self.loadedCameras objectAtIndex:__cameraId];
+    [self setCamera:camera forView:__imageView];
 }
 
 - (void)setCameraParameterValue:(NSNumber*)__value {
@@ -95,13 +97,39 @@ static CameraFactory* thisCameraFactory = nil;
     [cameraFilter setParameterValue:__value];
 }
 
+- (void)captureStillImage:(void(^)(NSData* imageData, NSError* error))__completionHandler {
+    CameraFilter *camerFilter = [self cameraFilter];
+    [self.stillCamera capturePhotoAsJPEGProcessedUpToFilter:camerFilter.filter withCompletionHandler:__completionHandler];
+}
+
 - (Camera*)defaultCamera {
-    return [self.loadedCameras objectAtIndex:CameraTypeIPhone];
+    return [self.loadedCameras objectAtIndex:CameraIdIPhone];
+}
+
+- (CameraId)defaultCameraId {
+    return CameraIdIPhone;
+}
+
+- (BOOL)setLeftCameraForView:(GPUImageView*)__imageView {
+    BOOL didSetCamera = NO;
+    if (self.cameraId > 0) {
+        didSetCamera = YES;
+        [self setCameraWithId:(self.cameraId - 1) forView:__imageView];
+    }
+    return didSetCamera;
+}
+
+- (BOOL)setRightCameraForView:(GPUImageView*)__imageView {
+    BOOL didSetCamera = NO;
+    if (self.cameraId < ([self.loadedCameras count] - 1)) {
+        didSetCamera = YES;
+        [self setCameraWithId:(self.cameraId + 1) forView:__imageView];
+    }
+    return didSetCamera;
 }
 
 - (NSArray*)cameras {
     return self.loadedCameras;
 }
-
 
 @end
