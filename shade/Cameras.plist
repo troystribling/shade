@@ -38,7 +38,7 @@
 		</dict>
 		<dict>
 			<key>identifier</key>
-			<integer>3</integer>
+			<integer>2</integer>
 			<key>name</key>
 			<string>Box</string>
 			<key>hasParameter</key>
@@ -54,7 +54,7 @@
 		</dict>
 		<dict>
 			<key>identifier</key>
-			<integer>4</integer>
+			<integer>3</integer>
 			<key>name</key>
 			<string>Plastic</string>
 			<key>hasParameter</key>

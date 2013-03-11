@@ -22,12 +22,14 @@
 }
 
 - (NSDictionary*)initialParameterValues {    
+    NSDictionary* saturationParameters = [[self.filterParameters objectForKey:@"GPUImageSaturationFilter"] objectForKey:@"Saturation"];
     NSDictionary* contrastParameters = [[self.filterParameters objectForKey:@"GPUImageContrastFilter"] objectForKey:@"Contrast"];
     NSDictionary* vignetteParameters = [[self.filterParameters objectForKey:@"GPUImageVignetteFilter"] objectForKey:@"VignetteEnd"];
     NSDictionary* rgbParameters = [self.filterParameters objectForKey:@"GPUImageRGBFilter"];
     NSDictionary* blueParameters = [rgbParameters objectForKey:@"Blue"];
     
-    return @{@"contrast":   [contrastParameters objectForKey:@"initialValue"],
+    return @{@"saturation": [saturationParameters objectForKey:@"initialValue"],
+             @"contrast":   [contrastParameters objectForKey:@"initialValue"],
              @"vignette":   [vignetteParameters objectForKey:@"initialValue"],
              @"blue":       [blueParameters objectForKey:@"initialValue"]};
 }

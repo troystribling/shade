@@ -60,7 +60,7 @@ static CameraFactory* thisCameraFactory = nil;
 }
 
 - (CameraFilter*)cameraFilter {
-    return [self.cameraFilters objectAtIndex:[self.camera.identifier intValue]];
+    return [self.cameraFilters objectAtIndex:self.cameraId];
 }
 
 #pragma mark -
@@ -93,21 +93,21 @@ static CameraFactory* thisCameraFactory = nil;
 - (void)setCameraParameterValue:(NSNumber*)__value {
     self.camera.value = __value;
     [self.camera save];
-    CameraFilter *cameraFilter = [self.cameraFilters objectAtIndex:[self.camera.identifier intValue]];
+    CameraFilter *cameraFilter = [self cameraFilter];
     [cameraFilter setParameterValue:__value];
 }
 
 - (void)captureStillImage:(void(^)(NSData* imageData, NSError* error))__completionHandler {
     CameraFilter *camerFilter = [self cameraFilter];
-    [self.stillCamera capturePhotoAsJPEGProcessedUpToFilter:camerFilter.filter withCompletionHandler:__completionHandler];
+    [self.stillCamera capturePhotoAsPNGProcessedUpToFilter:camerFilter.filter withCompletionHandler:__completionHandler];
 }
 
 - (Camera*)defaultCamera {
-    return [self.loadedCameras objectAtIndex:CameraIdIPhone];
+    return [self.loadedCameras objectAtIndex:[self defaultCameraId]];
 }
 
 - (CameraId)defaultCameraId {
-    return CameraIdIPhone;
+    return CameraIdBox;
 }
 
 - (BOOL)setLeftCameraForView:(GPUImageView*)__imageView {
