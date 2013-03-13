@@ -17,6 +17,7 @@
 @property(nonatomic, strong)    IBOutlet UIGestureRecognizer*               captureImageGesture;
 @property(nonatomic, strong)    TransitionGestureRecognizer*                transitionGestureRecognizer;
 @property(nonatomic, strong)    UIView*                                     shutterView;
+@property(nonatomic, strong)    UIImageView*                                transitionView;
 
 + (id)inView:(UIView*)__containerView;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil inView:(UIView*)_containerView;

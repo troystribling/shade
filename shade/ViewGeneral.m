@@ -30,7 +30,6 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 @interface ViewGeneral ()
 
 - (void)transition:(CGFloat)_duration withAnimation:(void(^)(void))_animation;
-- (void)drag:(CGPoint)_drag view:(UIView*)_view;
 - (CGFloat)verticalReleaseDuration:(CGFloat)_offset;
 - (CGFloat)horizontaltReleaseDuration:(CGFloat)_offset;
 - (CGFloat)verticalTransitionDuration:(CGFloat)_offset;

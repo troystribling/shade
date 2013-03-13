@@ -40,6 +40,7 @@
 - (void)writeImage:(UIImage*)__image withId:(NSString*)__fileId;
 - (UIImage*)readImageWithId:(NSString*)__fileId;
 - (void)deleteImageWithId:(NSString*)__fileId;
+- (void)drag:(CGPoint)_drag view:(UIView*)_view;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 - (void)showProgressViewWithMessage:(NSString*)__progressMessage;

@@ -42,15 +42,17 @@ NSString *const kSaturationFilterFragmentShaderString = SHADER_STRING
  }
 );
 
-@implementation SaturationFilter
+@interface SaturationFilter () {
+    GLint saturationUniform;
+    GLint contrastUniform;
+    GLint redUniform;
+    GLint greenUniform;
+    GLint blueUniform;
+    GLint vignetteCenterUniform, vignetteColorUniform, vignetteStartUniform, vignetteEndUniform;
+}
+@end
 
-@synthesize saturation = _saturation;
-@synthesize contrast = _contrast;
-@synthesize red = _red, blue = _blue, green = _green;
-@synthesize vignetteCenter = _vignetteCenter;
-@synthesize vignetteColor = _vignetteColor;
-@synthesize vignetteStart =_vignetteStart;
-@synthesize vignetteEnd = _vignetteEnd;
+@implementation SaturationFilter
 
 #pragma mark -
 #pragma mark Initialization and teardown
@@ -98,7 +100,7 @@ NSString *const kSaturationFilterFragmentShaderString = SHADER_STRING
 }
 
 - (void)setContrast:(CGFloat)newValue {
-    _contrast = newValue;    
+    _contrast = newValue;
     [self setFloat:_contrast forUniform:contrastUniform program:filterProgram];
 }
 
@@ -113,18 +115,18 @@ NSString *const kSaturationFilterFragmentShaderString = SHADER_STRING
 }
 
 - (void)setBlue:(CGFloat)newValue {
-    _blue = newValue;    
+    _blue = newValue;
     [self setFloat:_blue forUniform:blueUniform program:filterProgram];
 }
 
 - (void)setVignetteCenter:(CGPoint)newValue {
     _vignetteCenter = newValue;
-    [self setPoint:newValue forUniform:vignetteCenterUniform program:filterProgram];
+    [self setPoint:_vignetteCenter forUniform:vignetteCenterUniform program:filterProgram];
 }
 
 - (void)setVignetteColor:(GPUVector3)newValue {
     _vignetteColor = newValue;
-    [self setVec3:newValue forUniform:vignetteColorUniform program:filterProgram];
+    [self setVec3:_vignetteColor forUniform:vignetteColorUniform program:filterProgram];
 }
 
 - (void)setVignetteStart:(CGFloat)newValue {

@@ -8,24 +8,16 @@
 
 #import "GPUImageFilter.h"
 
-@interface SaturationFilter : GPUImageFilter {
+@interface SaturationFilter : GPUImageFilter
 
-    GLint saturationUniform;
-    GLint contrastUniform;
-    GLint redUniform;
-    GLint greenUniform;
-    GLint blueUniform;
-    GLint vignetteCenterUniform, vignetteColorUniform, vignetteStartUniform, vignetteEndUniform;
-}
-
-@property(readwrite, nonatomic) CGFloat saturation;
-@property(readwrite, nonatomic) CGFloat contrast;
-@property (readwrite, nonatomic) CGFloat red;
-@property (readwrite, nonatomic) CGFloat green;
-@property (readwrite, nonatomic) CGFloat blue;
-@property (nonatomic, readwrite) CGPoint vignetteCenter;
-@property (nonatomic, readwrite) GPUVector3 vignetteColor;
-@property (nonatomic, readwrite) CGFloat vignetteStart;
-@property (nonatomic, readwrite) CGFloat vignetteEnd;
+@property(nonatomic, assign) CGFloat saturation;
+@property(nonatomic, assign) CGFloat contrast;
+@property(nonatomic, assign) CGFloat red;
+@property(nonatomic, assign) CGFloat green;
+@property(nonatomic, assign) CGFloat blue;
+@property(nonatomic, assign) CGPoint vignetteCenter;
+@property(nonatomic, assign) GPUVector3 vignetteColor;
+@property(nonatomic, assign) CGFloat vignetteStart;
+@property(nonatomic, assign) CGFloat vignetteEnd;
 
 @end

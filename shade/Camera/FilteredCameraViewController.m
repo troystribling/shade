@@ -22,6 +22,8 @@
 - (void)openShutter;
 - (void)closeShutter;
 - (void)openShutterOnStart;
+- (void)snapDisplay;
+- (void)dragTransitionView:(CGPoint)__drag;
 
 @end
 
@@ -70,6 +72,23 @@
             [self.shutterView removeFromSuperview];
         }
     ];
+}
+
+- (void)snapDisplay {
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+        UIGraphicsBeginImageContextWithOptions(self.view.window.bounds.size, NO, [UIScreen mainScreen].scale);
+    } else {
+        UIGraphicsBeginImageContext(self.view.window.bounds.size);
+    }
+    [self.view.window.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *screenShot = UIGraphicsGetImageFromCurrentImageContext();
+    self.transitionView = [[UIImageView alloc] initWithImage:screenShot];
+    [self.view addSubview:self.transitionView];
+    UIGraphicsEndImageContext();
+}
+
+- (void)dragTransitionView:(CGPoint)__drag {
+    [[ViewGeneral instance] drag:__drag view:self.transitionView];
 }
 
 #pragma mark -
@@ -128,11 +147,11 @@
 #pragma mark TransitionGestureRecognizerDelegate
 
 - (void)didDragRight:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
-//    [[ViewGeneral instance] dragCamera:_drag];    
+    [[ViewGeneral instance] dragCamera:_drag];    
 }
 
 - (void)didDragLeft:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {    
-//    [[ViewGeneral instance] dragCamera:_drag];    
+    [[ViewGeneral instance] dragCamera:_drag];    
 }
 
 - (void)didDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
