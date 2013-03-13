@@ -9,6 +9,7 @@
 #import "BoxCameraFilter.h"
 #import "SaturationFilter.h"
 #import "Camera+Extensions.h" 
+#import "GPUImage.h"
 
 @implementation BoxCameraFilter
 

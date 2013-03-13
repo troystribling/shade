@@ -11,49 +11,53 @@
 NSString *const kSaturationFilterFragmentShaderString = SHADER_STRING
 (
  varying highp vec2 textureCoordinate;
- uniform sampler2D inputImageTexture;
  
+ uniform sampler2D inputImageTexture;
  uniform lowp float saturation;
  uniform lowp float contrast;
-
  uniform highp float red;
  uniform highp float green;
  uniform highp float blue;
-
+ uniform lowp vec2 vignetteCenter;
+ uniform lowp vec3 vignetteColor;
  uniform highp float vignetteStart;
  uniform highp float vignetteEnd;
 
+ // Values from "Graphics Shaders: Theory and Practice" by Bailey and Cunningham
  const mediump vec3 luminanceWeighting = vec3(0.2125, 0.7154, 0.0721);
  
  void main()
  {
-     highp vec4 textureColor = texture2D(inputImageTexture, textureCoordinate);
-     
+     lowp vec4 textureColor = texture2D(inputImageTexture, textureCoordinate);
      lowp float luminance = dot(textureColor.rgb, luminanceWeighting);
      lowp vec3 greyScaleColor = vec3(luminance);
      
-     highp vec4 stauration_filter =  vec4(mix(greyScaleColor, textureColor.rgb, saturation), textureColor.w);
+     highp vec4 stauration_filter = vec4(mix(greyScaleColor, textureColor.rgb, saturation), textureColor.w);
      highp vec4 contrast_filter = vec4(((stauration_filter.rgb - vec3(0.5)) * contrast + vec3(0.5)), stauration_filter.w);
      highp vec4 rgb_filter = vec4(contrast_filter.r * red, contrast_filter.g * green, contrast_filter.b * blue, 1.0);
      
-     lowp float d = distance(textureCoordinate, vec2(0.5,0.5));
-     rgb_filter.rgb *= smoothstep(vignetteEnd, vignetteStart, d);
-     gl_FragColor = vec4(vec3(rgb_filter.rgb),1.0);
+     lowp float d = distance(textureCoordinate, vec2(vignetteCenter.x, vignetteCenter.y));
+     lowp float percent = smoothstep(vignetteStart, vignetteEnd, d);
+     gl_FragColor = vec4(mix(rgb_filter.rgb.x, vignetteColor.x, percent), mix(rgb_filter.rgb.y, vignetteColor.y, percent), mix(rgb_filter.rgb.z, vignetteColor.z, percent), 1.0);
  }
- );
+);
 
 @implementation SaturationFilter
 
 @synthesize saturation = _saturation;
 @synthesize contrast = _contrast;
 @synthesize red = _red, blue = _blue, green = _green;
-@synthesize vignetteStart =_vignetteStart, vignetteEnd = _vignetteEnd;
+@synthesize vignetteCenter = _vignetteCenter;
+@synthesize vignetteColor = _vignetteColor;
+@synthesize vignetteStart =_vignetteStart;
+@synthesize vignetteEnd = _vignetteEnd;
 
 #pragma mark -
-#pragma mark SaturationFilter
+#pragma mark Initialization and teardown
 
 - (id)init {
-    if (!(self = [super initWithFragmentShaderFromString:kSaturationFilterFragmentShaderString])) {
+    if (!(self = [super initWithFragmentShaderFromString:kSaturationFilterFragmentShaderString]))
+    {
 		return nil;
     }
     
@@ -65,82 +69,72 @@ NSString *const kSaturationFilterFragmentShaderString = SHADER_STRING
 
     redUniform = [filterProgram uniformIndex:@"red"];
     self.red = 1.0;
+    
     greenUniform = [filterProgram uniformIndex:@"green"];
     self.green = 1.0;
+    
     blueUniform = [filterProgram uniformIndex:@"blue"];
     self.blue = 1.0;
-    
+
+    vignetteCenterUniform = [filterProgram uniformIndex:@"vignetteCenter"];
+    vignetteColorUniform = [filterProgram uniformIndex:@"vignetteColor"];
     vignetteStartUniform = [filterProgram uniformIndex:@"vignetteStart"];
+    vignetteEndUniform = [filterProgram uniformIndex:@"vignetteEnd"];
+    
+    self.vignetteCenter = (CGPoint){ 0.5f, 0.5f };
+    self.vignetteColor = (GPUVector3){ 0.0f, 0.0f, 0.0f };
     self.vignetteStart = 0.3;
-    vignetteEndUniform = [filterProgram uniformIndex:@"vignetteEnd"];    
     self.vignetteEnd = 0.75;
 
     return self;
 }
 
 #pragma mark -
-#pragma mark Saturation
+#pragma mark Accessors
 
 - (void)setSaturation:(CGFloat)newValue {
     _saturation = newValue;
-    [GPUImageOpenGLESContext useImageProcessingContext];
-    [filterProgram use];
-    glUniform1f(saturationUniform, _saturation);
+    [self setFloat:_saturation forUniform:saturationUniform program:filterProgram];
 }
-
-#pragma mark -
-#pragma mark Contrast
-
 
 - (void)setContrast:(CGFloat)newValue {
     _contrast = newValue;    
-    [GPUImageOpenGLESContext useImageProcessingContext];
-    [filterProgram use];
-    glUniform1f(contrastUniform, _contrast);
+    [self setFloat:_contrast forUniform:contrastUniform program:filterProgram];
 }
-
-#pragma mark -
-#pragma mark RGB Filter
-
 
 - (void)setRed:(CGFloat)newValue {
     _red = newValue;
-    [GPUImageOpenGLESContext useImageProcessingContext];
-    [filterProgram use];
-    glUniform1f(redUniform, _red);
+    [self setFloat:_red forUniform:redUniform program:filterProgram];
 }
 
 - (void)setGreen:(CGFloat)newValue {
     _green = newValue;
-    [GPUImageOpenGLESContext useImageProcessingContext];
-    [filterProgram use];
-    glUniform1f(greenUniform, _green);
+    [self setFloat:_green forUniform:greenUniform program:filterProgram];
 }
-
 
 - (void)setBlue:(CGFloat)newValue {
-    _blue = newValue;
-    [GPUImageOpenGLESContext useImageProcessingContext];
-    [filterProgram use];
-    glUniform1f(blueUniform, _blue);
+    _blue = newValue;    
+    [self setFloat:_blue forUniform:blueUniform program:filterProgram];
 }
 
-#pragma mark -
-#pragma mark Vignette
+- (void)setVignetteCenter:(CGPoint)newValue {
+    _vignetteCenter = newValue;
+    [self setPoint:newValue forUniform:vignetteCenterUniform program:filterProgram];
+}
+
+- (void)setVignetteColor:(GPUVector3)newValue {
+    _vignetteColor = newValue;
+    [self setVec3:newValue forUniform:vignetteColorUniform program:filterProgram];
+}
 
 - (void)setVignetteStart:(CGFloat)newValue {
     _vignetteStart = newValue;
-    [GPUImageOpenGLESContext useImageProcessingContext];
-    [filterProgram use];
-    glUniform1f(vignetteStartUniform, _vignetteStart);
+    [self setFloat:_vignetteStart forUniform:vignetteStartUniform program:filterProgram];
 }
 
 - (void)setVignetteEnd:(CGFloat)newValue {
     _vignetteEnd = newValue;
-    [GPUImageOpenGLESContext useImageProcessingContext];
-    [filterProgram use];
-    glUniform1f(vignetteEndUniform, _vignetteEnd);
+    [self setFloat:_vignetteEnd forUniform:vignetteEndUniform program:filterProgram];
 }
-
 
 @end

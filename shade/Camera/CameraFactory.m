@@ -107,7 +107,7 @@ static CameraFactory* thisCameraFactory = nil;
 }
 
 - (CameraId)defaultCameraId {
-    return CameraIdBox;
+    return CameraIdIPhone;
 }
 
 - (BOOL)setLeftCameraForView:(GPUImageView*)__imageView {

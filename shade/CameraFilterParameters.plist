@@ -65,11 +65,11 @@
 				<key>VignetteEnd</key>
 				<dict>
 					<key>maximumValue</key>
-					<real>0.9</real>
+					<real>1</real>
 					<key>minimumValue</key>
 					<real>0.5</real>
 					<key>initialValue</key>
-					<real>0.85</real>
+					<real>0.9</real>
 				</dict>
 			</dict>
 		</dict>
@@ -104,11 +104,11 @@
 				<key>VignetteEnd</key>
 				<dict>
 					<key>maximumValue</key>
-					<real>0.9</real>
+					<real>1.2</real>
 					<key>minimumValue</key>
 					<real>0.8</real>
 					<key>initialValue</key>
-					<real>0.9</real>
+					<real>1.1</real>
 				</dict>
 			</dict>
 			<key>GPUImageRGBFilter</key>

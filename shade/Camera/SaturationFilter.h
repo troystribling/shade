@@ -11,25 +11,20 @@
 @interface SaturationFilter : GPUImageFilter {
 
     GLint saturationUniform;
-
     GLint contrastUniform;
-
     GLint redUniform;
     GLint greenUniform;
     GLint blueUniform;
-    
-    GLint vignetteStartUniform;
-    GLint vignetteEndUniform;
+    GLint vignetteCenterUniform, vignetteColorUniform, vignetteStartUniform, vignetteEndUniform;
 }
 
-@property(readwrite, nonatomic) CGFloat saturation; 
-
-@property(readwrite, nonatomic) CGFloat contrast; 
-
-@property (readwrite, nonatomic) CGFloat red; 
-@property (readwrite, nonatomic) CGFloat green; 
+@property(readwrite, nonatomic) CGFloat saturation;
+@property(readwrite, nonatomic) CGFloat contrast;
+@property (readwrite, nonatomic) CGFloat red;
+@property (readwrite, nonatomic) CGFloat green;
 @property (readwrite, nonatomic) CGFloat blue;
-
+@property (nonatomic, readwrite) CGPoint vignetteCenter;
+@property (nonatomic, readwrite) GPUVector3 vignetteColor;
 @property (nonatomic, readwrite) CGFloat vignetteStart;
 @property (nonatomic, readwrite) CGFloat vignetteEnd;
 
