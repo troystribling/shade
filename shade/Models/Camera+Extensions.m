@@ -27,9 +27,6 @@
             camera.purchased = [configuredCamera objectForKey:@"purchased"];
         }
         camera.name             = [configuredCamera objectForKey:@"name"];
-        camera.hasParameter     = [configuredCamera objectForKey:@"hasParameter"];
-        camera.maximumValue     = [configuredCamera objectForKey:@"maximumValue"];
-        camera.minimumValue     = [configuredCamera objectForKey:@"minimumValue"];
         camera.value            = [configuredCamera objectForKey:@"value"];
         [camera save];
     }

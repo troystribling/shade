@@ -19,10 +19,8 @@ static CameraFactory* thisCameraFactory = nil;
 /////////////////////////////////////////////////////////////////////////////////////////
 @interface CameraFactory ()
 
-- (void)setCamera:(Camera*)__camera forView:(GPUImageView*)__imageView;
-- (void)setCameraFilter:(GPUImageOutput<GPUImageInput>*)__filter forView:(GPUImageView*)__imageView;
-- (CGFloat)scaledFilterValue:(NSNumber*)__value;
-- (CameraFilter*)cameraFilter;
+- (void)activateStillCameraForCameraWithId:(CameraId)__cameraId forView:(GPUImageView*)__imageView;
+- (GPUImageStillCamera*)stillCameraForCameraId:(CameraId)__cameraId;
 
 @end
 
@@ -32,35 +30,19 @@ static CameraFactory* thisCameraFactory = nil;
 #pragma mark -
 #pragma mark CameraFactory Private API
 
-- (void)setCamera:(Camera*)__camera forView:(GPUImageView*)__imageView {
-    self.camera = __camera;
-    CameraFilter *camerFilter = [self cameraFilter];
-    [self setCameraFilter:camerFilter.filter forView:__imageView];
-    [self setCameraParameterValue:self.camera.value];
+- (void)activateStillCameraForCameraWithId:(CameraId)__cameraId forView:(GPUImageView*)__imageView {
+    CameraFilter *cameraFilter = [self.cameraFilters objectAtIndex:__cameraId];
+    GPUImageStillCamera *stillCamera = [[GPUImageStillCamera alloc] init];
+    [self.stillCameras setObject:stillCamera forKey:[NSNumber numberWithInt:__cameraId]];
+    stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+    [cameraFilter.filter prepareForImageCapture];
+    [stillCamera addTarget:cameraFilter.filter];
+    [cameraFilter.filter addTarget:__imageView];
+    [stillCamera startCameraCapture];
 }
 
-- (void)setCameraFilter:(GPUImageOutput<GPUImageInput>*)__filter forView:(GPUImageView*)__imageView {
-    if (self.stillCamera) {
-        [self.stillCamera stopCameraCapture];
-        [self.stillCamera removeAllTargets];
-        [__filter removeAllTargets];
-    }
-    self.stillCamera = [[GPUImageStillCamera alloc] init];
-    self.stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
-    [__filter prepareForImageCapture];    
-    [self.stillCamera addTarget:__filter];
-    [__filter addTarget:__imageView];
-    [self.stillCamera startCameraCapture];
-
-}
-
-- (CGFloat)scaledFilterValue:(NSNumber*)_value {
-    CGFloat parameterRange = [self.camera.maximumValue floatValue] - [self.camera.minimumValue floatValue];
-    return [_value floatValue ] / parameterRange;
-}
-
-- (CameraFilter*)cameraFilter {
-    return [self.cameraFilters objectAtIndex:self.cameraId];
+- (GPUImageStillCamera*)stillCameraForCameraId:(CameraId)__cameraId {
+    return [self.stillCameras objectForKey:[NSNumber numberWithInt:__cameraId]];
 }
 
 #pragma mark -
@@ -79,57 +61,52 @@ static CameraFactory* thisCameraFactory = nil;
     self = [super init];
     if (self) {
         self.loadedCameras = [Camera loadCameras];
+        self.stillCameras = [NSMutableDictionary dictionary];
         self.cameraFilters = @[[[PassThoughFilter alloc] init], [[InstantCameraFilter alloc] init], [[BoxCameraFilter alloc] init], [[PlasticCameraFilter alloc] init]];
     }
     return self;
 }
 
-- (void)setCameraWithId:(CameraId)__cameraId forView:(GPUImageView*)__imageView {
-    self.cameraId = __cameraId;
+- (void)activateCameraWithId:(CameraId)__cameraId forView:(GPUImageView*)__imageView {
+    [self activateStillCameraForCameraWithId:__cameraId forView:__imageView];
     Camera *camera = [self.loadedCameras objectAtIndex:__cameraId];
-    [self setCamera:camera forView:__imageView];
+    [self setParameterValue:camera.value forCameraWithId:__cameraId];
 }
 
-- (void)setCameraParameterValue:(NSNumber*)__value {
-    self.camera.value = __value;
-    [self.camera save];
-    CameraFilter *cameraFilter = [self cameraFilter];
+- (void)setParameterValue:(NSNumber*)__value forCameraWithId:(CameraId)__cameraId  {
+    Camera *camera = [self.loadedCameras objectAtIndex:__cameraId];
+    camera.value = __value;
+    [camera save];
+    CameraFilter *cameraFilter = [self.cameraFilters objectAtIndex:__cameraId];
     [cameraFilter setParameterValue:__value];
 }
 
-- (void)captureStillImage:(void(^)(NSData* imageData, NSError* error))__completionHandler {
-    CameraFilter *camerFilter = [self cameraFilter];
-    [self.stillCamera capturePhotoAsPNGProcessedUpToFilter:camerFilter.filter withCompletionHandler:__completionHandler];
+- (void)captureStillImageForCameraWithId:(CameraId)__cameraId onCompletion:(void(^)(NSData* imageData, NSError* error))__completionHandler {
+    CameraFilter *camerFilter = [self.cameraFilters objectAtIndex:__cameraId];
+    GPUImageStillCamera *stillCamera = [self stillCameraForCameraId:__cameraId];
+    [stillCamera capturePhotoAsPNGProcessedUpToFilter:camerFilter.filter withCompletionHandler:__completionHandler];
 }
 
-- (Camera*)defaultCamera {
-    return [self.loadedCameras objectAtIndex:[self defaultCameraId]];
+- (void)deactivateStillCameraForCameraWithId:(CameraId)__cameraId {
+    GPUImageStillCamera *stillCamera = [self stillCameraForCameraId:__cameraId];
+    CameraFilter *cameraFilter = [self.cameraFilters objectAtIndex:__cameraId];
+    if (stillCamera) {
+        [stillCamera stopCameraCapture];
+        [stillCamera removeAllTargets];
+        [cameraFilter.filter removeAllTargets];
+        [self.stillCameras removeObjectForKey:[NSNumber numberWithInt:__cameraId]];
+    }
+}
+
+- (void)rotateCameraWithCameraId:(CameraId)__cameraId {
+    GPUImageStillCamera *stillCamera = [self stillCameraForCameraId:__cameraId];
+    if (stillCamera) {
+        [stillCamera rotateCamera];
+    }
 }
 
 - (CameraId)defaultCameraId {
     return CameraIdIPhone;
-}
-
-- (BOOL)setLeftCameraForView:(GPUImageView*)__imageView {
-    BOOL didSetCamera = NO;
-    if (self.cameraId > 0) {
-        didSetCamera = YES;
-        [self setCameraWithId:(self.cameraId - 1) forView:__imageView];
-    }
-    return didSetCamera;
-}
-
-- (BOOL)setRightCameraForView:(GPUImageView*)__imageView {
-    BOOL didSetCamera = NO;
-    if (self.cameraId < ([self.loadedCameras count] - 1)) {
-        didSetCamera = YES;
-        [self setCameraWithId:(self.cameraId + 1) forView:__imageView];
-    }
-    return didSetCamera;
-}
-
-- (NSArray*)cameras {
-    return self.loadedCameras;
 }
 
 @end

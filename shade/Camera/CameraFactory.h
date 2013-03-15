@@ -16,20 +16,16 @@
 
 @interface CameraFactory : NSObject
 
-@property(nonatomic, strong) NSArray                            *loadedCameras;
-@property(nonatomic, strong) NSArray                            *cameraFilters;
-@property(nonatomic, strong) GPUImageStillCamera                *stillCamera;
-@property(nonatomic, strong) Camera                             *camera;
-@property(nonatomic, assign) CameraId                           cameraId;
+@property(nonatomic, strong) NSArray                *loadedCameras;
+@property(nonatomic, strong) NSArray                *cameraFilters;
+@property(nonatomic, strong) NSMutableDictionary    *stillCameras;
 
 + (CameraFactory*)instance;
-- (void)setCameraWithId:(CameraId)__cameraId forView:(GPUImageView*)__imageView;
-- (void)setCameraParameterValue:(NSNumber*)__value;
-- (void)captureStillImage:(void(^)(NSData* imageData, NSError* error))__completionHandler;
-- (Camera*)defaultCamera;
+- (void)activateCameraWithId:(CameraId)__cameraId forView:(GPUImageView*)__imageView;
+- (void)setParameterValue:(NSNumber*)__value forCameraWithId:(CameraId)__cameraId;
+- (void)captureStillImageForCameraWithId:(CameraId)__cameraId onCompletion:(void(^)(NSData* imageData, NSError* error))__completionHandler;
+- (void)deactivateStillCameraForCameraWithId:(CameraId)__cameraId;
+- (void)rotateCameraWithCameraId:(CameraId)__cameraId;
 - (CameraId)defaultCameraId;
-- (BOOL)setLeftCameraForView:(GPUImageView*)__imageView;
-- (BOOL)setRightCameraForView:(GPUImageView*)__imageView;
-- (NSArray*)cameras;
 
 @end

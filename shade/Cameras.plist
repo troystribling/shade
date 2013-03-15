@@ -9,12 +9,6 @@
 			<integer>0</integer>
 			<key>name</key>
 			<string>iPhone</string>
-			<key>hasParameter</key>
-			<false/>
-			<key>maximumValue</key>
-			<integer>0</integer>
-			<key>minumumValue</key>
-			<integer>0</integer>
 			<key>value</key>
 			<integer>0</integer>
 			<key>purchased</key>
@@ -25,12 +19,6 @@
 			<integer>1</integer>
 			<key>name</key>
 			<string>Instant</string>
-			<key>hasParameter</key>
-			<true/>
-			<key>maximumValue</key>
-			<integer>1</integer>
-			<key>minimumValue</key>
-			<integer>0</integer>
 			<key>value</key>
 			<real>0.5</real>
 			<key>purchased</key>
@@ -41,12 +29,6 @@
 			<integer>2</integer>
 			<key>name</key>
 			<string>Box</string>
-			<key>hasParameter</key>
-			<true/>
-			<key>maximumValue</key>
-			<integer>1</integer>
-			<key>minimumValue</key>
-			<integer>0</integer>
 			<key>value</key>
 			<real>0.5</real>
 			<key>purchased</key>
@@ -57,12 +39,6 @@
 			<integer>3</integer>
 			<key>name</key>
 			<string>Plastic</string>
-			<key>hasParameter</key>
-			<true/>
-			<key>maximumValue</key>
-			<integer>1</integer>
-			<key>minimumValue</key>
-			<integer>0</integer>
 			<key>value</key>
 			<real>0.5</real>
 			<key>purchased</key>

@@ -25,7 +25,6 @@
 		0534C9AD16E2F8E800EAD481 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0534C9AC16E2F8E800EAD481 /* OpenGLES.framework */; };
 		0534C9AF16E2F8F900EAD481 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0534C9AE16E2F8F900EAD481 /* AVFoundation.framework */; };
 		058D050B16EAE09F000506D7 /* FilteredCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058D050A16EAE09F000506D7 /* FilteredCameraViewController.xib */; };
-		058D051116EAE15A000506D7 /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = 058D051016EAE15A000506D7 /* Camera.m */; };
 		058D052416EBDCB8000506D7 /* Capture.m in Sources */ = {isa = PBXBuildFile; fileRef = 058D052316EBDCB8000506D7 /* Capture.m */; };
 		058E983D16E5943300C4DDFA /* UIAlertView+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 058E983C16E5943300C4DDFA /* UIAlertView+Extensions.m */; };
 		058E984216E5962500C4DDFA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 058E984116E5962500C4DDFA /* CoreData.framework */; };
@@ -33,6 +32,7 @@
 		058E984516E5993F00C4DDFA /* PassThrough.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 05AD716B16E32BCD00AAB7D9 /* PassThrough.fsh */; };
 		058E984616E5993F00C4DDFA /* WhiteColorOverlay.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 05AD716E16E32BCD00AAB7D9 /* WhiteColorOverlay.fsh */; };
 		058E985616E7043900C4DDFA /* ImageEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 058E985516E7043900C4DDFA /* ImageEntryView.m */; };
+		0590913016F19D2E006CA335 /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0590912F16F19D2E006CA335 /* Camera.m */; };
 		05AD715B16E32BBE00AAB7D9 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715616E32BBE00AAB7D9 /* DataManager.m */; };
 		05AD715C16E32BBE00AAB7D9 /* NSManagedObject+DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715816E32BBE00AAB7D9 /* NSManagedObject+DataManager.m */; };
 		05AD716F16E32BCD00AAB7D9 /* CameraFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716316E32BCD00AAB7D9 /* CameraFactory.m */; };
@@ -117,8 +117,6 @@
 		0534C9AC16E2F8E800EAD481 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		0534C9AE16E2F8F900EAD481 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		058D050A16EAE09F000506D7 /* FilteredCameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilteredCameraViewController.xib; sourceTree = "<group>"; };
-		058D050F16EAE15A000506D7 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
-		058D051016EAE15A000506D7 /* Camera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Camera.m; sourceTree = "<group>"; };
 		058D052216EBDCB8000506D7 /* Capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Capture.h; sourceTree = "<group>"; };
 		058D052316EBDCB8000506D7 /* Capture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Capture.m; sourceTree = "<group>"; };
 		058E983B16E5943300C4DDFA /* UIAlertView+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Extensions.h"; sourceTree = "<group>"; };
@@ -127,6 +125,8 @@
 		058E984316E5983D00C4DDFA /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		058E985416E7043900C4DDFA /* ImageEntryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageEntryView.h; sourceTree = "<group>"; };
 		058E985516E7043900C4DDFA /* ImageEntryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageEntryView.m; sourceTree = "<group>"; };
+		0590912E16F19D2E006CA335 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		0590912F16F19D2E006CA335 /* Camera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Camera.m; sourceTree = "<group>"; };
 		05AD715516E32BBE00AAB7D9 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
 		05AD715616E32BBE00AAB7D9 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
 		05AD715716E32BBE00AAB7D9 /* NSManagedObject+DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+DataManager.h"; sourceTree = "<group>"; };
@@ -396,8 +396,8 @@
 			children = (
 				05AD71C216E3FB6F00AAB7D9 /* Camera+Extensions.h */,
 				05AD71C316E3FB6F00AAB7D9 /* Camera+Extensions.m */,
-				058D050F16EAE15A000506D7 /* Camera.h */,
-				058D051016EAE15A000506D7 /* Camera.m */,
+				0590912E16F19D2E006CA335 /* Camera.h */,
+				0590912F16F19D2E006CA335 /* Camera.m */,
 				05AD71C516E3FB8400AAB7D9 /* Capture+Extensions.h */,
 				05AD71C616E3FB8400AAB7D9 /* Capture+Extensions.m */,
 				058D052216EBDCB8000506D7 /* Capture.h */,
@@ -543,8 +543,8 @@
 				05AD71E116E473D600AAB7D9 /* PassThoughFilter.m in Sources */,
 				058E983D16E5943300C4DDFA /* UIAlertView+Extensions.m in Sources */,
 				058E985616E7043900C4DDFA /* ImageEntryView.m in Sources */,
-				058D051116EAE15A000506D7 /* Camera.m in Sources */,
 				058D052416EBDCB8000506D7 /* Capture.m in Sources */,
+				0590913016F19D2E006CA335 /* Camera.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

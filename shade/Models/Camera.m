@@ -2,7 +2,7 @@
 //  Camera.m
 //  shade
 //
-//  Created by Troy Stribling on 3/8/13.
+//  Created by Troy Stribling on 3/13/13.
 //  Copyright (c) 2013 Troy Stribling. All rights reserved.
 //
 
@@ -12,14 +12,10 @@
 @implementation Camera
 
 @dynamic createdAt;
-@dynamic hasParameter;
 @dynamic identifier;
-@dynamic maximumValue;
-@dynamic minimumValue;
 @dynamic name;
 @dynamic purchased;
 @dynamic updatedAt;
 @dynamic value;
-@dynamic cameraId;
 
 @end
