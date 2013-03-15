@@ -22,6 +22,7 @@
 - (void)openShutter;
 - (void)closeShutter;
 - (void)openShutterOnStart;
+- (void)addCameraWithID:(CameraId)__cameraID;
 
 @end
 
@@ -72,6 +73,13 @@
     ];
 }
 
+- (void)addCameraWithID:(CameraId)__cameraID {
+    GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
+    gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
+    [self.camerasStreamView addViewToRight:gpuImageView];
+    [[CameraFactory instance] activateCameraWithId:__cameraID forView:gpuImageView];
+}
+
 #pragma mark -
 #pragma mark FilteredCameraViewController
 
@@ -83,19 +91,17 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.containerView = __containerView;
-        self.transitionGestureRecognizer = [TransitionGestureRecognizer initWithDelegate:self inView:self.view relativeToView:self.containerView];
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.camerasStreamView = [StreamOfViews withFrame:self.view.frame delegate:self relativeToView:self.containerView];
+    [self.view addSubview:self.camerasStreamView];
     [self openShutterOnStart];
-    GPUImageView* gpuImageView = (GPUImageView*)self.view;
-    gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-    CameraFactory *cameraFactory = [CameraFactory instance];
-    self.displayedCameraId = [cameraFactory defaultCameraId];
-    [cameraFactory activateCameraWithId:self.displayedCameraId forView:(GPUImageView*)self.view];
+    self.displayedCameraId = [[CameraFactory instance] defaultCameraId];
+    [self addCameraWithID:self.displayedCameraId];
 }
 
 - (void)viewDidUnload {
@@ -127,40 +133,20 @@
 }
 
 #pragma mark -
-#pragma mark TransitionGestureRecognizerDelegate
-
-- (void)didDragRight:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
-}
-
-- (void)didDragLeft:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {    
-}
+#pragma mark StreamOfViewsDelegate
 
 - (void)didDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
-}
-
-- (void)didDragDown:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
     [[ViewGeneral instance] dragCameraToInspectImage:__drag];
 }
 
-- (void)didReleaseRight:(CGPoint)__location {
-    [[ViewGeneral instance] releaseCamera];
+- (void)didDragDown:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
 }
 
-- (void)didReleaseLeft:(CGPoint)__location {
-    [[ViewGeneral instance] releaseCamera];
-}
-
-- (void)didReleaseUp:(CGPoint)__location {
+- (void)didReleaseUp:(CGPoint)_location {
 }
 
 - (void)didReleaseDown:(CGPoint)__location {
     [[ViewGeneral instance] releaseCameraInspectImage];
-}
-
-- (void)didSwipeRight:(CGPoint)__location withVelocity:(CGPoint)__velocity {
-}
-
-- (void)didSwipeLeft:(CGPoint)__location withVelocity:(CGPoint)__velocity {
 }
 
 - (void)didSwipeUp:(CGPoint)__location withVelocity:(CGPoint)__velocity {
@@ -171,18 +157,16 @@
     [[ViewGeneral instance] transitionCameraToInspectImage];
 }
 
-- (void)didReachMaxDragRight:(CGPoint)_drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
-}
-
-- (void)didReachMaxDragLeft:(CGPoint)_drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {    
-}
-
-- (void)didReachMaxDragUp:(CGPoint)_drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {    
+- (void)didReachMaxDragUp:(CGPoint)__drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
     [[CameraFactory instance] rotateCameraWithCameraId:self.displayedCameraId];
 }
 
-- (void)didReachMaxDragDown:(CGPoint)_drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {    
+- (void)didReachMaxDragDown:(CGPoint)__drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
     [[ViewGeneral instance] transitionCameraToInspectImage];
+}
+
+- (void)didRemoveAllViews {
+    [[ViewGeneral instance] transitionInspectImageToCamera];
 }
 
 @end

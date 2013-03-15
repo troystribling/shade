@@ -9,14 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "TransitionGestureRecognizer.h"
 #import "Camera+Extensions.h"
+#import "StreamOfViews.h"
 
-@interface FilteredCameraViewController : UIViewController <TransitionGestureRecognizerDelegate>
+@class StreamOfViews;
+
+@interface FilteredCameraViewController : UIViewController <TransitionGestureRecognizerDelegate, StreamOfViewsDelegate>
 
 @property(nonatomic, weak)      UIView*                                     containerView;
 @property(nonatomic, strong)    IBOutlet UIGestureRecognizer*               captureImageGesture;
-@property(nonatomic, strong)    TransitionGestureRecognizer*                transitionGestureRecognizer;
 @property(nonatomic, strong)    UIView*                                     shutterView;
 @property(nonatomic, assign)    CameraId                                    displayedCameraId;
+@property(nonatomic, strong)    StreamOfViews                               *camerasStreamView;
+
 
 + (id)inView:(UIView*)__containerView;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil inView:(UIView*)_containerView;
