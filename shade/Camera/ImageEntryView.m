@@ -27,7 +27,8 @@
 }
 
 - (id)initWithCapture:(Capture*)__capture andImage:(UIImage*)__image {
-    if ((self = [super initWithImage:__image])) {
+    self = [super initWithImage:__image];
+    if (self) {
         self.capture = __capture;
         self.contentMode = UIViewContentModeScaleAspectFill;
         self.clipsToBounds = YES;

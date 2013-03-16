@@ -14,14 +14,14 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TransitionGestureRecognizer ()
 
-- (void)touched:(UIPanGestureRecognizer*)_recognizer;
-- (void)delegateDrag:(CGPoint)_delta from:(CGPoint)_location withVelocity:(CGPoint)_velocity;
-- (void)delegateRelease:(CGPoint)_location;
-- (void)delegateSwipe:(CGPoint)_location withVelocity:(CGPoint)_velocity;
-- (void)delegateReachedMaxDrag:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity;
-- (CGPoint)dragDelta:(CGPoint)_touchPoint;
-- (void)determineDragDirection:(CGPoint)_velocity;
-- (BOOL)detectedSwipe:(CGPoint)_velocity;
+- (void)touched:(UIPanGestureRecognizer*)__recognizer;
+- (void)delegateDrag:(CGPoint)__delta from:(CGPoint)__location withVelocity:(CGPoint)__velocity;
+- (void)delegateRelease:(CGPoint)__location;
+- (void)delegateSwipe:(CGPoint)__location withVelocity:(CGPoint)__velocity;
+- (void)delegateReachedMaxDrag:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity;
+- (CGPoint)dragDelta:(CGPoint)__touchPoint;
+- (void)determineDragDirection:(CGPoint)__velocity;
+- (BOOL)detectedSwipe:(CGPoint)__velocity;
 - (BOOL)detectedMaximumDrag;
 
 @end
@@ -32,13 +32,14 @@
 #pragma mark -
 #pragma mark TransitionGestureRecognizer PrivateAPI
 
-- (void)touched:(UIPanGestureRecognizer*)_recognizer {
-    CGPoint velocity = [_recognizer velocityInView:self.relativeView];
-    CGPoint touchPoint = [_recognizer locationInView:self.relativeView];
+- (void)touched:(UIPanGestureRecognizer*)__recognizer {
+    CGPoint velocity = [__recognizer velocityInView:self.relativeView];
+    CGPoint touchPoint = [__recognizer locationInView:self.relativeView];
     CGPoint delta = [self dragDelta:touchPoint];
-    switch (_recognizer.state) {
+    switch (__recognizer.state) {
         case UIGestureRecognizerStateBegan:
             [self determineDragDirection:velocity];
+            [self delegateDidStartDragging:touchPoint];
             self.totalDragDistance = CGPointMake(0.0, 0.0);
             self.lastTouch = touchPoint;
             self.acceptTouches = YES;
@@ -61,144 +62,169 @@
     }
 }
 
-- (void)delegateDrag:(CGPoint)_delta from:(CGPoint)_location withVelocity:(CGPoint)_velocity {
+- (void)delegateDidStartDragging:(CGPoint)__location {
     switch (self.dragDirection) {
         case DragDirectionRight:
-            if ([self.delegate respondsToSelector:@selector(didDragRight:from:withVelocity:)]) {
-                [self.delegate didDragRight:CGPointMake(_delta.x, 0.0) from:_location withVelocity:_velocity];
+            if ([self.delegate respondsToSelector:@selector(didStartDraggingRight:)]) {
+                [self.delegate didStartDraggingRight:__location];
             }
             break;
         case DragDirectionLeft:
-            if ([self.delegate respondsToSelector:@selector(didDragLeft:from:withVelocity:)]) {
-                [self.delegate didDragLeft:CGPointMake(_delta.x, 0.0) from:_location withVelocity:_velocity];
+            if ([self.delegate respondsToSelector:@selector(didStartDraggingLeft:)]) {
+                [self.delegate didStartDraggingLeft:__location];
             }
             break;
         case DragDirectionUp:
-            if ([self.delegate respondsToSelector:@selector(didDragUp:from:withVelocity:)]) {
-                [self.delegate didDragUp:CGPointMake(0.0, _delta.y) from:_location withVelocity:_velocity];
+            if ([self.delegate respondsToSelector:@selector(didStartDraggingUp:)]) {
+                [self.delegate didStartDraggingUp:__location];
             }
             break;
         case DragDirectionDown:
-            if ([self.delegate respondsToSelector:@selector(didDragDown:from:withVelocity:)]) {
-                [self.delegate didDragDown:CGPointMake(0.0, _delta.y) from:_location withVelocity:_velocity];
+            if ([self.delegate respondsToSelector:@selector(didStartDraggingDown:)]) {
+                [self.delegate didStartDraggingDown:__location];
             }
             break;
     }
 }
 
-- (void)delegateRelease:(CGPoint)_location {
+- (void)delegateDrag:(CGPoint)__delta from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    switch (self.dragDirection) {
+        case DragDirectionRight:
+            if ([self.delegate respondsToSelector:@selector(didDragRight:from:withVelocity:)]) {
+                [self.delegate didDragRight:CGPointMake(__delta.x, 0.0) from:__location withVelocity:__velocity];
+            }
+            break;
+        case DragDirectionLeft:
+            if ([self.delegate respondsToSelector:@selector(didDragLeft:from:withVelocity:)]) {
+                [self.delegate didDragLeft:CGPointMake(__delta.x, 0.0) from:__location withVelocity:__velocity];
+            }
+            break;
+        case DragDirectionUp:
+            if ([self.delegate respondsToSelector:@selector(didDragUp:from:withVelocity:)]) {
+                [self.delegate didDragUp:CGPointMake(0.0, __delta.y) from:__location withVelocity:__velocity];
+            }
+            break;
+        case DragDirectionDown:
+            if ([self.delegate respondsToSelector:@selector(didDragDown:from:withVelocity:)]) {
+                [self.delegate didDragDown:CGPointMake(0.0, __delta.y) from:__location withVelocity:__velocity];
+            }
+            break;
+    }
+}
+
+- (void)delegateRelease:(CGPoint)__location {
     switch (self.dragDirection) {
         case DragDirectionRight:
             if ([self.delegate respondsToSelector:@selector(didReleaseRight:)]) {
-                [self.delegate didReleaseRight:_location];
+                [self.delegate didReleaseRight:__location];
             }
             break;
         case DragDirectionLeft:
             if ([self.delegate respondsToSelector:@selector(didReleaseLeft:)]) {
-                [self.delegate didReleaseLeft:_location];
+                [self.delegate didReleaseLeft:__location];
             }
             break;
         case DragDirectionUp:
             if ([self.delegate respondsToSelector:@selector(didReleaseUp:)]) {
-                [self.delegate didReleaseUp:_location];
+                [self.delegate didReleaseUp:__location];
             }
             break;
         case DragDirectionDown:
             if ([self.delegate respondsToSelector:@selector(didReleaseDown:)]) {
-                [self.delegate didReleaseDown:_location];
+                [self.delegate didReleaseDown:__location];
             }
             break;
     }    
 }
 
-- (void)delegateSwipe:(CGPoint)_location withVelocity:(CGPoint)_velocity {
+- (void)delegateSwipe:(CGPoint)__location withVelocity:(CGPoint)__velocity {
     switch (self.dragDirection) {
         case DragDirectionRight:
             if ([self.delegate respondsToSelector:@selector(didSwipeRight:withVelocity:)]) {
-                [self.delegate didSwipeRight:_location withVelocity:_velocity];
+                [self.delegate didSwipeRight:__location withVelocity:__velocity];
             }
             break;
         case DragDirectionLeft:
             if ([self.delegate respondsToSelector:@selector(didSwipeLeft:withVelocity:)]) {
-                [self.delegate didSwipeLeft:_location withVelocity:_velocity];
+                [self.delegate didSwipeLeft:__location withVelocity:__velocity];
             }
             break;
         case DragDirectionUp:
             if ([self.delegate respondsToSelector:@selector(didSwipeUp:withVelocity:)]) {
-                [self.delegate didSwipeUp:_location withVelocity:_velocity];
+                [self.delegate didSwipeUp:__location withVelocity:__velocity];
             }
             break;
         case DragDirectionDown:
             if ([self.delegate respondsToSelector:@selector(didSwipeDown:withVelocity:)]) {
-                [self.delegate didSwipeDown:_location withVelocity:_velocity];
+                [self.delegate didSwipeDown:__location withVelocity:__velocity];
             }
             break;
     }    
 }
 
-- (void)delegateReachedMaxDrag:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {
+- (void)delegateReachedMaxDrag:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
     switch (self.dragDirection) {
         case DragDirectionRight:
             if ([self.delegate respondsToSelector:@selector(didReachMaxDragRight:from:withVelocity:)]) {
-                [self.delegate didReachMaxDragRight:_drag from:_location withVelocity:_velocity];
+                [self.delegate didReachMaxDragRight:__drag from:__location withVelocity:__velocity];
             }
             break;
         case DragDirectionLeft:
             if ([self.delegate respondsToSelector:@selector(didReachMaxDragLeft:from:withVelocity:)]) {
-                [self.delegate didReachMaxDragLeft:_drag from:_location withVelocity:_velocity];
+                [self.delegate didReachMaxDragLeft:__drag from:__location withVelocity:__velocity];
             }
             break;
         case DragDirectionUp:
             if ([self.delegate respondsToSelector:@selector(didReachMaxDragUp:from:withVelocity:)]) {
-                [self.delegate didReachMaxDragUp:_drag from:_location withVelocity:_velocity];
+                [self.delegate didReachMaxDragUp:__drag from:__location withVelocity:__velocity];
             }
             break;
         case DragDirectionDown:
             if ([self.delegate respondsToSelector:@selector(didReachMaxDragDown:from:withVelocity:)]) {
-                [self.delegate didReachMaxDragDown:_drag from:_location withVelocity:_velocity];
+                [self.delegate didReachMaxDragDown:__drag from:__location withVelocity:__velocity];
             }
             break;
     }    
 }
 
-- (CGPoint)dragDelta:(CGPoint)_touchPoint {
-    CGFloat deltaX = _touchPoint.x - self.lastTouch.x;
-    CGFloat deltaY = _touchPoint.y - self.lastTouch.y;
+- (CGPoint)dragDelta:(CGPoint)__touchPoint {
+    CGFloat deltaX = __touchPoint.x - self.lastTouch.x;
+    CGFloat deltaY = __touchPoint.y - self.lastTouch.y;
     return CGPointMake(deltaX, deltaY);
 }
 
-- (void)determineDragDirection:(CGPoint)_velocity {
-    if (abs(_velocity.x) > abs(_velocity.y) && _velocity.x < 0) {
+- (void)determineDragDirection:(CGPoint)__velocity {
+    if (abs(__velocity.x) > abs(__velocity.y) && __velocity.x < 0) {
         self.dragDirection = DragDirectionLeft;        
-    } else if (abs(_velocity.x) > abs(_velocity.y) && _velocity.x >= 0) {
+    } else if (abs(__velocity.x) > abs(__velocity.y) && __velocity.x >= 0) {
         self.dragDirection = DragDirectionRight;        
-    } else if (abs(_velocity.x) < abs(_velocity.y) && _velocity.y < 0) {
+    } else if (abs(__velocity.x) < abs(__velocity.y) && __velocity.y < 0) {
         self.dragDirection = DragDirectionUp;        
     } else {
         self.dragDirection = DragDirectionDown;                
     }
 }
 
-- (BOOL)detectedSwipe:(CGPoint)_velocity {
+- (BOOL)detectedSwipe:(CGPoint)__velocity {
     BOOL swipeDetected = NO;
     switch (self.dragDirection) {
         case DragDirectionRight:
-            if (_velocity.x > DETECT_SWIPE_SPEED) {
+            if (__velocity.x > DETECT_SWIPE_SPEED) {
                 swipeDetected = YES;
             }
             break;
         case DragDirectionLeft:
-            if (-_velocity.x > DETECT_SWIPE_SPEED) {
+            if (-__velocity.x > DETECT_SWIPE_SPEED) {
                 swipeDetected = YES;
             }
             break;
         case DragDirectionUp:
-            if (-_velocity.y > DETECT_SWIPE_SPEED) {
+            if (-__velocity.y > DETECT_SWIPE_SPEED) {
                 swipeDetected = YES;
             }
             break;
         case DragDirectionDown:
-            if (_velocity.y > DETECT_SWIPE_SPEED) {
+            if (__velocity.y > DETECT_SWIPE_SPEED) {
                 swipeDetected = YES;
             }
             break;
@@ -230,8 +256,8 @@
 #pragma mark -
 #pragma mark TransitionGestureRecognizer
 
-+ (id)initWithDelegate:(id<TransitionGestureRecognizerDelegate>)_delegate inView:(UIView*)_view relativeToView:(UIView*)_relativeView {
-    return [[self alloc] initWithDelegate:_delegate inView:_view relativeToView:(UIView*)_relativeView];
++ (id)initWithDelegate:(id<TransitionGestureRecognizerDelegate>)__delegate inView:(UIView*)__view relativeToView:(UIView*)__relativeView {
+    return [[self alloc] initWithDelegate:__delegate inView:__view relativeToView:(UIView*)__relativeView];
 }
 
 - (id)initWithDelegate:(id<TransitionGestureRecognizerDelegate>)__delegate inView:(UIView*)__view relativeToView:(UIView*)__relativeView {
@@ -251,8 +277,8 @@
     return self.gestureRecognizer.enabled;
 }
 
-- (void)enabled:(BOOL)_enabled {
-    self.gestureRecognizer.enabled = _enabled;
+- (void)enabled:(BOOL)__enabled {
+    self.gestureRecognizer.enabled = __enabled;
 }
 
 #pragma mark -

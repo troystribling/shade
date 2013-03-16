@@ -40,8 +40,6 @@
 
 @implementation StreamOfViews
 
-@synthesize delegate, transitionGestureRecognizer, streamOfViews, inViewIndex, notAnimating;
-
 #pragma mark -
 #pragma mark StreamOfViews (PrivatAPI)
 
@@ -197,15 +195,14 @@
     return [[StreamOfViews alloc] initWithFrame:_frame delegate:_delegate relativeToView:(UIView*)_relativeView];
 }
 
-- (id)initWithFrame:(CGRect)_frame delegate:(id<StreamOfViewsDelegate>)_delegate relativeToView:(UIView*)_relativeView {
-    if ((self = [super initWithFrame:_frame])) {
-        self.delegate = _delegate;
-        self.transitionGestureRecognizer = [TransitionGestureRecognizer initWithDelegate:self inView:self relativeToView:_relativeView];
+- (id)initWithFrame:(CGRect)__frame delegate:(id<StreamOfViewsDelegate>)__delegate relativeToView:(UIView*)__relativeView {
+    if ((self = [super initWithFrame:__frame])) {
+        self.delegate = __delegate;
+        self.transitionGestureRecognizer = [TransitionGestureRecognizer initWithDelegate:self inView:self relativeToView:__relativeView];
         self.streamOfViews = [NSMutableArray array];
         self.inViewIndex = 0;
         self.notAnimating = YES;
         self.backgroundColor = [UIColor blackColor];
-        [self addGestureRecognizer:[[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchCurrentView)]];
     }
     return self;
 }

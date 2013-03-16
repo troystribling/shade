@@ -21,6 +21,7 @@
 
 - (void)openShutter;
 - (void)closeShutter;
+- (void)animateShutterToAlpha:(float)__alpha onCompletion:(void(^)(void))__completion;
 - (void)openShutterOnStart;
 - (void)addCameraWithID:(CameraId)__cameraID;
 
@@ -31,32 +32,33 @@
 #pragma mark -
 #pragma mark FilteredCameraViewController PrivateAPI
 
-- (void)closeShutter {
-    self.shutterView.alpha = 0.0;
-    [self.view addSubview:self.shutterView];
+- (void)animateShutterToAlpha:(float)__alpha onCompletion:(void(^)(void))__completion {
     [UIView animateWithDuration:CAMERA_SHUTTER_TRANSITION
-        delay:0.0
-        options:UIViewAnimationOptionCurveEaseOut
-        animations:^{
-             self.shutterView.alpha = 1.0;
-        }
-        completion:^(BOOL _finished){
-        }
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.shutterView.alpha = __alpha;
+                     }
+                     completion:^(BOOL _finished){
+                         if (__completion) {
+                             __completion();
+                         }
+                     }
     ];
 }
 
-- (void)openShutter {
-    [UIView animateWithDuration:CAMERA_SHUTTER_TRANSITION 
-        delay:0.0 
-        options:UIViewAnimationOptionCurveEaseOut 
-        animations:^{
-            self.shutterView.alpha = 0.0;
-        }
-        completion:^(BOOL _finished) {
-           [self.shutterView removeFromSuperview];
-        }
-    ];
+- (void)closeShutter {
+    self.shutterView.alpha = 0.0;
+    [self.view addSubview:self.shutterView];
+    [self animateShutterToAlpha:1.0f onCompletion:nil];
 }
+
+- (void)openShutter {
+    [self animateShutterToAlpha:1.0f onCompletion:^{
+        [self.shutterView removeFromSuperview];
+    }];
+}
+
 - (void)openShutterOnStart {
     self.shutterView = [[UIImageView alloc] initWithFrame:self.view.frame];
     self.shutterView.backgroundColor = [UIColor blackColor];
@@ -76,7 +78,7 @@
 - (void)addCameraWithID:(CameraId)__cameraID {
     GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
     gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-    [self.camerasStreamView addViewToRight:gpuImageView];
+    [self.camerasCircleView addViewToTop:gpuImageView];
     [[CameraFactory instance] activateCameraWithId:__cameraID forView:gpuImageView];
 }
 
@@ -97,8 +99,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.camerasStreamView = [StreamOfViews withFrame:self.view.frame delegate:self relativeToView:self.containerView];
-    [self.view addSubview:self.camerasStreamView];
+    self.camerasCircleView = [CircleOfViews withFrame:self.view.frame delegate:self relativeToView:self.containerView];
+    [self.view addSubview:self.camerasCircleView];
     [self openShutterOnStart];
     self.displayedCameraId = [[CameraFactory instance] defaultCameraId];
     [self addCameraWithID:self.displayedCameraId];
@@ -133,7 +135,7 @@
 }
 
 #pragma mark -
-#pragma mark StreamOfViewsDelegate
+#pragma mark CircleOfViewsDelegate
 
 - (void)didDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
     [[ViewGeneral instance] dragCameraToInspectImage:__drag];

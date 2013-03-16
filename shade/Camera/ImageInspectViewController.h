@@ -7,17 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DiagonalGestureRecognizer.h"
-#import "StreamOfViews.h"
+#import "CircleOfViews.h"
 
 @class Capture;
 @class ImageEntryView;
  
-@interface ImageInspectViewController : UIViewController <UIImagePickerControllerDelegate, StreamOfViewsDelegate, DiagonalGestureRecognizerDelegate>
+@interface ImageInspectViewController : UIViewController <CircleOfViewsDelegate>
 
 @property(nonatomic, weak)   UIView                             *containerView;
-@property(nonatomic, strong) DiagonalGestureRecognizer          *diagonalGestures;
-@property(nonatomic, strong) StreamOfViews                      *entriesStreamView;
+@property(nonatomic, strong) CircleOfViews                      *entriesCircleView;
 @property(nonatomic, strong) ImageEntryView                     *displayedImageEntry;
 
 + (id)inView:(UIView*)__containerView;

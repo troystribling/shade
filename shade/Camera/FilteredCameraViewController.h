@@ -9,17 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "TransitionGestureRecognizer.h"
 #import "Camera+Extensions.h"
-#import "StreamOfViews.h"
+#import "CircleOfViews.h"
 
-@class StreamOfViews;
-
-@interface FilteredCameraViewController : UIViewController <TransitionGestureRecognizerDelegate, StreamOfViewsDelegate>
+@interface FilteredCameraViewController : UIViewController <TransitionGestureRecognizerDelegate, CircleOfViewsDelegate>
 
 @property(nonatomic, weak)      UIView*                                     containerView;
 @property(nonatomic, strong)    IBOutlet UIGestureRecognizer*               captureImageGesture;
 @property(nonatomic, strong)    UIView*                                     shutterView;
 @property(nonatomic, assign)    CameraId                                    displayedCameraId;
-@property(nonatomic, strong)    StreamOfViews                               *camerasStreamView;
+@property(nonatomic, strong)    CircleOfViews                               *camerasCircleView;
 
 
 + (id)inView:(UIView*)__containerView;

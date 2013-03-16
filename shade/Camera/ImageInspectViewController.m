@@ -39,11 +39,11 @@
 }
 
 - (void)addCapture:(Capture*)__capture andImage:(UIImage*)__image {
-    [self.entriesStreamView addViewToRight:[ImageEntryView withCapture:__capture andImage:__image]];
+    [self.entriesCircleView addViewToTop:[ImageEntryView withCapture:__capture andImage:__image]];
 }
 
 - (BOOL)hasCaptures {
-    return [self.entriesStreamView count] > 0;
+    return [self.entriesCircleView count] > 0;
 }
 
 #pragma mark -
@@ -79,11 +79,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.entriesStreamView = [StreamOfViews withFrame:self.view.frame delegate:self relativeToView:self.containerView];
-    self.diagonalGestures = [DiagonalGestureRecognizer initWithDelegate:self];
-    [self.entriesStreamView.transitionGestureRecognizer.gestureRecognizer requireGestureRecognizerToFail:self.diagonalGestures];
-    [self.view addGestureRecognizer:self.diagonalGestures];
-    [self.view addSubview:self.entriesStreamView];
+    self.entriesCircleView = [CircleOfViews withFrame:self.view.frame delegate:self relativeToView:self.containerView];
+    [self.view addSubview:self.entriesCircleView];
     [self loadCaptures];
 }
 
@@ -116,7 +113,7 @@
 }
 
 #pragma mark -
-#pragma mark StreamOfViewsDelegate
+#pragma mark CircleOfViewsDelegate
 
 - (void)didDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
     [[ViewGeneral instance] dragInspectImage:__drag];
@@ -148,25 +145,6 @@
 
 - (void)didRemoveAllViews {
     [[ViewGeneral instance] transitionInspectImageToCamera];
-}
-
-#pragma mark -
-#pragma mark DiagonalGestrureRecognizerDelegate
-
--(void)didCheck {
-    self.displayedImageEntry = (ImageEntryView*)[self.entriesStreamView displayedView];
-    [self.entriesStreamView moveDisplayedViewDownAndRemove];
-    [self saveDisplayedImageEntryToCameraRoll];
-}
-
--(void)didDiagonalSwipe {
-    ImageEntryView *entryView = (ImageEntryView*)[self.entriesStreamView displayedView];
-    [self.entriesStreamView moveDisplayedViewDiagonallyAndRemove];
-    ViewGeneral *viewGeneral = [ViewGeneral instance];
-    [viewGeneral showProgressViewWithMessage:@"Deleting"];
-    [viewGeneral deleteImageWithId:[entryView.capture imageID]];
-    [viewGeneral removeProgressView];
-    [entryView.capture destroy];
 }
 
 @end

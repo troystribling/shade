@@ -33,6 +33,7 @@
 		058E984616E5993F00C4DDFA /* WhiteColorOverlay.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 05AD716E16E32BCD00AAB7D9 /* WhiteColorOverlay.fsh */; };
 		058E985616E7043900C4DDFA /* ImageEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 058E985516E7043900C4DDFA /* ImageEntryView.m */; };
 		0590913016F19D2E006CA335 /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0590912F16F19D2E006CA335 /* Camera.m */; };
+		0595A12316F3F5C300FDE8D4 /* CircleOfViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A12216F3F5C300FDE8D4 /* CircleOfViews.m */; };
 		05AD715B16E32BBE00AAB7D9 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715616E32BBE00AAB7D9 /* DataManager.m */; };
 		05AD715C16E32BBE00AAB7D9 /* NSManagedObject+DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715816E32BBE00AAB7D9 /* NSManagedObject+DataManager.m */; };
 		05AD716F16E32BCD00AAB7D9 /* CameraFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716316E32BCD00AAB7D9 /* CameraFactory.m */; };
@@ -127,6 +128,8 @@
 		058E985516E7043900C4DDFA /* ImageEntryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageEntryView.m; sourceTree = "<group>"; };
 		0590912E16F19D2E006CA335 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		0590912F16F19D2E006CA335 /* Camera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Camera.m; sourceTree = "<group>"; };
+		0595A12116F3F5C300FDE8D4 /* CircleOfViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleOfViews.h; sourceTree = "<group>"; };
+		0595A12216F3F5C300FDE8D4 /* CircleOfViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleOfViews.m; sourceTree = "<group>"; };
 		05AD715516E32BBE00AAB7D9 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
 		05AD715616E32BBE00AAB7D9 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
 		05AD715716E32BBE00AAB7D9 /* NSManagedObject+DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+DataManager.h"; sourceTree = "<group>"; };
@@ -387,6 +390,8 @@
 				05AD719516E336DF00AAB7D9 /* StreamOfViews.m */,
 				05AD719616E336DF00AAB7D9 /* TransitionGestureRecognizer.h */,
 				05AD719716E336DF00AAB7D9 /* TransitionGestureRecognizer.m */,
+				0595A12116F3F5C300FDE8D4 /* CircleOfViews.h */,
+				0595A12216F3F5C300FDE8D4 /* CircleOfViews.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -545,6 +550,7 @@
 				058E985616E7043900C4DDFA /* ImageEntryView.m in Sources */,
 				058D052416EBDCB8000506D7 /* Capture.m in Sources */,
 				0590913016F19D2E006CA335 /* Camera.m in Sources */,
+				0595A12316F3F5C300FDE8D4 /* CircleOfViews.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

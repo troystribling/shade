@@ -29,10 +29,10 @@ typedef enum {
 @property (nonatomic, assign) DragDirection                             dragDirection;
 @property (nonatomic, assign) BOOL                                      acceptTouches;
 
-+ (id)initWithDelegate:(id<TransitionGestureRecognizerDelegate>)_delegate inView:(UIView*)_view relativeToView:(UIView*)_relativeView;
-- (id)initWithDelegate:(id<TransitionGestureRecognizerDelegate>)_delegate inView:(UIView*)_view relativeToView:(UIView*)_relativeView;
++ (id)initWithDelegate:(id<TransitionGestureRecognizerDelegate>)_delegate inView:(UIView*)__view relativeToView:(UIView*)__relativeView;
+- (id)initWithDelegate:(id<TransitionGestureRecognizerDelegate>)__delegate inView:(UIView*)__view relativeToView:(UIView*)__relativeView;
 - (BOOL)enabled;
-- (void)enabled:(BOOL)_enabled;
+- (void)enabled:(BOOL)__enabled;
 
 @end
 
@@ -41,25 +41,30 @@ typedef enum {
 
 @optional
 
-- (void)didDragRight:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity;
-- (void)didDragLeft:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity;
-- (void)didDragUp:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity;
-- (void)didDragDown:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity;
+- (void)didDragRight:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity;
+- (void)didDragLeft:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity;
+- (void)didDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity;
+- (void)didDragDown:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity;
 
-- (void)didReleaseRight:(CGPoint)_location;
-- (void)didReleaseLeft:(CGPoint)_location;
-- (void)didReleaseUp:(CGPoint)_location;
-- (void)didReleaseDown:(CGPoint)_location;
+- (void)didStartDraggingRight:(CGPoint)__location;
+- (void)didStartDraggingLeft:(CGPoint)__location;
+- (void)didStartDraggingUp:(CGPoint)__location;
+- (void)didStartDraggingDown:(CGPoint)__location;
 
-- (void)didSwipeRight:(CGPoint)_location withVelocity:(CGPoint)_velocity;
-- (void)didSwipeLeft:(CGPoint)_location withVelocity:(CGPoint)_velocity;
-- (void)didSwipeUp:(CGPoint)_location withVelocity:(CGPoint)_velocity;
-- (void)didSwipeDown:(CGPoint)_location withVelocity:(CGPoint)_velocity;
+- (void)didReleaseRight:(CGPoint)__location;
+- (void)didReleaseLeft:(CGPoint)__location;
+- (void)didReleaseUp:(CGPoint)__location;
+- (void)didReleaseDown:(CGPoint)__location;
 
-- (void)didReachMaxDragRight:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity;
-- (void)didReachMaxDragLeft:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity;
-- (void)didReachMaxDragUp:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity;
-- (void)didReachMaxDragDown:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity;
+- (void)didSwipeRight:(CGPoint)__location withVelocity:(CGPoint)__velocity;
+- (void)didSwipeLeft:(CGPoint)__location withVelocity:(CGPoint)__velocity;
+- (void)didSwipeUp:(CGPoint)__location withVelocity:(CGPoint)__velocity;
+- (void)didSwipeDown:(CGPoint)__location withVelocity:(CGPoint)__velocity;
+
+- (void)didReachMaxDragRight:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity;
+- (void)didReachMaxDragLeft:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity;
+- (void)didReachMaxDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity;
+- (void)didReachMaxDragDown:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity;
 
 
 @end
