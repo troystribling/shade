@@ -24,6 +24,7 @@
 - (id)initWithFrame:(CGRect)__frame delegate:(id<CircleOfViewsDelegate>)__delegate relativeToView:(UIView*)__relativeView;
 - (void)addViewToTop:(UIView*)__view;
 - (void)addViewToBottom:(UIView*)__view;
+- (void)removeView:(UIView*)__view;
 - (void)insertViewBelowTopView:(UIView*)__view;
 - (UIView*)displayedView;
 - (void)moveDisplayedViewDownAndRemove;

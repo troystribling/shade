@@ -87,7 +87,7 @@ static CameraFactory* thisCameraFactory = nil;
     [stillCamera capturePhotoAsPNGProcessedUpToFilter:camerFilter.filter withCompletionHandler:__completionHandler];
 }
 
-- (void)deactivateStillCameraForCameraWithId:(CameraId)__cameraId {
+- (void)deactivatCameraWithId:(CameraId)__cameraId {
     GPUImageStillCamera *stillCamera = [self stillCameraForCameraId:__cameraId];
     CameraFilter *cameraFilter = [self.cameraFilters objectAtIndex:__cameraId];
     if (stillCamera) {
@@ -107,6 +107,22 @@ static CameraFactory* thisCameraFactory = nil;
 
 - (CameraId)defaultCameraId {
     return CameraIdIPhone;
+}
+
+- (CameraId)nextRightCameraIdRelativeTo:(CameraId)__cameraId {
+    CameraId nextId = __cameraId - 1;
+    if (__cameraId == 0) {
+        nextId = [self.loadedCameras count] - 1;
+    }
+    return nextId;
+}
+
+- (CameraId)nextLeftCameraIdRelativeTo:(CameraId)__cameraId {
+    CameraId nextId = __cameraId + 1;
+    if (nextId > [self.loadedCameras count] - 1) {
+        nextId = 0;
+    }
+    return nextId;
 }
 
 @end

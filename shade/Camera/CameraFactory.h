@@ -22,10 +22,12 @@
 
 + (CameraFactory*)instance;
 - (void)activateCameraWithId:(CameraId)__cameraId forView:(GPUImageView*)__imageView;
+- (void)deactivatCameraWithId:(CameraId)__cameraId;
 - (void)setParameterValue:(NSNumber*)__value forCameraWithId:(CameraId)__cameraId;
 - (void)captureStillImageForCameraWithId:(CameraId)__cameraId onCompletion:(void(^)(NSData* imageData, NSError* error))__completionHandler;
-- (void)deactivateStillCameraForCameraWithId:(CameraId)__cameraId;
 - (void)rotateCameraWithCameraId:(CameraId)__cameraId;
 - (CameraId)defaultCameraId;
+- (CameraId)nextRightCameraIdRelativeTo:(CameraId)__cameraId;
+- (CameraId)nextLeftCameraIdRelativeTo:(CameraId)__cameraId;
 
 @end

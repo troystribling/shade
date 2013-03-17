@@ -78,7 +78,12 @@
 - (void)addCameraWithID:(CameraId)__cameraID {
     GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
     gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-    [self.camerasCircleView addViewToTop:gpuImageView];
+    if ([self.camerasCircleView count] == 0) {
+        [self.camerasCircleView addViewToTop:gpuImageView];
+    } else {
+        [self.camerasCircleView addViewToBottom:gpuImageView];
+        [self.camerasCircleView insertViewBelowTopView:gpuImageView];
+    }
     [[CameraFactory instance] activateCameraWithId:__cameraID forView:gpuImageView];
 }
 
@@ -169,6 +174,20 @@
 
 - (void)didRemoveAllViews {
     [[ViewGeneral instance] transitionInspectImageToCamera];
+}
+
+- (void)didStartDraggingRight:(CGPoint)__location {
+    [self addCameraWithID:[[CameraFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId]];
+}
+
+- (void)didStartDraggingLeft:(CGPoint)__location {
+    [self addCameraWithID:[[CameraFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId]];
+}
+
+- (void)didMoveLeft {
+}
+
+- (void)didMoveRight {
 }
 
 @end

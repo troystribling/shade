@@ -70,6 +70,10 @@
     [self.circleOfViews addObject:__view];
 }
 
+- (void)removeView:(UIView*)__view {
+    [self.circleOfViews removeObject:__view];
+}
+
 - (void)insertViewBelowTopView:(UIView*)__view {
     [self insertSubview:__view belowSubview:[self displayedView]];
 }
@@ -152,7 +156,7 @@
 - (void)moveViewsLeft {
     if (([self canMove] && self.notAnimating)) {
         self.notAnimating = NO;
-        [self.transitionGestureRecognizer enabled:NO];
+        [self enabled:NO];
         [UIView animateWithDuration:[self horizontalTransitionDuration]
                               delay:0
                             options:UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionAllowUserInteraction
@@ -167,7 +171,7 @@
                                  [self.delegate didMoveLeft];
                              }
                              self.notAnimating = YES;
-                             [self.transitionGestureRecognizer enabled:YES];
+                             [self enabled:YES];
                          }
          ];
     }
@@ -176,7 +180,7 @@
 - (void)moveViewsRight {    
     if (([self canMove] && self.notAnimating)) {
         self.notAnimating = NO;
-        [self.transitionGestureRecognizer enabled:NO];
+        [self enabled:NO];
         [UIView animateWithDuration:[self horizontalTransitionDuration]
                               delay:0
                             options:UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionAllowUserInteraction
@@ -191,7 +195,7 @@
                                  [self.delegate didMoveRight];
                              }
                              self.notAnimating = YES;
-                             [self.transitionGestureRecognizer enabled:YES];
+                             [self enabled:YES];
                          }
          ];
     }
