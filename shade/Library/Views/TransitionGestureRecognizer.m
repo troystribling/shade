@@ -9,7 +9,7 @@
 #import "TransitionGestureRecognizer.h"
 
 #define DETECT_SWIPE_SPEED      400
-#define MAX_DRAG_FACTOR         0.3f
+#define MAX_DRAG_FACTOR         0.4f
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TransitionGestureRecognizer ()

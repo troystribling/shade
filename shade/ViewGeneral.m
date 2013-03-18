@@ -154,7 +154,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 }
 
 - (void)writeImage:(UIImage*)__image withId:(NSString*)__fileId {
-    dispatch_queue_t saveImageQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);;
+    dispatch_queue_t saveImageQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(saveImageQueue, ^{
         NSData* image = UIImagePNGRepresentation(__image);
         [image writeToFile:[self.class imageFilenameForID:__fileId] atomically:YES];

@@ -8,10 +8,9 @@
 
 #import "CircleOfViews.h"
 
-#define HORIZONTAL_TRANSITION_ANIMATION_SPEED           750.0f
+#define HORIZONTAL_TRANSITION_ANIMATION_SPEED           1000.0f
 #define FADE_TRANSITION_DURATUION                       0.5f
-#define RELEASE_ANIMATION_SPEED                         400.0f
-#define VIEW_MIN_SPACING                                25
+#define RELEASE_ANIMATION_SPEED                         800.0f
 #define REMOVE_DISPLAYED_VIEW_DOWN_DURATION             0.5
 
 @interface CircleOfViews ()
@@ -20,7 +19,7 @@
 - (CGRect)rightOfWindowRect;
 - (CGRect)leftOfWindowRect;
 - (void)dragView:(CGPoint)_drag;
-- (void)releaseView:(CGFloat)_duration;
+- (void)releaseView:(CGFloat)_duration onCompletion:(void(^)(void))__completetion;
 - (BOOL)canMove;
 - (CGFloat)horizontalReleaseDuration;
 - (CGFloat)horizontalTransitionDuration;
@@ -56,18 +55,16 @@
     return self;
 }
 
-- (void)addViewToTop:(UIView*)__view {
-    if ([self count] > 0) {
-        [[self displayedView] removeFromSuperview];
-    }
+- (void)addView:(UIView*)__view {
     __view.frame = self.frame;
-    [self addSubview:__view];
-    [self.circleOfViews insertObject:__view atIndex:0];
+    if ([self count] == 0) {
+        [self addSubview:__view];
+    }
+    [self.circleOfViews addObject:__view];
 }
 
-- (void)addViewToBottom:(UIView*)__view {
-    __view.frame = self.frame;
-    [self.circleOfViews addObject:__view];
+- (BOOL)hasView:(UIView*)__view {
+    return [self.circleOfViews containsObject:__view];
 }
 
 - (void)removeView:(UIView*)__view {
@@ -119,7 +116,7 @@
     }
 }
 
-- (void)releaseView:(CGFloat)_duration {
+- (void)releaseView:(CGFloat)_duration onCompletion:(void(^)(void))__completetion {
     if (self.notAnimating) {
         self.notAnimating = NO;
         [UIView animateWithDuration:_duration
@@ -129,6 +126,7 @@
                              [self displayedView].frame = [self inWindowRect];
                          }
                          completion:^(BOOL _finished){
+                             __completetion();
                              self.notAnimating = YES;
                          }
          ];
@@ -166,7 +164,7 @@
                          completion:^(BOOL _finished) {
                              [[self displayedView] removeFromSuperview];
                              [self displayedView].frame = [self inWindowRect];
-                             self.inViewIndex = [self nextLeftIndex];
+                             self.inViewIndex = [self nextRightIndex];
                              if ([self.delegate respondsToSelector:@selector(didMoveLeft)]) {
                                  [self.delegate didMoveLeft];
                              }
@@ -190,8 +188,8 @@
                          completion:^(BOOL _finished) {
                              [[self displayedView] removeFromSuperview];
                              [self displayedView].frame = [self inWindowRect];
-                             self.inViewIndex = [self nextRightIndex];
-                             if ([self.delegate respondsToSelector:@selector(didMoveLeft)]) {
+                             self.inViewIndex = [self nextLeftIndex];
+                             if ([self.delegate respondsToSelector:@selector(didMoveRight)]) {
                                  [self.delegate didMoveRight];
                              }
                              self.notAnimating = YES;
@@ -202,17 +200,17 @@
 }
 
 - (NSInteger)nextRightIndex {
-    NSInteger nextIndex = self.inViewIndex - 1;
-    if (nextIndex < 0) {
-        nextIndex = [self.circleOfViews count] - 1;
+    NSInteger nextIndex = self.inViewIndex + 1;
+    if (nextIndex > [self.circleOfViews count] - 1) {
+        nextIndex = 0;
     }
     return nextIndex;
 }
 
 - (NSInteger)nextLeftIndex {
-    NSInteger nextIndex = self.inViewIndex + 1;
-    if (nextIndex > [self.circleOfViews count] - 1) {
-        nextIndex = 0;
+    NSInteger nextIndex = self.inViewIndex - 1;
+    if (nextIndex < 0) {
+        nextIndex = [self.circleOfViews count] - 1;
     }
     return nextIndex;
 }
@@ -232,12 +230,11 @@
 #pragma Right Gestures
 
 - (void)didStartDraggingRight:(CGPoint)__location {
-    if ([self.circleOfViews count] == 1) {
-        if ([self.delegate respondsToSelector:@selector(didStartDraggingRight:)]) {
-            [self.delegate didStartDraggingRight:__location];
-        }
-    } else {
+    if ([self.circleOfViews count] > 1) {
         [self insertViewBelowTopView:[self nextLeftView]];
+    }
+    if ([self.delegate respondsToSelector:@selector(didStartDraggingRight:)]) {
+        [self.delegate didStartDraggingRight:__location];
     }
 }
 
@@ -246,14 +243,22 @@
 }
 
 - (void)didReleaseRight:(CGPoint)_location {
-    [self releaseView:[self horizontalReleaseDuration]];
+    [self releaseView:[self horizontalReleaseDuration] onCompletion:^{
+        if ([self.delegate respondsToSelector:@selector(didReleaseRight)]) {
+            [self.delegate didReleaseRight];
+        }
+    }];
 }
 
 - (void)didReachMaxDragRight:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {
     if ([self canMove]) {
         [self moveViewsRight];
     } else {
-        [self releaseView:[self horizontalReleaseDuration]];
+        [self releaseView:[self horizontalReleaseDuration] onCompletion:^{
+            if ([self.delegate respondsToSelector:@selector(didReleaseRight)]) {
+                [self.delegate didReleaseRight];
+            }
+        }];
     }
 }
 
@@ -265,12 +270,11 @@
 #pragma Left Gestures
 
 - (void)didStartDraggingLeft:(CGPoint)__location {
-    if ([self.circleOfViews count] == 1) {
-        if ([self.delegate respondsToSelector:@selector(didStartDraggingLeft:)]) {
-            [self.delegate didStartDraggingLeft:__location];
-        }
-    } else {
+    if ([self.circleOfViews count] > 1) {
         [self insertViewBelowTopView:[self nextRightView]];
+    }
+    if ([self.delegate respondsToSelector:@selector(didStartDraggingLeft:)]) {
+        [self.delegate didStartDraggingLeft:__location];
     }
 }
 
@@ -279,14 +283,22 @@
 }
 
 - (void)didReleaseLeft:(CGPoint)_location {
-    [self releaseView:[self horizontalReleaseDuration]];
+    [self releaseView:[self horizontalReleaseDuration] onCompletion:^{
+        if ([self.delegate respondsToSelector:@selector(didReleaseLeft)]) {
+            [self.delegate didReleaseLeft];
+        }
+    }];
 }
 
 - (void)didReachMaxDragLeft:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {
     if ([self canMove]) {
         [self moveViewsLeft];
     } else {
-        [self releaseView:[self horizontalReleaseDuration]];
+        [self releaseView:[self horizontalReleaseDuration] onCompletion:^{
+            if ([self.delegate respondsToSelector:@selector(didReleaseLeft)]) {
+                [self.delegate didReleaseLeft];
+            }
+        }];
     }
 }
 
@@ -294,7 +306,6 @@
 - (void)didSwipeLeft:(CGPoint)_location withVelocity:(CGPoint)_velocity {
     [self moveViewsLeft];
 }
-
 
 #pragma mark -
 #pragma Up Gestures

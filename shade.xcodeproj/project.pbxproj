@@ -378,6 +378,8 @@
 		05AD718B16E336DF00AAB7D9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0595A12116F3F5C300FDE8D4 /* CircleOfViews.h */,
+				0595A12216F3F5C300FDE8D4 /* CircleOfViews.m */,
 				05AD718C16E336DF00AAB7D9 /* DiagonalGestureRecognizer.h */,
 				05AD718D16E336DF00AAB7D9 /* DiagonalGestureRecognizer.m */,
 				05AD718E16E336DF00AAB7D9 /* ParameterSliderView.h */,
@@ -390,8 +392,6 @@
 				05AD719516E336DF00AAB7D9 /* StreamOfViews.m */,
 				05AD719616E336DF00AAB7D9 /* TransitionGestureRecognizer.h */,
 				05AD719716E336DF00AAB7D9 /* TransitionGestureRecognizer.m */,
-				0595A12116F3F5C300FDE8D4 /* CircleOfViews.h */,
-				0595A12216F3F5C300FDE8D4 /* CircleOfViews.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";

@@ -23,7 +23,9 @@
 - (void)closeShutter;
 - (void)animateShutterToAlpha:(float)__alpha onCompletion:(void(^)(void))__completion;
 - (void)openShutterOnStart;
-- (void)addCameraWithID:(CameraId)__cameraID;
+- (void)addCameraWithId:(CameraId)__cameraId;
+- (void)startCameraWithId:(CameraId)__cameraId;
+- (BOOL)hasCamera:(CameraId)__cameraId;
 
 @end
 
@@ -75,16 +77,29 @@
     ];
 }
 
-- (void)addCameraWithID:(CameraId)__cameraID {
-    GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
-    gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-    if ([self.camerasCircleView count] == 0) {
-        [self.camerasCircleView addViewToTop:gpuImageView];
-    } else {
-        [self.camerasCircleView addViewToBottom:gpuImageView];
-        [self.camerasCircleView insertViewBelowTopView:gpuImageView];
+- (void)addCameraWithId:(CameraId)__cameraId {
+    if (![self hasCamera:__cameraId]) {
+        [self.cameraIds addObject:[NSNumber numberWithInt:__cameraId]];
+        GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
+        gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
+        if ([self.camerasCircleView count] == 0) {
+            [self.camerasCircleView addView:gpuImageView];
+        } else {
+            [self.camerasCircleView addView:gpuImageView];
+            [self.camerasCircleView insertViewBelowTopView:gpuImageView];
+        }
+        [[CameraFactory instance] activateCameraWithId:__cameraId forView:gpuImageView];
     }
-    [[CameraFactory instance] activateCameraWithId:__cameraID forView:gpuImageView];
+}
+
+- (void)startCameraWithId:(CameraId)__cameraId {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        [[CameraFactory instance] startCameraWithId:__cameraId];
+    });
+}
+
+- (BOOL)hasCamera:(CameraId)__cameraId {
+    return [self.cameraIds containsObject:[NSNumber numberWithInt:__cameraId]];
 }
 
 #pragma mark -
@@ -98,6 +113,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.containerView = __containerView;
+        self.cameraIds = [NSMutableArray array];
     }
     return self;
 }
@@ -108,7 +124,8 @@
     [self.view addSubview:self.camerasCircleView];
     [self openShutterOnStart];
     self.displayedCameraId = [[CameraFactory instance] defaultCameraId];
-    [self addCameraWithID:self.displayedCameraId];
+    [self addCameraWithId:self.displayedCameraId];
+    [self startCameraWithId:self.displayedCameraId];
 }
 
 - (void)viewDidUnload {
@@ -177,17 +194,37 @@
 }
 
 - (void)didStartDraggingRight:(CGPoint)__location {
-    [self addCameraWithID:[[CameraFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId]];
+    CameraId cameraId = [[CameraFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
+    [self addCameraWithId:cameraId];
+    [self startCameraWithId:cameraId];
 }
 
 - (void)didStartDraggingLeft:(CGPoint)__location {
-    [self addCameraWithID:[[CameraFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId]];
-}
-
-- (void)didMoveLeft {
+    CameraId cameraId = [[CameraFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
+    [self addCameraWithId:cameraId];
+    [self startCameraWithId:cameraId];
 }
 
 - (void)didMoveRight {
+    CameraFactory *camerFactory = [CameraFactory instance];
+    [camerFactory stopCameraWithId:self.displayedCameraId];
+    self.displayedCameraId = [camerFactory nextRightCameraIdRelativeTo:self.displayedCameraId];
+}
+
+- (void)didMoveLeft {
+    CameraFactory *camerFactory = [CameraFactory instance];
+    [camerFactory stopCameraWithId:self.displayedCameraId];
+    self.displayedCameraId = [camerFactory nextLeftCameraIdRelativeTo:self.displayedCameraId];
+}
+
+- (void)didReleaseRight {
+    CameraFactory *camerFactory = [CameraFactory instance];
+    [camerFactory stopCameraWithId:[camerFactory nextRightCameraIdRelativeTo:self.displayedCameraId]];
+}
+
+- (void)didReleaseLeft {
+    CameraFactory *camerFactory = [CameraFactory instance];
+    [camerFactory stopCameraWithId:[camerFactory nextLeftCameraIdRelativeTo:self.displayedCameraId]];
 }
 
 @end

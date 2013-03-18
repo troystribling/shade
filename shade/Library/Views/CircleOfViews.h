@@ -22,8 +22,8 @@
 
 + (id)withFrame:(CGRect)__frame delegate:(id<CircleOfViewsDelegate>)__delegate relativeToView:(UIView*)__relativeView;
 - (id)initWithFrame:(CGRect)__frame delegate:(id<CircleOfViewsDelegate>)__delegate relativeToView:(UIView*)__relativeView;
-- (void)addViewToTop:(UIView*)__view;
-- (void)addViewToBottom:(UIView*)__view;
+- (void)addView:(UIView*)__view;
+- (BOOL)hasView:(UIView*)__view;
 - (void)removeView:(UIView*)__view;
 - (void)insertViewBelowTopView:(UIView*)__view;
 - (UIView*)displayedView;
@@ -56,7 +56,9 @@
 - (void)didStartDraggingLeft:(CGPoint)__location;
 
 - (void)didMoveLeft;
+- (void)didReleaseLeft;
 - (void)didMoveRight;
+- (void)didReleaseRight;
 - (void)didRemoveAllViews;
 
 @end

@@ -17,6 +17,7 @@
 @property(nonatomic, strong)    IBOutlet UIGestureRecognizer*               captureImageGesture;
 @property(nonatomic, strong)    UIView*                                     shutterView;
 @property(nonatomic, assign)    CameraId                                    displayedCameraId;
+@property(nonatomic, strong)    NSMutableArray                              *cameraIds;
 @property(nonatomic, strong)    CircleOfViews                               *camerasCircleView;
 
 

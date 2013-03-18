@@ -39,7 +39,7 @@
 }
 
 - (void)addCapture:(Capture*)__capture andImage:(UIImage*)__image {
-    [self.entriesCircleView addViewToTop:[ImageEntryView withCapture:__capture andImage:__image]];
+    [self.entriesCircleView addView:[ImageEntryView withCapture:__capture andImage:__image]];
 }
 
 - (BOOL)hasCaptures {
