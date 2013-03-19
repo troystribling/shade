@@ -12,6 +12,7 @@
 
 @interface Capture (Extensions)
 
++ (UIImage*)scaleImage:(UIImage*)__image toFrame:(CGRect)__frame;
 - (NSString*)imageID;
 
 @end

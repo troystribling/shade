@@ -160,10 +160,10 @@
 #pragma mark CircleOfViewsDelegate
 
 - (void)didDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
-    [[ViewGeneral instance] dragCameraToInspectImage:__drag];
 }
 
 - (void)didDragDown:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    [[ViewGeneral instance] dragCameraToInspectImage:__drag];
 }
 
 - (void)didReleaseUp:(CGPoint)_location {

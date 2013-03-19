@@ -350,8 +350,8 @@
 }
 
 - (void)didDragDown:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {
-    if ([self.delegate respondsToSelector:@selector(didStartDraggingDown:)]) {
-        [self.delegate didStartDraggingDown:_location];
+    if ([self.delegate respondsToSelector:@selector(didDragDown:from:withVelocity:)]) {
+        [self.delegate didDragDown:_drag from:_location withVelocity:_velocity];
     }
 }
 
