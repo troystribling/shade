@@ -149,15 +149,14 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     [self createCameraView:__view];
 }
 
-- (void)addCapture:(Capture*)__capture andImage:(UIImage *)__image {
-    [self.imageInspectViewController addCapture:__capture andImage:__image];
+- (void)addCapture:(Capture*)__capture andImageData:(NSData *)__imageData {
+    [self.imageInspectViewController addCapture:__capture andImageData:__imageData];
 }
 
-- (void)writeImage:(UIImage*)__image withId:(NSString*)__fileId {
+- (void)writeImage:(NSData*)__image withId:(NSString*)__fileId {
     dispatch_queue_t saveImageQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(saveImageQueue, ^{
-        NSData* image = UIImagePNGRepresentation(__image);
-        [image writeToFile:[self.class imageFilenameForID:__fileId] atomically:YES];
+        [__image writeToFile:[self.class imageFilenameForID:__fileId] atomically:YES];
     });
 }
 

@@ -23,8 +23,8 @@
     return  [[ImageEntryView alloc] initWithCapture:__capture andImage:__image];
 }
 
-+ (id)withFrame:(CGRect)__frame capture:(Capture*)__capture andImage:(UIImage*)__image {
-    return [[ImageEntryView alloc] initWithFrame:__frame capture:__capture andImage:__image];
++ (id)withFrame:(CGRect)__frame capture:(Capture*)__capture andImageData:(NSData*)__imageData {
+    return [[ImageEntryView alloc] initWithFrame:__frame capture:__capture andImageData:__imageData];
 }
 
 - (id)initWithCapture:(Capture*)__capture andImage:(UIImage*)__image {
@@ -37,13 +37,14 @@
     return self;
 }
 
-- (id)initWithFrame:(CGRect)__frame capture:(Capture*)__capture andImage:(UIImage*)__image {
+- (id)initWithFrame:(CGRect)__frame capture:(Capture*)__capture andImageData:(NSData*)__imageData {
     self = [super initWithFrame:__frame];
     if (self) {
         self.capture = __capture;
         self.contentMode = UIViewContentModeCenter;
         self.clipsToBounds = YES;
-        self.image = [UIImage imageWithCGImage:[self scaleImage:__image].CGImage scale:[[UIScreen mainScreen] scale] orientation:__image.imageOrientation];
+        UIImage *imageFromData = [[UIImage alloc] initWithData:__imageData];
+        self.image = [UIImage imageWithCGImage:imageFromData.CGImage scale:[[UIScreen mainScreen] scale] orientation:imageFromData.imageOrientation];
     }
     return self;
 }
