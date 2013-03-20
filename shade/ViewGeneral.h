@@ -37,6 +37,7 @@
 
 - (void)createViews:(UIView*)__containerView;
 - (void)addCapture:(Capture*)__capture andImageData:(NSData*)__imageData;
+- (void)addCapture:(Capture*)__capture andImage:(UIImage*)__image;
 - (void)writeImage:(NSData*)__image withId:(NSString*)__fileId;
 - (UIImage*)readImageWithId:(NSString*)__fileId;
 - (void)deleteImageWithId:(NSString*)__fileId;

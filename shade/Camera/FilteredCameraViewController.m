@@ -147,7 +147,9 @@
             Capture *capture = [Capture create];
             [capture save];
             ViewGeneral *viewGeneral = [ViewGeneral instance];
-            [viewGeneral addCapture:capture andImageData:imageData];
+            UIImage *image = [[UIImage alloc] initWithData:imageData];
+            UIImage *scaledImage = [UIImage imageWithCGImage:image.CGImage scale:[[UIScreen mainScreen] scale] orientation:image.imageOrientation];
+            [viewGeneral addCapture:capture andImage:scaledImage];
             [viewGeneral writeImage:imageData withId:[capture imageID]];
         }
         self.captureImageGesture.enabled = YES;

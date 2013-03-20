@@ -153,6 +153,10 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     [self.imageInspectViewController addCapture:__capture andImageData:__imageData];
 }
 
+- (void)addCapture:(Capture*)__capture andImage:(UIImage*)__image {
+    [self.imageInspectViewController addCapture:__capture andImage:__image];
+}
+
 - (void)writeImage:(NSData*)__image withId:(NSString*)__fileId {
     dispatch_queue_t saveImageQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(saveImageQueue, ^{
