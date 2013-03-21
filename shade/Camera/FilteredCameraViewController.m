@@ -26,6 +26,7 @@
 - (void)addCameraWithId:(CameraId)__cameraId;
 - (void)startCameraWithId:(CameraId)__cameraId;
 - (BOOL)hasCamera:(CameraId)__cameraId;
+- (void)didCapture:(NSNotification*)__notification;
 
 @end
 
@@ -102,6 +103,16 @@
     return [self.cameraIds containsObject:[NSNumber numberWithInt:__cameraId]];
 }
 
+- (void)didCapture:(NSNotification*)__notification {
+    [[DataManager instance] performInBackground:^(NSManagedObjectContext *context) {
+        sleep(10.0);
+        NSManagedObjectID *captureId = [[__notification userInfo] objectForKey:@"captureId"];
+        Capture *capture = [Capture findWithID:captureId];
+        UIImage *image = [[ViewGeneral instance] readImageWithId:[capture imageID]];
+        [[ViewGeneral instance] addCapture:capture andImage:image];
+    }];
+}
+
 #pragma mark -
 #pragma mark FilteredCameraViewController
 
@@ -126,6 +137,10 @@
     self.displayedCameraId = [[CameraFactory instance] defaultCameraId];
     [self addCameraWithId:self.displayedCameraId];
     [self startCameraWithId:self.displayedCameraId];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didCapture:)
+                                                 name:@"Capture"
+                                               object:self];
 }
 
 - (void)viewDidUnload {
@@ -144,13 +159,15 @@
             [ViewGeneral alertOnError:error];
         }
         else {
-            Capture *capture = [Capture create];
-            [capture save];
-            ViewGeneral *viewGeneral = [ViewGeneral instance];
-            UIImage *image = [[UIImage alloc] initWithData:imageData];
-            UIImage *scaledImage = [UIImage imageWithCGImage:image.CGImage scale:[[UIScreen mainScreen] scale] orientation:image.imageOrientation];
-            [viewGeneral addCapture:capture andImage:scaledImage];
-            [viewGeneral writeImage:imageData withId:[capture imageID]];
+            [[DataManager instance] performInBackground:^(NSManagedObjectContext *context) {
+                Capture *capture = [Capture createInContext:context];
+                [capture save];
+                ViewGeneral *viewGeneral = [ViewGeneral instance];
+                [viewGeneral writeImage:imageData withId:[capture imageID]];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"Capture"
+                                                                    object:self
+                                                                  userInfo:@{@"captureId" : capture.objectID}];
+            }];
         }
         self.captureImageGesture.enabled = YES;
         [self openShutter];
