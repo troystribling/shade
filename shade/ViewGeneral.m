@@ -157,10 +157,13 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     [self.imageInspectViewController addCapture:__capture andImage:__image];
 }
 
-- (void)writeImage:(NSData*)__image withId:(NSString*)__fileId {
+- (void)writeImage:(NSData*)__image withId:(NSString*)__fileId  onCompletion:(void(^)(BOOL __status))__completion {
     dispatch_queue_t saveImageQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(saveImageQueue, ^{
-        [__image writeToFile:[self.class imageFilenameForID:__fileId] atomically:YES];
+        BOOL status = [__image writeToFile:[self.class imageFilenameForID:__fileId] atomically:YES];
+        if (__completion) {
+            __completion(status);
+        }
     });
 }
 

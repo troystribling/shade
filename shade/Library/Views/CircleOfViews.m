@@ -30,6 +30,10 @@
 - (NSInteger)nextLeftIndex;
 - (UIView*)nextRightView;
 - (UIView*)nextLeftView;
+- (UIView*)nextLastRightView;
+- (UIView*)nextLastLeftView;
+- (void)insertViewAtBottomFromRight:(UIView*)__view;
+- (void)insertViewAtBottomFromLeft:(UIView*)__view;
 
 @end
 
@@ -59,6 +63,8 @@
     __view.frame = self.frame;
     if ([self count] == 0) {
         [self addSubview:__view];
+    } else {
+        [self insertViewAtBottomFromRight:__view];
     }
     [self.circleOfViews addObject:__view];
 }
@@ -162,8 +168,10 @@
                              [self displayedView].frame = [self leftOfWindowRect];
                          }
                          completion:^(BOOL _finished) {
-                             [[self displayedView] removeFromSuperview];
-                             [self displayedView].frame = [self inWindowRect];
+                             UIView *theView = [self displayedView];
+                             [theView removeFromSuperview];
+                             theView.frame = [self inWindowRect];
+                             [self insertViewAtBottomFromLeft:theView];
                              self.inViewIndex = [self nextRightIndex];
                              if ([self.delegate respondsToSelector:@selector(didMoveLeft)]) {
                                  [self.delegate didMoveLeft];
@@ -186,8 +194,10 @@
                              [self displayedView].frame = [self rightOfWindowRect];
                          }
                          completion:^(BOOL _finished) {
-                             [[self displayedView] removeFromSuperview];
-                             [self displayedView].frame = [self inWindowRect];
+                             UIView *theView = [self displayedView];
+                             [theView removeFromSuperview];
+                             theView.frame = [self inWindowRect];
+                             [self insertViewAtBottomFromRight:theView];
                              self.inViewIndex = [self nextLeftIndex];
                              if ([self.delegate respondsToSelector:@selector(didMoveRight)]) {
                                  [self.delegate didMoveRight];
@@ -223,6 +233,30 @@
     return [self.circleOfViews objectAtIndex:[self nextLeftIndex]];
 }
 
+- (UIView*)nextLastRightView {
+    NSInteger viewIndex = self.inViewIndex - 1;
+    if (self.inViewIndex == 0) {
+        viewIndex = [self.circleOfViews count] - 1;
+    }
+    return [self.circleOfViews objectAtIndex:viewIndex];
+}
+
+- (UIView*)nextLastLeftView {
+    NSInteger viewIndex = self.inViewIndex + 1;
+    if (self.inViewIndex > [self.circleOfViews count]) {
+        viewIndex = 0;
+    }
+    return [self.circleOfViews objectAtIndex:viewIndex];
+}
+
+- (void)insertViewAtBottomFromRight:(UIView*)__view {
+    [self insertSubview:__view belowSubview:[self nextLastRightView]];
+}
+
+- (void)insertViewAtBottomFromLeft:(UIView*)__view {
+    [self insertSubview:__view belowSubview:[self nextLastLeftView]];
+}
+
 #pragma mark -
 #pragma mark TransitionGestureRecognizerDelegate
 
@@ -230,9 +264,6 @@
 #pragma Right Gestures
 
 - (void)didStartDraggingRight:(CGPoint)__location {
-    if ([self.circleOfViews count] > 1) {
-        [self insertViewBelowTopView:[self nextLeftView]];
-    }
     if ([self.delegate respondsToSelector:@selector(didStartDraggingRight:)]) {
         [self.delegate didStartDraggingRight:__location];
     }
@@ -270,9 +301,6 @@
 #pragma Left Gestures
 
 - (void)didStartDraggingLeft:(CGPoint)__location {
-    if ([self.circleOfViews count] > 1) {
-        [self insertViewBelowTopView:[self nextRightView]];
-    }
     if ([self.delegate respondsToSelector:@selector(didStartDraggingLeft:)]) {
         [self.delegate didStartDraggingLeft:__location];
     }
@@ -301,7 +329,6 @@
         }];
     }
 }
-
 
 - (void)didSwipeLeft:(CGPoint)_location withVelocity:(CGPoint)_velocity {
     [self moveViewsLeft];

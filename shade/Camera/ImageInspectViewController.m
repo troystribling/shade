@@ -54,11 +54,16 @@
 #pragma mark ImageInspectViewController (PrivateAPI)
 
 - (void)loadCaptures {
-    NSArray *captures = [Capture findAll];
-    for (Capture *capture in captures) {
-        UIImage *image = [[ViewGeneral instance] readImageWithId:[capture imageID]];
-        [self addCapture:capture andImage:image];
-    }
+    [[DataManager instance] performInBackground:^(NSManagedObjectContext *__context) {
+        NSArray *captures = [Capture findAllInContext:__context];
+        for (Capture *capture in captures) {
+            UIImage *image = [[ViewGeneral instance] readImageWithId:[capture imageID]];
+            NSManagedObjectID *captureId = capture.objectID;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self addCapture:[Capture findWithID:captureId] andImage:image];
+            });
+        }
+    }];
 }
 
 - (void)finishedSavingImageEntryToCameraRoll:(UIImage*)_image didFinishSavingWithError:(NSError*)__error contextInfo:(void*)__context {

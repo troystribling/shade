@@ -104,12 +104,13 @@
 }
 
 - (void)didCapture:(NSNotification*)__notification {
-    [[DataManager instance] performInBackground:^(NSManagedObjectContext *context) {
-        sleep(10.0);
+    [[DataManager instance] performInBackground:^(NSManagedObjectContext *__context) {
         NSManagedObjectID *captureId = [[__notification userInfo] objectForKey:@"captureId"];
-        Capture *capture = [Capture findWithID:captureId];
+        Capture *capture = [Capture findWithID:captureId inContext:__context];
         UIImage *image = [[ViewGeneral instance] readImageWithId:[capture imageID]];
-        [[ViewGeneral instance] addCapture:capture andImage:image];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[ViewGeneral instance] addCapture:[Capture findWithID:captureId inContext:__context] andImage:image];
+        });
     }];
 }
 
@@ -140,7 +141,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didCapture:)
                                                  name:@"Capture"
-                                               object:self];
+                                               object:nil];
 }
 
 - (void)viewDidUnload {
@@ -163,10 +164,13 @@
                 Capture *capture = [Capture createInContext:context];
                 [capture save];
                 ViewGeneral *viewGeneral = [ViewGeneral instance];
-                [viewGeneral writeImage:imageData withId:[capture imageID]];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"Capture"
-                                                                    object:self
-                                                                  userInfo:@{@"captureId" : capture.objectID}];
+                [viewGeneral writeImage:imageData withId:[capture imageID] onCompletion:^(BOOL __status) {
+                    if (__status) {
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"Capture"
+                                                                            object:self
+                                                                          userInfo:@{@"captureId" : capture.objectID}];
+                    }
+                }];
             }];
         }
         self.captureImageGesture.enabled = YES;
