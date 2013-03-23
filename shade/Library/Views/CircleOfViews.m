@@ -20,7 +20,8 @@
 - (CGRect)leftOfWindowRect;
 - (void)dragView:(CGPoint)_drag;
 - (void)releaseView:(CGFloat)_duration onCompletion:(void(^)(void))__completetion;
-- (BOOL)canMove;
+- (BOOL)canMoveRight;
+- (BOOL)canMoveLeft;
 - (CGFloat)horizontalReleaseDuration;
 - (CGFloat)horizontalTransitionDuration;
 - (CGFloat)removeTransitionDuration;
@@ -53,6 +54,7 @@
         self.transitionGestureRecognizer = [TransitionGestureRecognizer initWithDelegate:self inView:self relativeToView:__relativeView];
         self.circleOfViews = [NSMutableArray array];
         self.inViewIndex = 0;
+        self.rightViewCount = 0;
         self.notAnimating = YES;
         self.backgroundColor = [UIColor blackColor];
     }
@@ -60,12 +62,14 @@
 }
 
 - (void)addView:(UIView*)__view {
-    __view.frame = self.frame;
-    if ([self count] == 0) {
-        [self addSubview:__view];
+    NSInteger viewCount = [self count];
+    if (viewCount > 0) {
+        self.rightViewCount++;
+        __view.frame = [self rightOfWindowRect];
     } else {
-        [self insertViewAtBottomFromRight:__view];
+        __view.frame = [self inWindowRect];
     }
+    [self addSubview:__view];
     [self.circleOfViews addObject:__view];
 }
 
@@ -132,15 +136,21 @@
                              [self displayedView].frame = [self inWindowRect];
                          }
                          completion:^(BOOL _finished){
-                             __completetion();
+                             if (__completetion) {
+                                 __completetion();
+                             }
                              self.notAnimating = YES;
                          }
          ];
     }
 }
 
-- (BOOL)canMove {
-    return [self.circleOfViews count] > 1;
+- (BOOL)canMoveRight {
+    return [self.circleOfViews count] - 1 != self.rightViewCount;
+}
+
+- (BOOL)canMoveLeft {
+    return self.rightViewCount != 0;
 }
 
 - (CGFloat)horizontalReleaseDuration  {
@@ -158,52 +168,44 @@
 }
 
 - (void)moveViewsLeft {
-    if (([self canMove] && self.notAnimating)) {
+    if (self.notAnimating) {
         self.notAnimating = NO;
-        [self enabled:NO];
         [UIView animateWithDuration:[self horizontalTransitionDuration]
                               delay:0
                             options:UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionAllowUserInteraction
                          animations:^{
+                             [self nextRightView].frame = [self inWindowRect];
                              [self displayedView].frame = [self leftOfWindowRect];
                          }
                          completion:^(BOOL _finished) {
-                             UIView *theView = [self displayedView];
-                             [theView removeFromSuperview];
-                             theView.frame = [self inWindowRect];
-                             [self insertViewAtBottomFromLeft:theView];
-                             self.inViewIndex = [self nextRightIndex];
+                             self.inViewIndex++;
+                             self.rightViewCount--;
                              if ([self.delegate respondsToSelector:@selector(didMoveLeft)]) {
                                  [self.delegate didMoveLeft];
                              }
                              self.notAnimating = YES;
-                             [self enabled:YES];
                          }
          ];
     }
 }
 
-- (void)moveViewsRight {    
-    if (([self canMove] && self.notAnimating)) {
+- (void)moveViewsRight {
+    if (self.notAnimating) {
         self.notAnimating = NO;
-        [self enabled:NO];
         [UIView animateWithDuration:[self horizontalTransitionDuration]
                               delay:0
                             options:UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionAllowUserInteraction
                          animations:^{
+                             [self nextLeftView].frame = [self inWindowRect];
                              [self displayedView].frame = [self rightOfWindowRect];
                          }
                          completion:^(BOOL _finished) {
-                             UIView *theView = [self displayedView];
-                             [theView removeFromSuperview];
-                             theView.frame = [self inWindowRect];
-                             [self insertViewAtBottomFromRight:theView];
-                             self.inViewIndex = [self nextLeftIndex];
+                             self.inViewIndex--;
+                             self.rightViewCount++;
                              if ([self.delegate respondsToSelector:@selector(didMoveRight)]) {
                                  [self.delegate didMoveRight];
                              }
                              self.notAnimating = YES;
-                             [self enabled:YES];
                          }
          ];
     }
@@ -282,7 +284,7 @@
 }
 
 - (void)didReachMaxDragRight:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {
-    if ([self canMove]) {
+    if ([self canMoveRight]) {
         [self moveViewsRight];
     } else {
         [self releaseView:[self horizontalReleaseDuration] onCompletion:^{
@@ -294,7 +296,11 @@
 }
 
 - (void)didSwipeRight:(CGPoint)_location withVelocity:(CGPoint)_velocity {
-    [self moveViewsRight];
+    if ([self canMoveRight]) {
+        [self moveViewsRight];
+    } else {        
+        [self releaseView:[self horizontalReleaseDuration] onCompletion:nil];
+    }
 }
 
 #pragma mark -
@@ -319,7 +325,7 @@
 }
 
 - (void)didReachMaxDragLeft:(CGPoint)_drag from:(CGPoint)_location withVelocity:(CGPoint)_velocity {
-    if ([self canMove]) {
+    if ([self canMoveLeft]) {
         [self moveViewsLeft];
     } else {
         [self releaseView:[self horizontalReleaseDuration] onCompletion:^{
@@ -331,7 +337,11 @@
 }
 
 - (void)didSwipeLeft:(CGPoint)_location withVelocity:(CGPoint)_velocity {
-    [self moveViewsLeft];
+    if ([self canMoveLeft]) {
+        [self moveViewsLeft];
+    } else {
+        [self releaseView:[self horizontalReleaseDuration] onCompletion:nil];
+    }
 }
 
 #pragma mark -
