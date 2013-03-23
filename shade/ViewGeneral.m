@@ -280,11 +280,11 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 #pragma mark -
 #pragma mark ImageInspectViewControllerDelegate
 
-- (void)dragInspectImage:(CGPoint)__drag {
+- (void)dragInspectImageToCamera:(CGPoint)__drag {
     [self drag:__drag view:self.imageInspectViewController.view];
 }
 
-- (void)releaseInspectImage {
+- (void)releaseInspectImageToCamera {
     [self transition:[self verticalReleaseDuration:self.imageInspectViewController.view.frame.origin.y] withAnimation:^{
             [self imageInspectViewPosition:[self.class inWindow]];
         }

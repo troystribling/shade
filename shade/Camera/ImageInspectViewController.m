@@ -17,6 +17,7 @@
 
 - (void)loadCaptures;
 - (void)saveDisplayedImageEntryToCameraRoll;
+- (void)drag:(CGPoint)__point;
 
 @end
 
@@ -83,6 +84,10 @@
     UIImageWriteToSavedPhotosAlbum(self.displayedImageEntry.image, self, @selector(finishedSavingImageEntryToCameraRoll:didFinishSavingWithError:contextInfo:), nil);
 }
 
+- (void)drag:(CGPoint)__point {
+    [[ViewGeneral instance] drag:__point view:self.view];
+}
+
 #pragma mark -
 #pragma mark UIViewController
 
@@ -125,14 +130,15 @@
 #pragma mark CircleOfViewsDelegate
 
 - (void)didDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
-    [[ViewGeneral instance] dragInspectImage:__drag];
+    [[ViewGeneral instance] dragInspectImageToCamera:__drag];
 }
 
 - (void)didDragDown:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    [self drag:__drag];
 }
 
 - (void)didReleaseUp:(CGPoint)_location {
-    [[ViewGeneral instance] releaseInspectImage];
+    [[ViewGeneral instance] releaseInspectImageToCamera];
 }
 
 - (void)didReleaseDown:(CGPoint)__location {

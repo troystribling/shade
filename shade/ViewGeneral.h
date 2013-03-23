@@ -65,8 +65,8 @@
 - (void)dragCamera:(CGPoint)_drag;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
-- (void)dragInspectImage:(CGPoint)__drag;
-- (void)releaseInspectImage;
+- (void)dragInspectImageToCamera:(CGPoint)__drag;
+- (void)releaseInspectImageToCamera;
 - (void)transitionInspectImageToCamera;
 
 @end
