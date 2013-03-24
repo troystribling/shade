@@ -9,7 +9,7 @@
 #import "TransitionGestureRecognizer.h"
 
 #define DETECT_SWIPE_SPEED      400
-#define MAX_DRAG_FACTOR         0.4f
+#define MAX_DRAG_FACTOR         0.3f
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @interface TransitionGestureRecognizer ()
@@ -238,13 +238,13 @@
     switch (self.dragDirection) {
         case DragDirectionRight:
         case DragDirectionLeft:
-            if (abs(self.totalDragDistance.x) < screenBounds.size.width * MAX_DRAG_FACTOR) {
+            if (abs(self.totalDragDistance.x) < screenBounds.size.width * self.maximumDragFactor) {
                 atMaximumDrag = NO;
             }
             break;
         case DragDirectionUp:
         case DragDirectionDown:
-            if (abs(self.totalDragDistance.y) < screenBounds.size.height * MAX_DRAG_FACTOR) {
+            if (abs(self.totalDragDistance.y) < screenBounds.size.height * self.maximumDragFactor) {
                 atMaximumDrag = NO;
             }
             break;
@@ -269,6 +269,7 @@
         [self.view addGestureRecognizer:self.gestureRecognizer];
         self.totalDragDistance = CGPointMake(0.0, 0.0);
         self.acceptTouches = NO;
+        self.maximumDragFactor = MAX_DRAG_FACTOR;
     }
     return self;
 }

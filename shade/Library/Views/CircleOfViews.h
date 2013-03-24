@@ -29,6 +29,8 @@
 - (void)insertViewBelowTopView:(UIView*)__view;
 - (UIView*)displayedView;
 - (void)moveDisplayedViewDownAndRemove;
+- (float)maximumDragFactor;
+- (void)setMaximumDragFactor:(float)__maximumDragFactor;
 - (BOOL)enabled;
 - (void)enabled:(BOOL)__enabled;
 - (NSInteger)count;

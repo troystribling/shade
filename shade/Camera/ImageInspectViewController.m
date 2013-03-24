@@ -13,12 +13,19 @@
 #import "Capture+Extensions.h"
 #import "UIAlertView+Extensions.h"
 
+#define MAX_DRAG_FACTOR_FOR_SAVE_DELETE     0.6f
+#define SAVE_DRAG_FACTOR                    0.1f
+#define DELETE_DRAG_FACTOR                  0.25f
+#define NONE_DRAG_FACTOR                    0.1f
+
 @interface ImageInspectViewController ()
 
 - (void)loadCaptures;
 - (void)saveDisplayedImageEntryToCameraRoll;
 - (void)drag:(CGPoint)__point;
 - (void)releaseEntriesCircleView;
+- (void)updateDownDragState;
+- (void)initializeDownDragState;
 
 @end
 
@@ -36,11 +43,13 @@
                inView:(UIView*)__containerView {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         self.containerView = __containerView;
-        self.view.backgroundColor = [UIColor greenColor];
         [super viewDidLoad];
         self.entriesCircleView = [CircleOfViews withFrame:self.view.frame delegate:self relativeToView:self.containerView];
         [self.view addSubview:self.entriesCircleView];
         [self loadCaptures];
+        self.originalMaxDragFactor = [self.entriesCircleView maximumDragFactor];
+        [self initializeDownDragState];
+        self.isDraggingDown = NO;
     }
     return self;
 }
@@ -95,13 +104,62 @@
 }
 
 - (void)releaseEntriesCircleView {
-    [UIView animateWithDuration:0.5
-                     animations:^{
-                         self.entriesCircleView.frame = self.view.frame;
-                     }
-                     completion:^(BOOL __finished) {
-                     }
-     ];
+    [self.entriesCircleView setMaximumDragFactor:self.originalMaxDragFactor];
+    self.isDraggingDown = NO;
+    switch (self.downDragState) {
+        case ImageInspectDragStateNone: {
+            [UIView animateWithDuration:[ViewGeneral verticalReleaseDuration:self.entriesCircleView.frame.origin.y]
+                             animations:^{
+                                 self.entriesCircleView.frame = self.view.frame;
+                             }
+                             completion:nil
+             ];
+            break;
+        }
+        case ImageInspectDragStateSave: {
+            break;
+        }
+        case ImageInspectDragStateDelete: {
+            break;
+        }
+    }
+}
+
+- (void)updateDownDragState {
+    float screenHeight = self.view.frame.size.height;
+    float dragFactor = self.entriesCircleView.frame.origin.y / screenHeight;
+    switch (self.downDragState) {
+        case ImageInspectDragStateNone: {
+            if (dragFactor > SAVE_DRAG_FACTOR) {
+                self.downDragState = ImageInspectDragStateSave;
+                self.view.backgroundColor = [UIColor greenColor];
+            }
+            break;
+        }
+        case ImageInspectDragStateSave: {
+            if (dragFactor > DELETE_DRAG_FACTOR) {
+                self.downDragState = ImageInspectDragStateDelete;
+                self.view.backgroundColor = [UIColor redColor];
+            } else if (dragFactor < NONE_DRAG_FACTOR) {
+                [self initializeDownDragState];
+            }
+            break;
+        }
+        case ImageInspectDragStateDelete: {
+            if (dragFactor < DELETE_DRAG_FACTOR) {
+                self.downDragState = ImageInspectDragStateSave;
+                self.view.backgroundColor = [UIColor greenColor];
+            } else if (dragFactor < NONE_DRAG_FACTOR) {
+                [self initializeDownDragState];
+            }
+            break;
+        }
+    }
+}
+
+- (void)initializeDownDragState {
+    self.downDragState = ImageInspectDragStateNone;
+    self.view.backgroundColor = [UIColor lightGrayColor];
 }
 
 #pragma mark -
@@ -141,35 +199,57 @@
 #pragma mark -
 #pragma mark CircleOfViewsDelegate
 
-- (void)didDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
-    [[ViewGeneral instance] dragInspectImageToCamera:__drag];
+#pragma mark -
+#pragma mark Down Events
+
+- (void)didStartDraggingDown:(CGPoint)__location {
+    [self.entriesCircleView setMaximumDragFactor:MAX_DRAG_FACTOR_FOR_SAVE_DELETE];
 }
 
 - (void)didDragDown:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
     [self drag:__drag];
-}
-
-- (void)didReleaseUp:(CGPoint)_location {
-    [[ViewGeneral instance] releaseInspectImageToCamera];
+    [self updateDownDragState];
+    self.isDraggingDown = YES;
 }
 
 - (void)didReleaseDown:(CGPoint)__location {
     [self releaseEntriesCircleView];
 }
 
-- (void)didSwipeUp:(CGPoint)__location withVelocity:(CGPoint)__velocity {
-    [[ViewGeneral instance] transitionInspectImageToCamera];
+- (void)didSwipeDown:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    [self releaseEntriesCircleView];
 }
 
-- (void)didSwipeDown:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+- (void)didReachMaxDragDown:(CGPoint)__drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
+    [self releaseEntriesCircleView];
+}
+
+#pragma mark -
+#pragma mark Up Events
+
+- (void)didDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    if (self.isDraggingDown) {
+        [self drag:__drag];
+        [self updateDownDragState];
+    } else {
+        [[ViewGeneral instance] dragInspectImageToCamera:__drag];
+    }
+}
+
+- (void)didReleaseUp:(CGPoint)_location {
+    [[ViewGeneral instance] releaseInspectImageToCamera];
+}
+
+- (void)didSwipeUp:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    [[ViewGeneral instance] transitionInspectImageToCamera];
 }
 
 - (void)didReachMaxDragUp:(CGPoint)__drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
     [[ViewGeneral instance] transitionInspectImageToCamera];
 }
 
-- (void)didReachMaxDragDown:(CGPoint)__drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
-}
+#pragma mark -
+#pragma mark Other Events
 
 - (void)didRemoveAllViews {
     [[ViewGeneral instance] transitionInspectImageToCamera];

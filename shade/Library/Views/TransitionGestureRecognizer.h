@@ -28,6 +28,7 @@ typedef enum {
 @property (nonatomic, assign) CGPoint                                   totalDragDistance;
 @property (nonatomic, assign) DragDirection                             dragDirection;
 @property (nonatomic, assign) BOOL                                      acceptTouches;
+@property (nonatomic, assign) float                                     maximumDragFactor;
 
 + (id)initWithDelegate:(id<TransitionGestureRecognizerDelegate>)_delegate inView:(UIView*)__view relativeToView:(UIView*)__relativeView;
 - (id)initWithDelegate:(id<TransitionGestureRecognizerDelegate>)__delegate inView:(UIView*)__view relativeToView:(UIView*)__relativeView;
