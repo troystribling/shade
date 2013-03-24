@@ -135,7 +135,7 @@
                          animations:^{
                              [self displayedView].frame = [self inWindowRect];
                          }
-                         completion:^(BOOL _finished){
+                         completion:^(BOOL __finished){
                              if (__completetion) {
                                  __completetion();
                              }
@@ -382,7 +382,7 @@
 
 - (void)didStartDraggingDown:(CGPoint)__location {
     if ([self.delegate respondsToSelector:@selector(didStartDraggingDown:)]) {
-        [self.delegate didStartDraggingUp:__location];
+        [self.delegate didStartDraggingDown:__location];
     }
 }
 

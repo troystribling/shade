@@ -11,7 +11,7 @@
 
 @class Capture;
 @class ImageEntryView;
- 
+
 @interface ImageInspectViewController : UIViewController <CircleOfViewsDelegate>
 
 @property(nonatomic, weak)   UIView                             *containerView;

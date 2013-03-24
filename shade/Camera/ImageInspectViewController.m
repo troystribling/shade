@@ -18,6 +18,7 @@
 - (void)loadCaptures;
 - (void)saveDisplayedImageEntryToCameraRoll;
 - (void)drag:(CGPoint)__point;
+- (void)releaseEntriesCircleView;
 
 @end
 
@@ -35,6 +36,11 @@
                inView:(UIView*)__containerView {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         self.containerView = __containerView;
+        self.view.backgroundColor = [UIColor greenColor];
+        [super viewDidLoad];
+        self.entriesCircleView = [CircleOfViews withFrame:self.view.frame delegate:self relativeToView:self.containerView];
+        [self.view addSubview:self.entriesCircleView];
+        [self loadCaptures];
     }
     return self;
 }
@@ -85,17 +91,23 @@
 }
 
 - (void)drag:(CGPoint)__point {
-    [[ViewGeneral instance] drag:__point view:self.view];
+    [[ViewGeneral instance] drag:__point view:self.entriesCircleView];
+}
+
+- (void)releaseEntriesCircleView {
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         self.entriesCircleView.frame = self.view.frame;
+                     }
+                     completion:^(BOOL __finished) {
+                     }
+     ];
 }
 
 #pragma mark -
 #pragma mark UIViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    self.entriesCircleView = [CircleOfViews withFrame:self.view.frame delegate:self relativeToView:self.containerView];
-    [self.view addSubview:self.entriesCircleView];
-    [self loadCaptures];
 }
 
 - (void)viewDidUnload {
@@ -142,6 +154,7 @@
 }
 
 - (void)didReleaseDown:(CGPoint)__location {
+    [self releaseEntriesCircleView];
 }
 
 - (void)didSwipeUp:(CGPoint)__location withVelocity:(CGPoint)__velocity {
