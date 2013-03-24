@@ -8,23 +8,13 @@
 
 #import "CircleOfViews.h"
 
-#define HORIZONTAL_TRANSITION_ANIMATION_SPEED           1000.0f
-#define FADE_TRANSITION_DURATUION                       0.5f
-#define RELEASE_ANIMATION_SPEED                         800.0f
-#define REMOVE_DISPLAYED_VIEW_DOWN_DURATION             0.5
 
 @interface CircleOfViews ()
 
-- (CGRect)inWindowRect;
-- (CGRect)rightOfWindowRect;
-- (CGRect)leftOfWindowRect;
 - (void)dragView:(CGPoint)_drag;
 - (void)releaseView:(CGFloat)_duration onCompletion:(void(^)(void))__completetion;
 - (BOOL)canMoveRight;
 - (BOOL)canMoveLeft;
-- (CGFloat)horizontalReleaseDuration;
-- (CGFloat)horizontalTransitionDuration;
-- (CGFloat)removeTransitionDuration;
 - (void)moveViewsLeft;
 - (void)moveViewsRight;
 - (NSInteger)nextRightIndex;

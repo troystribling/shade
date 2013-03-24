@@ -33,6 +33,13 @@
 + (CGRect)underWindow;
 + (CGRect)leftOfWindow;
 + (CGRect)rightOfWindow;
+
++ (CGFloat)verticalReleaseDuration:(CGFloat)__offset;
++ (CGFloat)horizontaltReleaseDuration:(CGFloat)__offset;
++ (CGFloat)verticalTransitionDuration:(CGFloat)__offset;
++ (CGFloat)horizontalTransitionDuration:(CGFloat)__offset;
++ (CGFloat)removeTransitionDuration:(CGFloat)__offset;
+
 + (void)alertOnError:(NSError*)error;
 
 - (void)createViews:(UIView*)__containerView;

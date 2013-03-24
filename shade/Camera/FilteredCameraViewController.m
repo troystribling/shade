@@ -15,7 +15,6 @@
 
 #define CAMERA_SHUTTER_TRANSITION     0.2f
 #define CAMERA_SHUTTER_DELAY          1.5f
-#define CAMERA_CONTROLS_TRANSITION    0.2f
 
 @interface FilteredCameraViewController ()
 

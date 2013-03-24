@@ -8,10 +8,7 @@
 
 #import "StreamOfViews.h"
 
-#define HORIZONTAL_TRANSITION_ANIMATION_SPEED           750.0f
 #define FADE_TRANSITION_DURATUION                       0.5f
-#define RELEASE_ANIMATION_SPEED                         400.0f
-#define VIEW_MIN_SPACING                                25
 #define REMOVE_DISPLAYED_VIEW_DOWN_DURATION             0.5
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -17,12 +17,6 @@
 #import "ImageEntryView.h"
 #import "ProgressView.h"
 
-#define HORIZONTAL_TRANSITION_ANIMATION_SPEED           500.0f
-#define VERTICAL_TRANSITION_ANIMATION_SPEED             600.0f
-#define RELEASE_ANIMATION_SPEED                         150.0f
-#define VIEW_MIN_SPACING                                25
-#define MAX_PENDING_IMAGE_SAVES                         5
-
 /////////////////////////////////////////////////////////////////////////////////////////
 static ViewGeneral* thisViewControllerGeneral = nil;
 
@@ -30,10 +24,6 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 @interface ViewGeneral ()
 
 - (void)transition:(CGFloat)_duration withAnimation:(void(^)(void))_animation;
-- (CGFloat)verticalReleaseDuration:(CGFloat)_offset;
-- (CGFloat)horizontaltReleaseDuration:(CGFloat)_offset;
-- (CGFloat)verticalTransitionDuration:(CGFloat)_offset;
-- (CGFloat)horizontalTransitionDuration:(CGFloat)_offset;
 + (NSString*)imageFilenameForID:(NSString*)__fileId;
 
 @end
@@ -62,24 +52,6 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     if (self.notAnimating) {
         __view.transform = CGAffineTransformTranslate(__view.transform, __drag.x, __drag.y);
     }
-}
-
-- (CGFloat)verticalReleaseDuration:(CGFloat)_offset  {
-    return abs(_offset) / RELEASE_ANIMATION_SPEED;    
-}
-
-- (CGFloat)horizontaltReleaseDuration:(CGFloat)_offset  {
-    return abs(_offset) / RELEASE_ANIMATION_SPEED;    
-}
-
-- (CGFloat)verticalTransitionDuration:(CGFloat)_offset {
-    CGRect screenBounds = [self.class screenBounds];
-    return (screenBounds.size.height - abs(_offset)) / VERTICAL_TRANSITION_ANIMATION_SPEED;    
-}
-
-- (CGFloat)horizontalTransitionDuration:(CGFloat)_offset {
-    CGRect screenBounds = [self.class screenBounds];
-    return (screenBounds.size.width  - abs(_offset)) / HORIZONTAL_TRANSITION_ANIMATION_SPEED;    
 }
 
 + (NSString*)imageFilenameForID:(NSString*)__fileId {
@@ -124,6 +96,28 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 + (CGRect)rightOfWindow {
     CGRect screenBounds = [self screenBounds];
     return CGRectMake(screenBounds.size.width + VIEW_MIN_SPACING, screenBounds.origin.y, screenBounds.size.width, screenBounds.size.height);
+}
+
++ (CGFloat)verticalReleaseDuration:(CGFloat)_offset  {
+    return abs(_offset) / RELEASE_ANIMATION_SPEED;
+}
+
++ (CGFloat)horizontaltReleaseDuration:(CGFloat)_offset  {
+    return abs(_offset) / RELEASE_ANIMATION_SPEED;
+}
+
++ (CGFloat)verticalTransitionDuration:(CGFloat)_offset {
+    CGRect screenBounds = [self.class screenBounds];
+    return (screenBounds.size.height - abs(_offset)) / VERTICAL_TRANSITION_ANIMATION_SPEED;
+}
+
++ (CGFloat)horizontalTransitionDuration:(CGFloat)_offset {
+    CGRect screenBounds = [self.class screenBounds];
+    return (screenBounds.size.width  - abs(_offset)) / HORIZONTAL_TRANSITION_ANIMATION_SPEED;
+}
+
++ (CGFloat)removeTransitionDuration:(CGFloat)__offset {
+    return abs(__offset) / HORIZONTAL_TRANSITION_ANIMATION_SPEED;
 }
 
 + (void)alertOnError:(NSError*)error {
@@ -246,7 +240,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 
 - (void)transitionCameraToInspectImage {
     if ([self.imageInspectViewController hasCaptures]) {
-        [self transition:[self verticalTransitionDuration:self.cameraViewController.view.frame.origin.y] withAnimation:^{
+        [self transition:[self.class verticalTransitionDuration:self.cameraViewController.view.frame.origin.y] withAnimation:^{
                 [self cameraViewPosition:[self.class underWindow]];
                 [self imageInspectViewPosition:[self.class inWindow]];
             }
@@ -255,7 +249,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 }
 
 - (void)releaseCameraInspectImage {
-    [self transition:[self horizontaltReleaseDuration:self.cameraViewController.view.frame.origin.y] withAnimation:^{
+    [self transition:[self.class horizontaltReleaseDuration:self.cameraViewController.view.frame.origin.y] withAnimation:^{
         [self cameraViewPosition:[self.class inWindow]];
     }
      ];    
@@ -268,7 +262,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 }
 
 - (void)releaseCamera {
-    [self transition:[self horizontaltReleaseDuration:self.cameraViewController.view.frame.origin.x] withAnimation:^{
+    [self transition:[self.class horizontaltReleaseDuration:self.cameraViewController.view.frame.origin.x] withAnimation:^{
         [self cameraViewPosition:[self.class inWindow]];
     }];
 }
@@ -285,14 +279,14 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 }
 
 - (void)releaseInspectImageToCamera {
-    [self transition:[self verticalReleaseDuration:self.imageInspectViewController.view.frame.origin.y] withAnimation:^{
+    [self transition:[self.class verticalReleaseDuration:self.imageInspectViewController.view.frame.origin.y] withAnimation:^{
             [self imageInspectViewPosition:[self.class inWindow]];
         }
     ];    
 }
 
 - (void)transitionInspectImageToCamera {
-    [self transition:[self verticalTransitionDuration:self.imageInspectViewController.view.frame.origin.y] withAnimation:^{
+    [self transition:[self.class verticalTransitionDuration:self.imageInspectViewController.view.frame.origin.y] withAnimation:^{
             [self cameraViewPosition:[self.class inWindow]];
             [self imageInspectViewPosition:[self.class overWindow]];
         }
