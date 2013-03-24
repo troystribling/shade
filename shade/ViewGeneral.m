@@ -16,43 +16,21 @@
 #import "UIAlertView+Extensions.h"
 #import "ImageEntryView.h"
 #import "ProgressView.h"
+#import "AnimateView.h"
 
-/////////////////////////////////////////////////////////////////////////////////////////
 static ViewGeneral* thisViewControllerGeneral = nil;
 
-/////////////////////////////////////////////////////////////////////////////////////////
 @interface ViewGeneral ()
 
-- (void)transition:(CGFloat)_duration withAnimation:(void(^)(void))_animation;
 + (NSString*)imageFilenameForID:(NSString*)__fileId;
 
 @end
 
-/////////////////////////////////////////////////////////////////////////////////////////
 @implementation ViewGeneral
  
 #pragma mark -
 #pragma mark ViewGeneral PrivateAPI
 
-- (void)transition:(CGFloat)_duration withAnimation:(void(^)(void))_animation {
-    if (self.notAnimating) {
-        self.notAnimating = NO;
-        [UIView animateWithDuration:_duration
-            delay:0
-            options:UIViewAnimationOptionCurveEaseOut
-            animations:_animation
-            completion:^(BOOL _finished){
-                self.notAnimating = YES;
-            }
-        ];
-    }
-}
-
-- (void)drag:(CGPoint)__drag view:(UIView*)__view {
-    if (self.notAnimating) {
-        __view.transform = CGAffineTransformTranslate(__view.transform, __drag.x, __drag.y);
-    }
-}
 
 + (NSString*)imageFilenameForID:(NSString*)__fileId {
     return [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/%@.png", __fileId]];
@@ -70,56 +48,6 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     return thisViewControllerGeneral;
 }
 
-+ (CGRect)screenBounds {
-    return [[UIScreen mainScreen] bounds];
-}
-
-+ (CGRect)inWindow {
-    return [self screenBounds];
-}
-
-+ (CGRect)overWindow {
-    CGRect screenBounds = [self screenBounds];
-    return CGRectMake(screenBounds.origin.x, -screenBounds.size.height - VIEW_MIN_SPACING, screenBounds.size.width, screenBounds.size.height);
-}
-
-+ (CGRect)underWindow {
-    CGRect screenBounds = [self screenBounds];
-    return CGRectMake(screenBounds.origin.x, screenBounds.size.height + VIEW_MIN_SPACING, screenBounds.size.width, screenBounds.size.height);
-}
-
-+ (CGRect)leftOfWindow {
-    CGRect screenBounds = [self screenBounds];
-    return CGRectMake(-screenBounds.size.width - VIEW_MIN_SPACING, screenBounds.origin.y, screenBounds.size.width, screenBounds.size.height);
-}
-
-+ (CGRect)rightOfWindow {
-    CGRect screenBounds = [self screenBounds];
-    return CGRectMake(screenBounds.size.width + VIEW_MIN_SPACING, screenBounds.origin.y, screenBounds.size.width, screenBounds.size.height);
-}
-
-+ (CGFloat)verticalReleaseDuration:(CGFloat)_offset  {
-    return abs(_offset) / RELEASE_ANIMATION_SPEED;
-}
-
-+ (CGFloat)horizontaltReleaseDuration:(CGFloat)_offset  {
-    return abs(_offset) / RELEASE_ANIMATION_SPEED;
-}
-
-+ (CGFloat)verticalTransitionDuration:(CGFloat)_offset {
-    CGRect screenBounds = [self.class screenBounds];
-    return (screenBounds.size.height - abs(_offset)) / VERTICAL_TRANSITION_ANIMATION_SPEED;
-}
-
-+ (CGFloat)horizontalTransitionDuration:(CGFloat)_offset {
-    CGRect screenBounds = [self.class screenBounds];
-    return (screenBounds.size.width  - abs(_offset)) / HORIZONTAL_TRANSITION_ANIMATION_SPEED;
-}
-
-+ (CGFloat)removeTransitionDuration:(CGFloat)__offset {
-    return abs(__offset) / HORIZONTAL_TRANSITION_ANIMATION_SPEED;
-}
-
 + (void)alertOnError:(NSError*)error {
     NSLog(@"Had and Error %@, %@", error, [error userInfo]);
     [[[UIAlertView alloc] initWithTitle:[error localizedDescription]
@@ -132,7 +60,6 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 - (id)init {
     self = [super init];
     if (self) {
-        self.notAnimating = YES;
     }
     return self;
 }
@@ -204,7 +131,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     if (self.imageInspectViewController == nil) {
         self.imageInspectViewController = [ImageInspectViewController inView:__view];
     } 
-    [self imageInspectViewPosition:[self.class overWindow]];
+    [self imageInspectViewPosition:[AnimateView overWindowRect]];
     [__view addSubview:self.imageInspectViewController.view];
 }
 
@@ -223,7 +150,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     if (self.cameraViewController == nil) {
         self.cameraViewController = [FilteredCameraViewController inView:__view];
     } 
-    [self cameraViewPosition:[self.class inWindow]];
+    [self cameraViewPosition:[AnimateView inWindowRect]];
     [__view addSubview:self.cameraViewController.view];
 }
 
@@ -240,55 +167,55 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 
 - (void)transitionCameraToInspectImage {
     if ([self.imageInspectViewController hasCaptures]) {
-        [self transition:[self.class verticalTransitionDuration:self.cameraViewController.view.frame.origin.y] withAnimation:^{
-                [self cameraViewPosition:[self.class underWindow]];
-                [self imageInspectViewPosition:[self.class inWindow]];
+        [AnimateView withDuration:[AnimateView verticalTransitionDuration:self.cameraViewController.view.frame.origin.y] andAnimation:^{
+                [self cameraViewPosition:[AnimateView underWindowRect]];
+                [self imageInspectViewPosition:[AnimateView inWindowRect]];
             }
         ];
     }
 }
 
 - (void)releaseCameraInspectImage {
-    [self transition:[self.class horizontaltReleaseDuration:self.cameraViewController.view.frame.origin.y] withAnimation:^{
-        [self cameraViewPosition:[self.class inWindow]];
-    }
-     ];    
+    [AnimateView withDuration:[AnimateView horizontaltReleaseDuration:self.cameraViewController.view.frame.origin.y] andAnimation:^{
+            [self cameraViewPosition:[AnimateView inWindowRect]];
+        }
+     ];
 }
 
 - (void)dragCameraToInspectImage:(CGPoint)__drag {
     if ([self.imageInspectViewController hasCaptures]) {
-        [self drag:__drag view:self.cameraViewController.view];
+        [AnimateView drag:__drag view:self.cameraViewController.view];
     }
 }
 
 - (void)releaseCamera {
-    [self transition:[self.class horizontaltReleaseDuration:self.cameraViewController.view.frame.origin.x] withAnimation:^{
-        [self cameraViewPosition:[self.class inWindow]];
+    [AnimateView withDuration:[self.class horizontaltReleaseDuration:self.cameraViewController.view.frame.origin.x] andAnimation:^{
+        [self cameraViewPosition:[AnimateView inWindowRect]];
     }];
 }
 
 - (void)dragCamera:(CGPoint)_drag {
-    [self drag:_drag view:self.cameraViewController.view];
+    [AnimateView drag:_drag view:self.cameraViewController.view];
 }
 
 #pragma mark -
 #pragma mark ImageInspectViewControllerDelegate
 
 - (void)dragInspectImageToCamera:(CGPoint)__drag {
-    [self drag:__drag view:self.imageInspectViewController.view];
+    [AnimateView drag:__drag view:self.imageInspectViewController.view];
 }
 
 - (void)releaseInspectImageToCamera {
-    [self transition:[self.class verticalReleaseDuration:self.imageInspectViewController.view.frame.origin.y] withAnimation:^{
-            [self imageInspectViewPosition:[self.class inWindow]];
+    [AnimateView withDuration:[AnimateView verticalReleaseDuration:self.imageInspectViewController.view.frame.origin.y] andAnimation:^{
+            [self imageInspectViewPosition:[AnimateView inWindowRect]];
         }
     ];    
 }
 
 - (void)transitionInspectImageToCamera {
-    [self transition:[self.class verticalTransitionDuration:self.imageInspectViewController.view.frame.origin.y] withAnimation:^{
-            [self cameraViewPosition:[self.class inWindow]];
-            [self imageInspectViewPosition:[self.class overWindow]];
+    [AnimateView withDuration:[AnimateView verticalTransitionDuration:self.imageInspectViewController.view.frame.origin.y] andAnimation:^{
+            [self cameraViewPosition:[AnimateView inWindowRect]];
+            [self imageInspectViewPosition:[AnimateView overWindowRect]];
         }
     ];    
 }

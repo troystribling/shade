@@ -19,21 +19,23 @@
 @property (nonatomic, strong)  NSMutableArray*                  circleOfViews;
 @property (nonatomic, assign)  NSInteger                        inViewIndex;
 @property (nonatomic, assign)  NSInteger                        rightViewCount;
-@property (nonatomic, assign)  BOOL                             notAnimating;
 
 + (id)withFrame:(CGRect)__frame delegate:(id<CircleOfViewsDelegate>)__delegate relativeToView:(UIView*)__relativeView;
 - (id)initWithFrame:(CGRect)__frame delegate:(id<CircleOfViewsDelegate>)__delegate relativeToView:(UIView*)__relativeView;
+
+- (NSInteger)count;
 - (void)addView:(UIView*)__view;
 - (BOOL)hasView:(UIView*)__view;
 - (void)removeView:(UIView*)__view;
-- (void)insertViewBelowTopView:(UIView*)__view;
 - (UIView*)displayedView;
+
 - (void)moveDisplayedViewDownAndRemove;
+
 - (float)maximumDragFactor;
 - (void)setMaximumDragFactor:(float)__maximumDragFactor;
+
 - (BOOL)enabled;
 - (void)enabled:(BOOL)__enabled;
-- (NSInteger)count;
 
 @end
 

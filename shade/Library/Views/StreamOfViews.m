@@ -8,6 +8,13 @@
 
 #import "StreamOfViews.h"
 
+#define VIEW_SPACING                                    25.0f
+#define HORIZONTAL_TRANSITION_ANIMATION_SPEED           500.0f
+#define VERTICAL_TRANSITION_ANIMATION_SPEED             600.0f
+#define RELEASE_ANIMATION_SPEED                         150.0f
+#define HORIZONTAL_ANIMATION_SPEED                      500.0f
+#define VERTICAL_ANIMATION_SPEED                        600.0f
+
 #define FADE_TRANSITION_DURATUION                       0.5f
 #define REMOVE_DISPLAYED_VIEW_DOWN_DURATION             0.5
 
@@ -170,15 +177,15 @@
 }
 
 - (CGRect)leftOfWindow {
-    return CGRectMake(-self.frame.size.width - VIEW_MIN_SPACING, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+    return CGRectMake(-self.frame.size.width - VIEW_SPACING, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
 }
 
 - (CGRect)rightOfWindow {
-    return CGRectMake(self.frame.size.width + VIEW_MIN_SPACING, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
+    return CGRectMake(self.frame.size.width + VIEW_SPACING, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
 }
 
 - (CGRect)underWindow {
-    return CGRectMake(self.frame.origin.x, self.frame.size.height + VIEW_MIN_SPACING, self.frame.size.width, self.frame.size.height);
+    return CGRectMake(self.frame.origin.x, self.frame.size.height + VIEW_SPACING, self.frame.size.width, self.frame.size.height);
 }
 
 - (CGRect)pointCenter {

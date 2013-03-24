@@ -33,6 +33,7 @@
 		058E984616E5993F00C4DDFA /* WhiteColorOverlay.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 05AD716E16E32BCD00AAB7D9 /* WhiteColorOverlay.fsh */; };
 		058E985616E7043900C4DDFA /* ImageEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 058E985516E7043900C4DDFA /* ImageEntryView.m */; };
 		0590913016F19D2E006CA335 /* Camera.m in Sources */ = {isa = PBXBuildFile; fileRef = 0590912F16F19D2E006CA335 /* Camera.m */; };
+		0592903116FFA08900FF9F52 /* AnimateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0592903016FFA08900FF9F52 /* AnimateView.m */; };
 		0595A12316F3F5C300FDE8D4 /* CircleOfViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A12216F3F5C300FDE8D4 /* CircleOfViews.m */; };
 		05AD715B16E32BBE00AAB7D9 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715616E32BBE00AAB7D9 /* DataManager.m */; };
 		05AD715C16E32BBE00AAB7D9 /* NSManagedObject+DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715816E32BBE00AAB7D9 /* NSManagedObject+DataManager.m */; };
@@ -128,6 +129,8 @@
 		058E985516E7043900C4DDFA /* ImageEntryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageEntryView.m; sourceTree = "<group>"; };
 		0590912E16F19D2E006CA335 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		0590912F16F19D2E006CA335 /* Camera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Camera.m; sourceTree = "<group>"; };
+		0592902F16FFA08900FF9F52 /* AnimateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimateView.h; sourceTree = "<group>"; };
+		0592903016FFA08900FF9F52 /* AnimateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimateView.m; sourceTree = "<group>"; };
 		0595A12116F3F5C300FDE8D4 /* CircleOfViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleOfViews.h; sourceTree = "<group>"; };
 		0595A12216F3F5C300FDE8D4 /* CircleOfViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleOfViews.m; sourceTree = "<group>"; };
 		05AD715516E32BBE00AAB7D9 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataManager.h; sourceTree = "<group>"; };
@@ -378,6 +381,8 @@
 		05AD718B16E336DF00AAB7D9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0592902F16FFA08900FF9F52 /* AnimateView.h */,
+				0592903016FFA08900FF9F52 /* AnimateView.m */,
 				0595A12116F3F5C300FDE8D4 /* CircleOfViews.h */,
 				0595A12216F3F5C300FDE8D4 /* CircleOfViews.m */,
 				05AD718C16E336DF00AAB7D9 /* DiagonalGestureRecognizer.h */,
@@ -551,6 +556,7 @@
 				058D052416EBDCB8000506D7 /* Capture.m in Sources */,
 				0590913016F19D2E006CA335 /* Camera.m in Sources */,
 				0595A12316F3F5C300FDE8D4 /* CircleOfViews.m in Sources */,
+				0592903116FFA08900FF9F52 /* AnimateView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

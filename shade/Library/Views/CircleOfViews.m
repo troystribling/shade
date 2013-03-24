@@ -7,18 +7,14 @@
 //
 
 #import "CircleOfViews.h"
-
+#import "AnimateView.h"
 
 @interface CircleOfViews ()
 
-- (CGRect)inWindowRect;
-- (CGRect)leftOfWindowRect;
-- (CGRect)rightOfWindowRect;
-- (CGRect)underWindowRect;
-
 - (CGFloat)horizontalReleaseDuration;
 - (CGFloat)horizontalTransitionDuration;
-- (CGFloat)removeTransitionDuration;
+- (CGFloat)removeHorizontalDuration;
+- (CGFloat)removeVerticalDuration;
 
 - (void)dragView:(CGPoint)_drag;
 - (void)releaseView:(CGFloat)_duration onCompletion:(void(^)(void))__completetion;
@@ -58,19 +54,22 @@
         self.circleOfViews = [NSMutableArray array];
         self.inViewIndex = 0;
         self.rightViewCount = 0;
-        self.notAnimating = YES;
         self.backgroundColor = [UIColor blackColor];
     }
     return self;
+}
+
+- (NSInteger)count {
+    return [self.circleOfViews count];
 }
 
 - (void)addView:(UIView*)__view {
     NSInteger viewCount = [self count];
     if (viewCount > 0) {
         self.rightViewCount++;
-        __view.frame = [self rightOfWindowRect];
+        __view.frame = [AnimateView rightOfWindowRect];
     } else {
-        __view.frame = [self inWindowRect];
+        __view.frame = [AnimateView inWindowRect];
     }
     [self addSubview:__view];
     [self.circleOfViews addObject:__view];
@@ -84,45 +83,22 @@
     [self.circleOfViews removeObject:__view];
 }
 
-- (void)insertViewBelowTopView:(UIView*)__view {
-    [self insertSubview:__view belowSubview:[self displayedView]];
-}
-
 - (UIView*)displayedView {
     return [self.circleOfViews objectAtIndex:self.inViewIndex];
 }
 
 - (void)moveDisplayedViewDownAndRemove {
-    if (self.notAnimating) {
-        self.notAnimating = NO;
-        [UIView animateWithDuration:[self removeTransitionDuration]
-                              delay:0
-                            options:UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             [self displayedView].frame = [self underWindowRect];
-                         }
-                         completion:^(BOOL _finished) {
-                             UIView* removedView = [self removeDisplayedView];
-                             if (removedView) {
-                                 [self replaceRemovedView];
-                             } else {
-                                 self.notAnimating = YES;
-                             }
-                         }
-         ];
-    }
-}
-
-- (BOOL)enabled {
-    return [self.transitionGestureRecognizer enabled];
-}
-
-- (void)enabled:(BOOL)_enabled {
-    [self.transitionGestureRecognizer enabled:_enabled];
-}
-
-- (NSInteger)count {
-    return [self.circleOfViews count];
+    [AnimateView withDuration:[self removeVerticalDuration]
+                    animation:^{
+                        [self displayedView].frame = [AnimateView underWindowRect];
+                    }
+                 onCompletion:^{
+                     UIView* removedView = [self removeDisplayedView];
+                     if (removedView) {
+                         [self replaceRemovedView];
+                     }
+                 }
+     ];
 }
 
 - (float)maximumDragFactor {
@@ -133,63 +109,47 @@
     self.transitionGestureRecognizer.maximumDragFactor = __maximumDragFactor;
 }
 
+- (BOOL)enabled {
+    return [self.transitionGestureRecognizer enabled];
+}
+
+- (void)enabled:(BOOL)_enabled {
+    [self.transitionGestureRecognizer enabled:_enabled];
+}
+
 #pragma mark -
 #pragma mark StackOfViews PrivateAPI
 
-- (CGRect)inWindowRect {
-    return self.frame;
-}
-
-- (CGRect)leftOfWindowRect {
-    return CGRectMake(-self.frame.size.width, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
-}
-
-- (CGRect)rightOfWindowRect {
-    return CGRectMake(self.frame.size.width, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
-}
-
-- (CGRect)underWindowRect {
-    return CGRectMake(self.frame.origin.x, self.frame.size.height, self.frame.size.width, self.frame.size.height);
-}
-
 - (CGFloat)horizontalReleaseDuration  {
     UIView* viewItem = [self displayedView];
-    return abs(viewItem.frame.origin.x) / RELEASE_ANIMATION_SPEED;
+    return [AnimateView horizontaltReleaseDuration:viewItem.frame.origin.x];
 }
 
 - (CGFloat)horizontalTransitionDuration {
     UIView* viewItem = [self displayedView];
-    return (self.frame.size.width - abs(viewItem.frame.origin.x)) / HORIZONTAL_TRANSITION_ANIMATION_SPEED;
+    return [AnimateView horizontalTransitionDuration:viewItem.frame.origin.x];
 }
 
-- (CGFloat)removeTransitionDuration {
-    return self.frame.size.width / HORIZONTAL_TRANSITION_ANIMATION_SPEED;
+- (CGFloat)removeHorizontalDuration {
+    return [AnimateView horizontalTransitionDuration:self.frame.size.width];
 }
 
-- (void)dragView:(CGPoint)_drag {
-    if (self.notAnimating) {
-        UIView* viewItem = [self displayedView];
-        viewItem.transform = CGAffineTransformTranslate(viewItem.transform, _drag.x, _drag.y);
-    }
+- (CGFloat)removeVerticalDuration {
+    return [AnimateView horizontalTransitionDuration:self.frame.size.width];
 }
 
-- (void)releaseView:(CGFloat)_duration onCompletion:(void(^)(void))__completetion {
-    if (self.notAnimating) {
-        self.notAnimating = NO;
-        [UIView animateWithDuration:_duration
-                              delay:0
-                            options:UIViewAnimationOptionCurveEaseOut
-                         animations:^{
-                             [self displayedView].frame = [self inWindowRect];
-                         }
-                         completion:^(BOOL __finished){
-                             if (__completetion) {
-                                 __completetion();
-                             }
-                             self.notAnimating = YES;
-                         }
-         ];
-    }
+- (void)dragView:(CGPoint)__drag {
+    UIView* viewItem = [self displayedView];
+    [AnimateView drag:__drag view:viewItem];
+}
+
+- (void)releaseView:(CGFloat)__duration onCompletion:(void(^)(void))__completetion {
+    [AnimateView withDuration:__duration
+                    animation:^{
+                        [self displayedView].frame = [AnimateView inWindowRect];
+                    }
+                   onCompletion:__completetion
+     ];
 }
 
 - (BOOL)canMoveRight {
@@ -201,47 +161,35 @@
 }
 
 - (void)moveViewsLeft {
-    if (self.notAnimating) {
-        self.notAnimating = NO;
-        [UIView animateWithDuration:[self horizontalTransitionDuration]
-                              delay:0
-                            options:UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionAllowUserInteraction
-                         animations:^{
-                             [self nextRightView].frame = [self inWindowRect];
-                             [self displayedView].frame = [self leftOfWindowRect];
-                         }
-                         completion:^(BOOL _finished) {
-                             self.inViewIndex++;
-                             self.rightViewCount--;
-                             if ([self.delegate respondsToSelector:@selector(didMoveLeft)]) {
-                                 [self.delegate didMoveLeft];
-                             }
-                             self.notAnimating = YES;
-                         }
-         ];
-    }
+    [AnimateView withDuration:[self horizontalTransitionDuration]
+                     animation:^{
+                         [self nextRightView].frame = [AnimateView inWindowRect];
+                         [self displayedView].frame = [AnimateView leftOfWindowRect];
+                     }
+                 onCompletion:^{
+                     self.inViewIndex++;
+                     self.rightViewCount--;
+                     if ([self.delegate respondsToSelector:@selector(didMoveLeft)]) {
+                         [self.delegate didMoveLeft];
+                     }
+                 }
+     ];
 }
 
 - (void)moveViewsRight {
-    if (self.notAnimating) {
-        self.notAnimating = NO;
-        [UIView animateWithDuration:[self horizontalTransitionDuration]
-                              delay:0
-                            options:UIViewAnimationOptionCurveEaseOut|UIViewAnimationOptionAllowUserInteraction
-                         animations:^{
-                             [self nextLeftView].frame = [self inWindowRect];
-                             [self displayedView].frame = [self rightOfWindowRect];
+        [AnimateView withDuration:[self horizontalTransitionDuration]
+                        animation:^{
+                            [self nextLeftView].frame = [AnimateView inWindowRect];
+                            [self displayedView].frame = [AnimateView rightOfWindowRect];
+                        }
+                     onCompletion:^{
+                         self.inViewIndex--;
+                         self.rightViewCount++;
+                         if ([self.delegate respondsToSelector:@selector(didMoveRight)]) {
+                             [self.delegate didMoveRight];
                          }
-                         completion:^(BOOL _finished) {
-                             self.inViewIndex--;
-                             self.rightViewCount++;
-                             if ([self.delegate respondsToSelector:@selector(didMoveRight)]) {
-                                 [self.delegate didMoveRight];
-                             }
-                             self.notAnimating = YES;
-                         }
+                     }
          ];
-    }
 }
 
 - (NSInteger)nextRightIndex {
@@ -308,15 +256,9 @@
 }
 
 - (void)replaceRemovedView {
-    self.notAnimating = NO;
-    [UIView animateWithDuration:[self removeTransitionDuration]
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         [self displayedView].frame = [self inWindowRect];
-                     }
-                     completion:^(BOOL _finished) {
-                         self.notAnimating = YES;
+    [AnimateView withDuration:[self removeHorizontalDuration]
+                     andAnimation:^{
+                         [self displayedView].frame = [AnimateView inWindowRect];
                      }
      ];    
 }

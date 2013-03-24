@@ -14,31 +14,14 @@
 @class Capture;
 @class ImageEntryView;
 
-//-----------------------------------------------------------------------------------------------------------------------------------
-@interface ViewGeneral : NSObject {
-}
+@interface ViewGeneral : NSObject
 
-//-----------------------------------------------------------------------------------------------------------------------------------
-@property(nonatomic, assign) BOOL                           notAnimating;
 @property(nonatomic, strong) UIView*                        view;
 @property(nonatomic, strong) ImageInspectViewController*    imageInspectViewController;
 @property(nonatomic, strong) FilteredCameraViewController*  cameraViewController;
 @property(nonatomic, strong) ProgressView*                  progressView;
 
-//-----------------------------------------------------------------------------------------------------------------------------------
 + (ViewGeneral*)instance;
-+ (CGRect)screenBounds;
-+ (CGRect)inWindow;
-+ (CGRect)overWindow;
-+ (CGRect)underWindow;
-+ (CGRect)leftOfWindow;
-+ (CGRect)rightOfWindow;
-
-+ (CGFloat)verticalReleaseDuration:(CGFloat)__offset;
-+ (CGFloat)horizontaltReleaseDuration:(CGFloat)__offset;
-+ (CGFloat)verticalTransitionDuration:(CGFloat)__offset;
-+ (CGFloat)horizontalTransitionDuration:(CGFloat)__offset;
-+ (CGFloat)removeTransitionDuration:(CGFloat)__offset;
 
 + (void)alertOnError:(NSError*)error;
 
@@ -48,30 +31,24 @@
 - (void)writeImage:(NSData*)__image withId:(NSString*)__fileId onCompletion:(void(^)(BOOL __status))__completion;
 - (UIImage*)readImageWithId:(NSString*)__fileId;
 - (void)deleteImageWithId:(NSString*)__fileId;
-- (void)drag:(CGPoint)_drag view:(UIView*)_view;
 
-//-----------------------------------------------------------------------------------------------------------------------------------
 - (void)showProgressViewWithMessage:(NSString*)__progressMessage;
 - (void)removeProgressView;
 
-//-----------------------------------------------------------------------------------------------------------------------------------
 - (void)createImageInspectView:(UIView*)__containerView;
 - (void)imageInspectViewPosition:(CGRect)__rec;
 - (void)imageInspectViewHidden:(BOOL)__hidden;
 
-//-----------------------------------------------------------------------------------------------------------------------------------
 - (void)createCameraView:(UIView*)__containerView;
 - (void)cameraViewPosition:(CGRect)__rec;
 - (void)cameraViewHidden:(BOOL)__hidden;
 
-//-----------------------------------------------------------------------------------------------------------------------------------
 - (void)transitionCameraToInspectImage;
 - (void)releaseCameraInspectImage;
 - (void)dragCameraToInspectImage:(CGPoint)__drag;
 - (void)releaseCamera;
 - (void)dragCamera:(CGPoint)_drag;
 
-//-----------------------------------------------------------------------------------------------------------------------------------
 - (void)dragInspectImageToCamera:(CGPoint)__drag;
 - (void)releaseInspectImageToCamera;
 - (void)transitionInspectImageToCamera;

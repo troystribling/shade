@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "ViewGeneral.h"
+#import "AnimateView.h"
 
 @interface ViewController ()
 
@@ -19,7 +20,7 @@
     [super viewDidLoad];
     ViewGeneral* general = [ViewGeneral instance];
     [general createViews:self.view];
-    [general cameraViewPosition:[ViewGeneral inWindow]];
+    [general cameraViewPosition:[AnimateView inWindowRect]];
 }
 
 - (void)didReceiveMemoryWarning {

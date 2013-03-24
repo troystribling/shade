@@ -12,6 +12,7 @@
 #import "UIImage+Resize.h"
 #import "Capture+Extensions.h"
 #import "UIAlertView+Extensions.h"
+#import "AnimateView.h"
 
 #define MAX_DRAG_FACTOR_FOR_SAVE_DELETE     0.6f
 #define SAVE_DRAG_FACTOR                    0.1f
@@ -100,7 +101,7 @@
 }
 
 - (void)drag:(CGPoint)__point {
-    [[ViewGeneral instance] drag:__point view:self.entriesCircleView];
+    [AnimateView drag:__point view:self.entriesCircleView];
 }
 
 - (void)releaseEntriesCircleView {
@@ -108,11 +109,10 @@
     self.isDraggingDown = NO;
     switch (self.downDragState) {
         case ImageInspectDragStateNone: {
-            [UIView animateWithDuration:[ViewGeneral verticalReleaseDuration:self.entriesCircleView.frame.origin.y]
-                             animations:^{
+            [AnimateView withDuration:[AnimateView verticalReleaseDuration:self.entriesCircleView.frame.origin.y]
+                             andAnimation:^{
                                  self.entriesCircleView.frame = self.view.frame;
                              }
-                             completion:nil
              ];
             break;
         }

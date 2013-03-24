@@ -12,6 +12,7 @@
 #import "ViewGeneral.h"
 #import "CameraFactory.h"
 #import "DataManager.h"
+#import "AnimateView.h"
 
 #define CAMERA_SHUTTER_TRANSITION     0.2f
 #define CAMERA_SHUTTER_DELAY          1.5f
@@ -35,17 +36,11 @@
 #pragma mark FilteredCameraViewController PrivateAPI
 
 - (void)animateShutterToAlpha:(float)__alpha onCompletion:(void(^)(void))__completion {
-    [UIView animateWithDuration:CAMERA_SHUTTER_TRANSITION
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
+    [AnimateView withDuration:CAMERA_SHUTTER_TRANSITION
+                     animation:^{
                          self.shutterView.alpha = __alpha;
                      }
-                     completion:^(BOOL _finished){
-                         if (__completion) {
-                             __completion();
-                         }
-                     }
+                     onCompletion:__completion
     ];
 }
 
@@ -82,12 +77,7 @@
         [self.cameraIds addObject:[NSNumber numberWithInt:__cameraId]];
         GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
         gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-        if ([self.camerasCircleView count] == 0) {
-            [self.camerasCircleView addView:gpuImageView];
-        } else {
-            [self.camerasCircleView addView:gpuImageView];
-            [self.camerasCircleView insertViewBelowTopView:gpuImageView];
-        }
+        [self.camerasCircleView addView:gpuImageView];
         [[CameraFactory instance] activateCameraWithId:__cameraId forView:gpuImageView];
     }
 }
