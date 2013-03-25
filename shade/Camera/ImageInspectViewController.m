@@ -22,7 +22,7 @@
 @interface ImageInspectViewController ()
 
 - (void)loadCaptures;
-- (void)saveDisplayedImageEntryToCameraRoll;
+- (void)saveImageEntryToCameraRoll:(ImageEntryView*)__imageEntryView;
 - (void)drag:(CGPoint)__point;
 - (void)releaseEntriesCircleView;
 - (void)updateDownDragState;
@@ -95,9 +95,9 @@
     }
 }
 
-- (void)saveDisplayedImageEntryToCameraRoll {
+- (void)saveImageEntryToCameraRoll:(ImageEntryView*)__imageEntryView {
     [[ViewGeneral instance] showProgressViewWithMessage:@"Saving to Camera Roll"];
-    UIImageWriteToSavedPhotosAlbum(self.displayedImageEntry.image, self, @selector(finishedSavingImageEntryToCameraRoll:didFinishSavingWithError:contextInfo:), nil);
+    UIImageWriteToSavedPhotosAlbum(__imageEntryView.image, self, @selector(finishedSavingImageEntryToCameraRoll:didFinishSavingWithError:contextInfo:), nil);
 }
 
 - (void)drag:(CGPoint)__point {
@@ -117,9 +117,22 @@
             break;
         }
         case ImageInspectDragStateSave: {
+            [self.entriesCircleView moveDisplayedViewDownRemoveAndOnCompletion:^(UIView *__view) {
+                ImageEntryView *entryView = (ImageEntryView*)__view;
+                [self saveImageEntryToCameraRoll:entryView];
+                [[ViewGeneral instance] deleteImageWithId:[entryView.capture imageID]];
+                [entryView.capture destroy];
+                [self initializeDownDragState];
+            }];
             break;
         }
         case ImageInspectDragStateDelete: {
+            [self.entriesCircleView moveDisplayedViewDownRemoveAndOnCompletion:^(UIView *__view) {
+                ImageEntryView *entryView = (ImageEntryView*)__view;
+                [[ViewGeneral instance] deleteImageWithId:[entryView.capture imageID]];
+                [entryView.capture destroy];
+                [self initializeDownDragState];
+            }];
             break;
         }
     }

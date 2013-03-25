@@ -87,7 +87,7 @@
     return [self.circleOfViews objectAtIndex:self.inViewIndex];
 }
 
-- (void)moveDisplayedViewDownAndRemove {
+- (void)moveDisplayedViewDownRemoveAndOnCompletion:(void(^)(UIView* __view))__completion {
     [AnimateView withDuration:[self removeVerticalDuration]
                     animation:^{
                         [self displayedView].frame = [AnimateView underWindowRect];
@@ -95,6 +95,7 @@
                  onCompletion:^{
                      UIView* removedView = [self removeDisplayedView];
                      if (removedView) {
+                         __completion(removedView);
                          [self replaceRemovedView];
                      }
                  }
@@ -248,7 +249,6 @@
         if ([self.delegate respondsToSelector:@selector(didRemoveAllViews)]) {
             [self.delegate didRemoveAllViews];
         }
-        viewToRemove = nil;
     } else if (self.inViewIndex == [self.circleOfViews count] && self.inViewIndex != 0) {
         self.inViewIndex--;
     }

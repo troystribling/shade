@@ -20,7 +20,7 @@
 @interface FilteredCameraViewController ()
 
 - (void)openShutter;
-- (void)closeShutter;
+- (void)closeShutterAndOnCompletion:(void(^)(void))__completion;
 - (void)animateShutterToAlpha:(float)__alpha onCompletion:(void(^)(void))__completion;
 - (void)openShutterOnStart;
 - (void)addCameraWithId:(CameraId)__cameraId;
@@ -44,10 +44,10 @@
     ];
 }
 
-- (void)closeShutter {
+- (void)closeShutterAndOnCompletion:(void(^)(void))__completion {
     self.shutterView.alpha = 0.0;
     [self.view addSubview:self.shutterView];
-    [self animateShutterToAlpha:1.0f onCompletion:nil];
+    [self animateShutterToAlpha:1.0f onCompletion:__completion];
 }
 
 - (void)openShutter {
@@ -143,72 +143,81 @@
 
 - (IBAction)captureStillImage:(id)__sender {
     self.captureImageGesture.enabled = NO;
-    [self closeShutter];
-    [[CameraFactory instance] captureStillImageForCameraWithId:self.displayedCameraId onCompletion:^(NSData* imageData, NSError* error) {
-        if (error) {
-            [ViewGeneral alertOnError:error];
-        }
-        else {
-            [[DataManager instance] performInBackground:^(NSManagedObjectContext *context) {
-                Capture *capture = [Capture createInContext:context];
-                [capture save];
-                ViewGeneral *viewGeneral = [ViewGeneral instance];
-                [viewGeneral writeImage:imageData withId:[capture imageID] onCompletion:^(BOOL __status) {
-                    if (__status) {
-                        [[NSNotificationCenter defaultCenter] postNotificationName:@"Capture"
-                                                                            object:self
-                                                                          userInfo:@{@"captureId" : capture.objectID}];
-                    }
+    [self closeShutterAndOnCompletion:^{
+        [[CameraFactory instance] captureStillImageForCameraWithId:self.displayedCameraId onCompletion:^(NSData* imageData, NSError* error) {
+            if (error) {
+                [ViewGeneral alertOnError:error];
+            }
+            else {
+                [[DataManager instance] performInBackground:^(NSManagedObjectContext *context) {
+                    Capture *capture = [Capture createInContext:context];
+                    [capture save];
+                    ViewGeneral *viewGeneral = [ViewGeneral instance];
+                    [viewGeneral writeImage:imageData withId:[capture imageID] onCompletion:^(BOOL __status) {
+                        if (__status) {
+                            [[NSNotificationCenter defaultCenter] postNotificationName:@"Capture"
+                                                                                object:self
+                                                                              userInfo:@{@"captureId" : capture.objectID}];
+                        }
+                    }];
                 }];
-            }];
-        }
-        self.captureImageGesture.enabled = YES;
-        [self openShutter];
+            }
+            self.captureImageGesture.enabled = YES;
+            [self openShutter];
+        }];
     }];
 }
 
 #pragma mark -
 #pragma mark CircleOfViewsDelegate
 
-- (void)didDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
-}
-
-- (void)didDragDown:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
-    [[ViewGeneral instance] dragCameraToInspectImage:__drag];
-}
-
-- (void)didReleaseUp:(CGPoint)_location {
-}
-
-- (void)didReleaseDown:(CGPoint)__location {
-    [[ViewGeneral instance] releaseCameraInspectImage];
-}
-
-- (void)didSwipeUp:(CGPoint)__location withVelocity:(CGPoint)__velocity {
-    [[CameraFactory instance] rotateCameraWithCameraId:self.displayedCameraId];
-}
-
-- (void)didSwipeDown:(CGPoint)__location withVelocity:(CGPoint)__velocity {
-    [[ViewGeneral instance] transitionCameraToInspectImage];
-}
-
-- (void)didReachMaxDragUp:(CGPoint)__drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
-    [[CameraFactory instance] rotateCameraWithCameraId:self.displayedCameraId];
-}
-
-- (void)didReachMaxDragDown:(CGPoint)__drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
-    [[ViewGeneral instance] transitionCameraToInspectImage];
-}
-
-- (void)didRemoveAllViews {
-    [[ViewGeneral instance] transitionInspectImageToCamera];
-}
+#pragma mark -
 
 - (void)didStartDraggingRight:(CGPoint)__location {
     CameraId cameraId = [[CameraFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
     [self addCameraWithId:cameraId];
     [self startCameraWithId:cameraId];
 }
+
+- (void)didDragDown:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    [[ViewGeneral instance] dragCameraToInspectImage:__drag];
+}
+
+- (void)didReleaseDown:(CGPoint)__location {
+    [[ViewGeneral instance] releaseCameraInspectImage];
+}
+
+- (void)didSwipeDown:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    [[ViewGeneral instance] transitionCameraToInspectImage];
+}
+
+- (void)didReachMaxDragDown:(CGPoint)__drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
+    [[ViewGeneral instance] transitionCameraToInspectImage];
+}
+
+#pragma mark -
+
+- (void)didDragUp:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+}
+
+- (void)didReleaseUp:(CGPoint)_location {
+}
+
+- (void)didSwipeUp:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    [[CameraFactory instance] rotateCameraWithCameraId:self.displayedCameraId];
+}
+
+- (void)didReachMaxDragUp:(CGPoint)__drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
+    [[CameraFactory instance] rotateCameraWithCameraId:self.displayedCameraId];
+}
+
+#pragma mark -
+
+- (void)didRemoveAllViews {
+    [[ViewGeneral instance] transitionInspectImageToCamera];
+}
+
+#pragma mark -
 
 - (void)didStartDraggingLeft:(CGPoint)__location {
     CameraId cameraId = [[CameraFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
@@ -222,15 +231,17 @@
     self.displayedCameraId = [camerFactory nextRightCameraIdRelativeTo:self.displayedCameraId];
 }
 
+- (void)didReleaseRight {
+    CameraFactory *camerFactory = [CameraFactory instance];
+    [camerFactory stopCameraWithId:[camerFactory nextRightCameraIdRelativeTo:self.displayedCameraId]];
+}
+
+#pragma mark -
+
 - (void)didMoveLeft {
     CameraFactory *camerFactory = [CameraFactory instance];
     [camerFactory stopCameraWithId:self.displayedCameraId];
     self.displayedCameraId = [camerFactory nextLeftCameraIdRelativeTo:self.displayedCameraId];
-}
-
-- (void)didReleaseRight {
-    CameraFactory *camerFactory = [CameraFactory instance];
-    [camerFactory stopCameraWithId:[camerFactory nextRightCameraIdRelativeTo:self.displayedCameraId]];
 }
 
 - (void)didReleaseLeft {
