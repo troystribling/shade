@@ -27,6 +27,7 @@
 - (void)releaseEntriesCircleView;
 - (void)updateDownDragState;
 - (void)initializeDownDragState;
+- (void)destroyImageEntry:(ImageEntryView*)__imageEntryView;
 
 @end
 
@@ -71,27 +72,18 @@
 #pragma mark ImageInspectViewController (PrivateAPI)
 
 - (void)loadCaptures {
-    [[DataManager instance] performInBackground:^(NSManagedObjectContext *__context) {
-        NSArray *captures = [Capture findAllInContext:__context];
-        for (Capture *capture in captures) {
-            UIImage *image = [[ViewGeneral instance] readImageWithId:[capture imageID]];
-            NSManagedObjectID *captureId = capture.objectID;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self addCapture:[Capture findWithID:captureId] andImage:image];
-            });
-        }
-    }];
+    NSArray *captures = [Capture findAll];
+    for (Capture *capture in captures) {
+        NSString *imageId = [capture imageID];
+        UIImage *image = [[ViewGeneral instance] readImageWithId:imageId];
+        [self addCapture:capture andImage:image];
+    }
 }
 
 - (void)finishedSavingImageEntryToCameraRoll:(UIImage*)_image didFinishSavingWithError:(NSError*)__error contextInfo:(void*)__context {
+    [[ViewGeneral instance] removeProgressView];
     if (__error) {
-        [[ViewGeneral instance] removeProgressView];
         [UIAlertView alertOnError:__error];
-    } else {
-        [[ViewGeneral instance] deleteImageWithId:[self.displayedImageEntry.capture imageID]];
-        [self.displayedImageEntry.capture destroy];
-        self.displayedImageEntry = nil;
-        [[ViewGeneral instance] removeProgressView];
     }
 }
 
@@ -120,18 +112,14 @@
             [self.entriesCircleView moveDisplayedViewDownRemoveAndOnCompletion:^(UIView *__view) {
                 ImageEntryView *entryView = (ImageEntryView*)__view;
                 [self saveImageEntryToCameraRoll:entryView];
-                [[ViewGeneral instance] deleteImageWithId:[entryView.capture imageID]];
-                [entryView.capture destroy];
-                [self initializeDownDragState];
+                [self destroyImageEntry:entryView];
             }];
             break;
         }
         case ImageInspectDragStateDelete: {
             [self.entriesCircleView moveDisplayedViewDownRemoveAndOnCompletion:^(UIView *__view) {
                 ImageEntryView *entryView = (ImageEntryView*)__view;
-                [[ViewGeneral instance] deleteImageWithId:[entryView.capture imageID]];
-                [entryView.capture destroy];
-                [self initializeDownDragState];
+                [self destroyImageEntry:entryView];
             }];
             break;
         }
@@ -173,6 +161,14 @@
 - (void)initializeDownDragState {
     self.downDragState = ImageInspectDragStateNone;
     self.view.backgroundColor = [UIColor lightGrayColor];
+}
+
+- (void)destroyImageEntry:(ImageEntryView*)__imageEntryView {
+    NSString *imageId = [__imageEntryView.capture imageID];
+    [[ViewGeneral instance] deleteImageWithId:imageId];
+    [__imageEntryView.capture destroy];
+    [__imageEntryView.capture save];
+    [self initializeDownDragState];
 }
 
 #pragma mark -
