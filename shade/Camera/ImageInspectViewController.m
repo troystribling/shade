@@ -22,12 +22,15 @@
 @interface ImageInspectViewController ()
 
 - (void)loadCaptures;
-- (void)saveImageEntryToCameraRoll:(ImageEntryView*)__imageEntryView;
+- (void)saveDisplayedImageEntryToCameraRoll;
 - (void)drag:(CGPoint)__point;
 - (void)releaseEntriesCircleView;
 - (void)updateDownDragState;
 - (void)initializeDownDragState;
-- (void)destroyImageEntry:(ImageEntryView*)__imageEntryView;
+- (void)destroyDisplayedImageEntry;
+- (CGFloat)removeHorizontalDuration;
+- (CGFloat)removeVerticalDuration;
+- (void)moveEntriesCircleViewDownAndOnCompletion:(void(^)(UIView* __view))__completion;
 
 @end
 
@@ -80,16 +83,19 @@
     }
 }
 
-- (void)finishedSavingImageEntryToCameraRoll:(UIImage*)_image didFinishSavingWithError:(NSError*)__error contextInfo:(void*)__context {
-    [[ViewGeneral instance] removeProgressView];
-    if (__error) {
+- (void)finishedSavingDisplayedImageEntryToCameraRoll:(UIImage*)_image didFinishSavingWithError:(NSError*)__error contextInfo:(void*)__context {
+    if (!__error) {
+        [self destroyDisplayedImageEntry];
+        [[ViewGeneral instance] removeProgressView];
+    } else {
+        [[ViewGeneral instance] removeProgressView];
         [UIAlertView alertOnError:__error];
     }
 }
 
-- (void)saveImageEntryToCameraRoll:(ImageEntryView*)__imageEntryView {
+- (void)saveDisplayedImageEntryToCameraRoll {
     [[ViewGeneral instance] showProgressViewWithMessage:@"Saving to Camera Roll"];
-    UIImageWriteToSavedPhotosAlbum(__imageEntryView.image, self, @selector(finishedSavingImageEntryToCameraRoll:didFinishSavingWithError:contextInfo:), nil);
+    UIImageWriteToSavedPhotosAlbum(self.displayedImageEntry.image, self, @selector(finishedSavingDisplayedImageEntryToCameraRoll:didFinishSavingWithError:contextInfo:), nil);
 }
 
 - (void)drag:(CGPoint)__point {
@@ -109,17 +115,16 @@
             break;
         }
         case ImageInspectDragStateSave: {
-            [self.entriesCircleView moveDisplayedViewDownRemoveAndOnCompletion:^(UIView *__view) {
-                ImageEntryView *entryView = (ImageEntryView*)__view;
-                [self saveImageEntryToCameraRoll:entryView];
-                [self destroyImageEntry:entryView];
+            [self moveEntriesCircleViewDownAndOnCompletion:^(UIView *__view) {
+                self.displayedImageEntry = (ImageEntryView*)__view;
+                [self saveDisplayedImageEntryToCameraRoll];
             }];
             break;
         }
         case ImageInspectDragStateDelete: {
-            [self.entriesCircleView moveDisplayedViewDownRemoveAndOnCompletion:^(UIView *__view) {
-                ImageEntryView *entryView = (ImageEntryView*)__view;
-                [self destroyImageEntry:entryView];
+            [self moveEntriesCircleViewDownAndOnCompletion:^(UIView *__view) {
+                self.displayedImageEntry = (ImageEntryView*)__view;
+                [self destroyDisplayedImageEntry];
             }];
             break;
         }
@@ -163,12 +168,43 @@
     self.view.backgroundColor = [UIColor lightGrayColor];
 }
 
-- (void)destroyImageEntry:(ImageEntryView*)__imageEntryView {
-    NSString *imageId = [__imageEntryView.capture imageID];
+- (void)destroyDisplayedImageEntry {
+    Capture *displayedCapture = [Capture findWithID:[self.displayedImageEntry.capture objectID]];
+    NSString *imageId = [displayedCapture imageID];
     [[ViewGeneral instance] deleteImageWithId:imageId];
-    [__imageEntryView.capture destroy];
-    [__imageEntryView.capture save];
+    [displayedCapture destroy];
     [self initializeDownDragState];
+}
+
+- (CGFloat)removeHorizontalDuration {
+    return [AnimateView horizontalTransitionDuration:self.view.frame.size.width];
+}
+
+- (CGFloat)removeVerticalDuration {
+    return [AnimateView horizontalTransitionDuration:self.view.frame.size.height];
+}
+
+- (void)moveEntriesCircleViewDownAndOnCompletion:(void(^)(UIView* __view))__completion {
+    [AnimateView withDuration:[self removeVerticalDuration]
+                    animation:^{
+                        self.entriesCircleView.frame = [AnimateView underWindowRect];
+                    }
+                 onCompletion:^{
+                     UIView* removedView = [self.entriesCircleView removeDisplayedView];
+                     __completion(removedView);
+                     [self.entriesCircleView replaceRemovedView];
+                     if ([self.entriesCircleView count] > 0) {
+                         self.entriesCircleView.frame = [AnimateView leftOfWindowRect];
+                         [AnimateView withDuration:[self removeHorizontalDuration]
+                                      andAnimation:^{
+                                          self.entriesCircleView.frame = [AnimateView inWindowRect];
+                                      }
+                          ];
+                     } else {
+                         self.entriesCircleView.frame = [AnimateView overWindowRect];
+                     }
+                 }
+     ];
 }
 
 #pragma mark -

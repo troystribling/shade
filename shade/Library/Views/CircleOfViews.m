@@ -13,8 +13,6 @@
 
 - (CGFloat)horizontalReleaseDuration;
 - (CGFloat)horizontalTransitionDuration;
-- (CGFloat)removeHorizontalDuration;
-- (CGFloat)removeVerticalDuration;
 
 - (void)dragView:(CGPoint)_drag;
 - (void)releaseView:(CGFloat)_duration onCompletion:(void(^)(void))__completetion;
@@ -31,9 +29,6 @@
 - (UIView*)nextLastLeftView;
 - (void)insertViewAtBottomFromRight:(UIView*)__view;
 - (void)insertViewAtBottomFromLeft:(UIView*)__view;
-
-- (UIView*)removeDisplayedView;
-- (void)replaceRemovedView;
 
 @end
 
@@ -87,19 +82,24 @@
     return [self.circleOfViews objectAtIndex:self.inViewIndex];
 }
 
-- (void)moveDisplayedViewDownRemoveAndOnCompletion:(void(^)(UIView* __view))__completion {
-    [AnimateView withDuration:[self removeVerticalDuration]
-                    animation:^{
-                        [self displayedView].frame = [AnimateView underWindowRect];
-                    }
-                 onCompletion:^{
-                     UIView* removedView = [self removeDisplayedView];
-                     if (removedView) {
-                         __completion(removedView);
-                         [self replaceRemovedView];
-                     }
-                 }
-     ];
+- (UIView*)removeDisplayedView {
+    UIView* viewToRemove = [self displayedView];
+    [self.circleOfViews removeObject:viewToRemove];
+    [viewToRemove removeFromSuperview];
+    if ([self.circleOfViews count] == 0) {
+        if ([self.delegate respondsToSelector:@selector(didRemoveAllViews)]) {
+            [self.delegate didRemoveAllViews];
+        }
+    } else if (self.inViewIndex == [self.circleOfViews count] && self.inViewIndex != 0) {
+        self.inViewIndex--;
+    }
+    return viewToRemove;
+}
+
+- (void)replaceRemovedView {
+    if ([self count] > 0) {
+        [self displayedView].frame = [AnimateView inWindowRect];
+    }
 }
 
 - (float)maximumDragFactor {
@@ -129,14 +129,6 @@
 - (CGFloat)horizontalTransitionDuration {
     UIView* viewItem = [self displayedView];
     return [AnimateView horizontalTransitionDuration:viewItem.frame.origin.x];
-}
-
-- (CGFloat)removeHorizontalDuration {
-    return [AnimateView horizontalTransitionDuration:self.frame.size.width];
-}
-
-- (CGFloat)removeVerticalDuration {
-    return [AnimateView horizontalTransitionDuration:self.frame.size.width];
 }
 
 - (void)dragView:(CGPoint)__drag {
@@ -239,28 +231,6 @@
 
 - (void)insertViewAtBottomFromLeft:(UIView*)__view {
     [self insertSubview:__view belowSubview:[self nextLastLeftView]];
-}
-
-- (UIView*)removeDisplayedView {
-    UIView* viewToRemove = [self displayedView];
-    [self.circleOfViews removeObject:viewToRemove];
-    [viewToRemove removeFromSuperview];
-    if ([self.circleOfViews count] == 0) {
-        if ([self.delegate respondsToSelector:@selector(didRemoveAllViews)]) {
-            [self.delegate didRemoveAllViews];
-        }
-    } else if (self.inViewIndex == [self.circleOfViews count] && self.inViewIndex != 0) {
-        self.inViewIndex--;
-    }
-    return viewToRemove;
-}
-
-- (void)replaceRemovedView {
-    [AnimateView withDuration:[self removeHorizontalDuration]
-                     andAnimation:^{
-                         [self displayedView].frame = [AnimateView inWindowRect];
-                     }
-     ];    
 }
 
 #pragma mark -

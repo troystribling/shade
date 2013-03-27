@@ -29,7 +29,8 @@
 - (void)removeView:(UIView*)__view;
 - (UIView*)displayedView;
 
-- (void)moveDisplayedViewDownRemoveAndOnCompletion:(void(^)(UIView* __view))__completion;
+- (UIView*)removeDisplayedView;
+- (void)replaceRemovedView;
 
 - (float)maximumDragFactor;
 - (void)setMaximumDragFactor:(float)__maximumDragFactor;
