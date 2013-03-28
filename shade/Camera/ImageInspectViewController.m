@@ -177,11 +177,11 @@
 }
 
 - (CGFloat)removeHorizontalDuration {
-    return [AnimateView horizontalTransitionDuration:self.view.frame.size.width];
+    return [AnimateView horizontalTransitionDuration:0.0f];
 }
 
 - (CGFloat)removeVerticalDuration {
-    return [AnimateView horizontalTransitionDuration:self.view.frame.size.height];
+    return [AnimateView horizontalTransitionDuration:self.entriesCircleView.frame.origin.y];
 }
 
 - (void)moveEntriesCircleViewDownAndOnCompletion:(void(^)(UIView* __view))__completion {
@@ -194,14 +194,14 @@
                      __completion(removedView);
                      [self.entriesCircleView replaceRemovedView];
                      if ([self.entriesCircleView count] > 0) {
-                         self.entriesCircleView.frame = [AnimateView leftOfWindowRect];
+                         self.entriesCircleView.frame = [AnimateView rightOfWindowRect];
                          [AnimateView withDuration:[self removeHorizontalDuration]
                                       andAnimation:^{
                                           self.entriesCircleView.frame = [AnimateView inWindowRect];
                                       }
                           ];
                      } else {
-                         self.entriesCircleView.frame = [AnimateView overWindowRect];
+                         self.entriesCircleView.frame = [AnimateView inWindowRect];
                      }
                  }
      ];
