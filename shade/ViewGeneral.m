@@ -213,10 +213,14 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 }
 
 - (void)transitionInspectImageToCamera {
-    [AnimateView withDuration:[AnimateView verticalTransitionDuration:self.imageInspectViewController.view.frame.origin.y] andAnimation:^{
-            [self cameraViewPosition:[AnimateView inWindowRect]];
-            [self imageInspectViewPosition:[AnimateView overWindowRect]];
-        }
+    [AnimateView withDuration:[AnimateView verticalTransitionDuration:self.imageInspectViewController.view.frame.origin.y]
+                   animation:^{
+                       [self cameraViewPosition:[AnimateView inWindowRect]];
+                       [self imageInspectViewPosition:[AnimateView overWindowRect]];
+                   }
+                 onCompletion:^{
+                     self.view.backgroundColor = [UIColor blackColor];
+                 }
     ];    
 }
 

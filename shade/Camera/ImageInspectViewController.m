@@ -31,6 +31,7 @@
 - (CGFloat)removeHorizontalDuration;
 - (CGFloat)removeVerticalDuration;
 - (void)moveEntriesCircleViewDownAndOnCompletion:(void(^)(UIView* __view))__completion;
+- (void)setViewColors:(UIColor*)__color;
 
 @end
 
@@ -145,7 +146,7 @@
         case ImageInspectDragStateSave: {
             if (dragFactor > DELETE_DRAG_FACTOR) {
                 self.downDragState = ImageInspectDragStateDelete;
-                self.view.backgroundColor = [UIColor redColor];
+                [self setViewColors:[UIColor redColor]];
             } else if (dragFactor < NONE_DRAG_FACTOR) {
                 [self initializeDownDragState];
             }
@@ -154,7 +155,7 @@
         case ImageInspectDragStateDelete: {
             if (dragFactor < DELETE_DRAG_FACTOR) {
                 self.downDragState = ImageInspectDragStateSave;
-                self.view.backgroundColor = [UIColor greenColor];
+                [self setViewColors:[UIColor greenColor]];
             } else if (dragFactor < NONE_DRAG_FACTOR) {
                 [self initializeDownDragState];
             }
@@ -166,6 +167,7 @@
 - (void)initializeDownDragState {
     self.downDragState = ImageInspectDragStateNone;
     self.view.backgroundColor = [UIColor lightGrayColor];
+    self.entriesCircleView.backgroundColor = [UIColor blackColor];
 }
 
 - (void)destroyDisplayedImageEntry {
@@ -173,7 +175,6 @@
     NSString *imageId = [displayedCapture imageID];
     [[ViewGeneral instance] deleteImageWithId:imageId];
     [displayedCapture destroy];
-    [self initializeDownDragState];
 }
 
 - (CGFloat)removeHorizontalDuration {
@@ -181,7 +182,7 @@
 }
 
 - (CGFloat)removeVerticalDuration {
-    return [AnimateView horizontalTransitionDuration:self.entriesCircleView.frame.origin.y];
+    return [AnimateView verticalDuration:self.entriesCircleView.frame.origin.y];
 }
 
 - (void)moveEntriesCircleViewDownAndOnCompletion:(void(^)(UIView* __view))__completion {
@@ -196,8 +197,11 @@
                      if ([self.entriesCircleView count] > 0) {
                          self.entriesCircleView.frame = [AnimateView rightOfWindowRect];
                          [AnimateView withDuration:[self removeHorizontalDuration]
-                                      andAnimation:^{
+                                      animation:^{
                                           self.entriesCircleView.frame = [AnimateView inWindowRect];
+                                      }
+                                      onCompletion:^{
+                                          [self initializeDownDragState];
                                       }
                           ];
                      } else {
@@ -205,6 +209,12 @@
                      }
                  }
      ];
+}
+
+- (void)setViewColors:(UIColor*)__color {
+    self.view.backgroundColor = __color;
+    self.entriesCircleView.backgroundColor = __color;
+    self.containerView.backgroundColor = __color;
 }
 
 #pragma mark -
