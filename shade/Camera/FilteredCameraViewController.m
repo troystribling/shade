@@ -25,6 +25,7 @@
 - (void)openShutterOnStart;
 - (void)addCameraWithId:(CameraId)__cameraId;
 - (void)startCameraWithId:(CameraId)__cameraId;
+- (void)stopCameraWithId:(CameraId)__cameraId;
 - (BOOL)hasCamera:(CameraId)__cameraId;
 - (void)didCapture:(NSNotification*)__notification;
 
@@ -83,8 +84,14 @@
 }
 
 - (void)startCameraWithId:(CameraId)__cameraId {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    dispatch_async(self.cameraQueue, ^{
         [[CameraFactory instance] startCameraWithId:__cameraId];
+    });
+}
+
+- (void)stopCameraWithId:(CameraId)__cameraId {
+    dispatch_async(self.cameraQueue, ^{
+        [[CameraFactory instance] stopCameraWithId:__cameraId];
     });
 }
 
@@ -115,6 +122,7 @@
     if (self) {
         self.containerView = __containerView;
         self.cameraIds = [NSMutableArray array];
+        self.cameraQueue = dispatch_queue_create("cameras.imaginaryproducts.com", NULL);
     }
     return self;
 }
@@ -214,39 +222,39 @@
 #pragma mark -
 
 - (void)didStartDraggingRight:(CGPoint)__location {
+    [self stopCameraWithId:self.displayedCameraId];
     CameraId cameraId = [[CameraFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
     [self addCameraWithId:cameraId];
     [self startCameraWithId:cameraId];
 }
 
 - (void)didMoveRight {
-    CameraFactory *camerFactory = [CameraFactory instance];
-    [camerFactory stopCameraWithId:self.displayedCameraId];
-    self.displayedCameraId = [camerFactory nextRightCameraIdRelativeTo:self.displayedCameraId];
+    self.displayedCameraId = [[CameraFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
 }
 
 - (void)didReleaseRight {
     CameraFactory *camerFactory = [CameraFactory instance];
     [camerFactory stopCameraWithId:[camerFactory nextRightCameraIdRelativeTo:self.displayedCameraId]];
+    [self startCameraWithId:self.displayedCameraId];
 }
 
 #pragma mark -
 
 - (void)didStartDraggingLeft:(CGPoint)__location {
+    [self stopCameraWithId:self.displayedCameraId];
     CameraId cameraId = [[CameraFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
     [self addCameraWithId:cameraId];
     [self startCameraWithId:cameraId];
 }
 
 - (void)didMoveLeft {
-    CameraFactory *camerFactory = [CameraFactory instance];
-    [camerFactory stopCameraWithId:self.displayedCameraId];
-    self.displayedCameraId = [camerFactory nextLeftCameraIdRelativeTo:self.displayedCameraId];
+    self.displayedCameraId = [[CameraFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
 }
 
 - (void)didReleaseLeft {
     CameraFactory *camerFactory = [CameraFactory instance];
     [camerFactory stopCameraWithId:[camerFactory nextLeftCameraIdRelativeTo:self.displayedCameraId]];
+    [self startCameraWithId:self.displayedCameraId];
 }
 
 @end

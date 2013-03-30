@@ -19,6 +19,7 @@
 @property(nonatomic, assign)    CameraId                                    displayedCameraId;
 @property(nonatomic, strong)    NSMutableArray                              *cameraIds;
 @property(nonatomic, strong)    CircleOfViews                               *camerasCircleView;
+@property(nonatomic, strong)    dispatch_queue_t                            cameraQueue;
 
 
 + (id)inView:(UIView*)__containerView;
