@@ -23,6 +23,8 @@ typedef enum  {
 @property(nonatomic, weak)   UIView                             *containerView;
 @property(nonatomic, strong) CircleOfViews                      *entriesCircleView;
 @property(nonatomic, strong) ImageEntryView                     *displayedImageEntry;
+@property(nonatomic, strong) UIImageView                        *downDragSaveImageView;
+@property(nonatomic, strong) UIImageView                        *downDragDeleteImageView;
 @property(nonatomic, assign) float                              originalMaxDragFactor;
 @property(nonatomic, assign) ImageInspectDragState              downDragState;
 @property(nonatomic, assign) BOOL                               isDraggingDown;

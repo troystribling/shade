@@ -24,6 +24,10 @@
 		0534C9AB16E2F8E000EAD481 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0534C9AA16E2F8E000EAD481 /* QuartzCore.framework */; };
 		0534C9AD16E2F8E800EAD481 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0534C9AC16E2F8E800EAD481 /* OpenGLES.framework */; };
 		0534C9AF16E2F8F900EAD481 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0534C9AE16E2F8F900EAD481 /* AVFoundation.framework */; };
+		0536E88617076C2F0017F832 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 0536E88217076C2F0017F832 /* delete.png */; };
+		0536E88717076C2F0017F832 /* delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0536E88317076C2F0017F832 /* delete@2x.png */; };
+		0536E88817076C2F0017F832 /* save.png in Resources */ = {isa = PBXBuildFile; fileRef = 0536E88417076C2F0017F832 /* save.png */; };
+		0536E88917076C2F0017F832 /* save@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0536E88517076C2F0017F832 /* save@2x.png */; };
 		058D050B16EAE09F000506D7 /* FilteredCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058D050A16EAE09F000506D7 /* FilteredCameraViewController.xib */; };
 		058D052416EBDCB8000506D7 /* Capture.m in Sources */ = {isa = PBXBuildFile; fileRef = 058D052316EBDCB8000506D7 /* Capture.m */; };
 		058E983D16E5943300C4DDFA /* UIAlertView+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 058E983C16E5943300C4DDFA /* UIAlertView+Extensions.m */; };
@@ -118,6 +122,10 @@
 		0534C9AA16E2F8E000EAD481 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0534C9AC16E2F8E800EAD481 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		0534C9AE16E2F8F900EAD481 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		0536E88217076C2F0017F832 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
+		0536E88317076C2F0017F832 /* delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete@2x.png"; sourceTree = "<group>"; };
+		0536E88417076C2F0017F832 /* save.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = save.png; sourceTree = "<group>"; };
+		0536E88517076C2F0017F832 /* save@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "save@2x.png"; sourceTree = "<group>"; };
 		058D050A16EAE09F000506D7 /* FilteredCameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilteredCameraViewController.xib; sourceTree = "<group>"; };
 		058D052216EBDCB8000506D7 /* Capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Capture.h; sourceTree = "<group>"; };
 		058D052316EBDCB8000506D7 /* Capture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Capture.m; sourceTree = "<group>"; };
@@ -264,6 +272,7 @@
 				0534C98716E2F50400EAD481 /* AppDelegate.h */,
 				0534C98816E2F50400EAD481 /* AppDelegate.m */,
 				05AD716116E32BCD00AAB7D9 /* Camera */,
+				0536E88C17076C350017F832 /* Images */,
 				05AD715316E32BBE00AAB7D9 /* Library */,
 				05AD71B016E3F44C00AAB7D9 /* Models */,
 				0534C97F16E2F50400EAD481 /* Supporting Files */,
@@ -299,6 +308,17 @@
 				0534C9A416E2F85A00EAD481 /* GPUImageTests.octest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		0536E88C17076C350017F832 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				0536E88217076C2F0017F832 /* delete.png */,
+				0536E88317076C2F0017F832 /* delete@2x.png */,
+				0536E88417076C2F0017F832 /* save.png */,
+				0536E88517076C2F0017F832 /* save@2x.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 		05AD715316E32BBE00AAB7D9 /* Library */ = {
@@ -507,6 +527,10 @@
 				05AD71BB16E3F84A00AAB7D9 /* Cameras.plist in Resources */,
 				05AD71CC16E40F6A00AAB7D9 /* CameraFilterParameters.plist in Resources */,
 				058D050B16EAE09F000506D7 /* FilteredCameraViewController.xib in Resources */,
+				0536E88617076C2F0017F832 /* delete.png in Resources */,
+				0536E88717076C2F0017F832 /* delete@2x.png in Resources */,
+				0536E88817076C2F0017F832 /* save.png in Resources */,
+				0536E88917076C2F0017F832 /* save@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

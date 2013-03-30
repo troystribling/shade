@@ -173,12 +173,6 @@
 
 #pragma mark -
 
-- (void)didStartDraggingRight:(CGPoint)__location {
-    CameraId cameraId = [[CameraFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
-    [self addCameraWithId:cameraId];
-    [self startCameraWithId:cameraId];
-}
-
 - (void)didDragDown:(CGPoint)__drag from:(CGPoint)__location withVelocity:(CGPoint)__velocity {
     [[ViewGeneral instance] dragCameraToInspectImage:__drag];
 }
@@ -219,8 +213,8 @@
 
 #pragma mark -
 
-- (void)didStartDraggingLeft:(CGPoint)__location {
-    CameraId cameraId = [[CameraFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
+- (void)didStartDraggingRight:(CGPoint)__location {
+    CameraId cameraId = [[CameraFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
     [self addCameraWithId:cameraId];
     [self startCameraWithId:cameraId];
 }
@@ -237,6 +231,12 @@
 }
 
 #pragma mark -
+
+- (void)didStartDraggingLeft:(CGPoint)__location {
+    CameraId cameraId = [[CameraFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
+    [self addCameraWithId:cameraId];
+    [self startCameraWithId:cameraId];
+}
 
 - (void)didMoveLeft {
     CameraFactory *camerFactory = [CameraFactory instance];
