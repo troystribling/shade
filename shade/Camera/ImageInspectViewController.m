@@ -14,9 +14,9 @@
 #import "UIAlertView+Extensions.h"
 #import "AnimateView.h"
 
-#define MAX_DRAG_FACTOR_FOR_SAVE_DELETE     0.6f
+#define MAX_DRAG_FACTOR_FOR_SAVE_DELETE     0.7f
 #define SAVE_DRAG_FACTOR                    0.1f
-#define DELETE_DRAG_FACTOR                  0.25f
+#define DELETE_DRAG_FACTOR                  0.45f
 #define NONE_DRAG_FACTOR                    0.1f
 
 @interface ImageInspectViewController ()
