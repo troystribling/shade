@@ -14,9 +14,10 @@
 #import "UIAlertView+Extensions.h"
 #import "AnimateView.h"
 
-#define MAX_DRAG_FACTOR_FOR_SAVE_DELETE     0.7f
+#define MAX_DRAG_FACTOR_FOR_SAVE_DELETE     0.9f
+#define REMOVE_SPEED                        400.0f
 #define SAVE_DRAG_FACTOR                    0.1f
-#define DELETE_DRAG_FACTOR                  0.45f
+#define DELETE_DRAG_FACTOR                  0.4f
 #define NONE_DRAG_FACTOR                    0.1f
 
 @interface ImageInspectViewController ()
@@ -182,7 +183,7 @@
 }
 
 - (CGFloat)removeVerticalDuration {
-    return [AnimateView verticalDuration:self.entriesCircleView.frame.origin.y];
+    return [AnimateView verticalTransitionDuration:self.entriesCircleView.frame.origin.y withSpeed:REMOVE_SPEED];
 }
 
 - (void)moveEntriesCircleViewDownAndOnCompletion:(void(^)(UIView* __view))__completion {

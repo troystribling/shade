@@ -19,6 +19,7 @@
 
 + (CGFloat)verticalReleaseDuration:(CGFloat)__offset;
 + (CGFloat)horizontaltReleaseDuration:(CGFloat)__offset;
++ (CGFloat)verticalTransitionDuration:(CGFloat)__offset withSpeed:(CGFloat)__speed;
 + (CGFloat)verticalTransitionDuration:(CGFloat)__offset;
 + (CGFloat)horizontalTransitionDuration:(CGFloat)__offset;
 + (CGFloat)horizontalDuration:(CGFloat)__offset;

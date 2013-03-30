@@ -61,9 +61,13 @@ static BOOL notAnimating    = YES;
     return abs(_offset) / RELEASE_ANIMATION_SPEED;
 }
 
-+ (CGFloat)verticalTransitionDuration:(CGFloat)_offset {
++ (CGFloat)verticalTransitionDuration:(CGFloat)__offset withSpeed:(CGFloat)__speed {
     CGRect screenBounds = [self.class screenBounds];
-    return (screenBounds.size.height - abs(_offset)) / VERTICAL_TRANSITION_ANIMATION_SPEED;
+    return (screenBounds.size.height - abs(__offset)) / __speed;
+}
+
++ (CGFloat)verticalTransitionDuration:(CGFloat)__offset {
+    return [self verticalTransitionDuration:__offset withSpeed:VERTICAL_TRANSITION_ANIMATION_SPEED];
 }
 
 + (CGFloat)horizontalTransitionDuration:(CGFloat)_offset {
