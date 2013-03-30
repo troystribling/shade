@@ -19,16 +19,18 @@
 
 - (BOOL)canMoveRight;
 - (BOOL)canMoveLeft;
+- (BOOL)nextViewIsonRight;
 - (void)moveViewsLeft;
 - (void)moveViewsRight;
+
+- (NSInteger)nextIndex;
 - (NSInteger)nextRightIndex;
 - (NSInteger)nextLeftIndex;
+- (UIView*)nextView;
 - (UIView*)nextRightView;
 - (UIView*)nextLeftView;
 - (UIView*)nextLastRightView;
 - (UIView*)nextLastLeftView;
-- (void)insertViewAtBottomFromRight:(UIView*)__view;
-- (void)insertViewAtBottomFromLeft:(UIView*)__view;
 
 @end
 
@@ -85,6 +87,7 @@
 - (UIView*)removeDisplayedView {
     UIView* viewToRemove = [self displayedView];
     [self.circleOfViews removeObject:viewToRemove];
+    self.rightViewCount--;
     [viewToRemove removeFromSuperview];
     if ([self.circleOfViews count] == 0) {
         if ([self.delegate respondsToSelector:@selector(didRemoveAllViews)]) {
@@ -223,14 +226,6 @@
         viewIndex = 0;
     }
     return [self.circleOfViews objectAtIndex:viewIndex];
-}
-
-- (void)insertViewAtBottomFromRight:(UIView*)__view {
-    [self insertSubview:__view belowSubview:[self nextLastRightView]];
-}
-
-- (void)insertViewAtBottomFromLeft:(UIView*)__view {
-    [self insertSubview:__view belowSubview:[self nextLastLeftView]];
 }
 
 #pragma mark -
