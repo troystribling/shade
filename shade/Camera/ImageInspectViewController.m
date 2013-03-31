@@ -265,18 +265,19 @@
                      self.downDragSaveImageView.hidden = YES;
                      self.downDragDeleteImageView.hidden = YES;
                      if ([self.entriesCircleView count] > 0) {
+                         [self.entriesCircleView hideLeftViews:YES];
                          self.entriesCircleView.frame = [AnimateView rightOfWindowRect];
                          [AnimateView withDuration:[self removeHorizontalDuration]
                                       animation:^{
                                           self.entriesCircleView.frame = [AnimateView inWindowRect];
                                       }
                                       onCompletion:^{
+                                          [self.entriesCircleView hideLeftViews:NO];
                                           [self initializeDownDragState];
                                       }
                           ];
                      } else {
                          self.entriesCircleView.frame = [AnimateView inWindowRect];
-                         [self initializeDownDragState];
                      }
                  }
      ];

@@ -19,14 +19,11 @@
 
 - (BOOL)canMoveRight;
 - (BOOL)canMoveLeft;
-- (BOOL)nextViewIsonRight;
 - (void)moveViewsLeft;
 - (void)moveViewsRight;
 
-- (NSInteger)nextIndex;
 - (NSInteger)nextRightIndex;
 - (NSInteger)nextLeftIndex;
-- (UIView*)nextView;
 - (UIView*)nextRightView;
 - (UIView*)nextLeftView;
 - (UIView*)nextLastRightView;
@@ -87,7 +84,6 @@
 - (UIView*)removeDisplayedView {
     UIView* viewToRemove = [self displayedView];
     [self.circleOfViews removeObject:viewToRemove];
-    self.rightViewCount--;
     [viewToRemove removeFromSuperview];
     if ([self.circleOfViews count] == 0) {
         if ([self.delegate respondsToSelector:@selector(didRemoveAllViews)]) {
@@ -95,6 +91,9 @@
         }
     } else if (self.inViewIndex == [self.circleOfViews count] && self.inViewIndex != 0) {
         self.inViewIndex--;
+    }
+    if (self.rightViewCount > 0) {
+        self.rightViewCount--;
     }
     return viewToRemove;
 }
@@ -113,12 +112,26 @@
     self.transitionGestureRecognizer.maximumDragFactor = __maximumDragFactor;
 }
 
-- (BOOL)enabled {
+- (BOOL)touchEnabled {
     return [self.transitionGestureRecognizer enabled];
 }
 
-- (void)enabled:(BOOL)_enabled {
+- (void)touchEnabled:(BOOL)_enabled {
     [self.transitionGestureRecognizer enabled:_enabled];
+}
+
+- (void)hideLeftViews:(BOOL)__hidden {
+    for (int i = 0; i < self.inViewIndex; i++) {
+        UIView *leftView = [self.circleOfViews objectAtIndex:i];
+        leftView.hidden = __hidden;
+    }
+}
+
+- (void)hideRightViews:(BOOL)__hidden {
+    for (int i = self.inViewIndex; i < [self.circleOfViews count] - 1; i++) {
+        UIView *rightView = [self.circleOfViews objectAtIndex:i];
+        rightView.hidden = __hidden;
+    }
 }
 
 #pragma mark -

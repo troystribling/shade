@@ -35,8 +35,11 @@
 - (float)maximumDragFactor;
 - (void)setMaximumDragFactor:(float)__maximumDragFactor;
 
-- (BOOL)enabled;
-- (void)enabled:(BOOL)__enabled;
+- (BOOL)touchEnabled;
+- (void)touchEnabled:(BOOL)__enabled;
+
+- (void)hideLeftViews:(BOOL)__hidden;
+- (void)hideRightViews:(BOOL)__hidden;
 
 @end
 
