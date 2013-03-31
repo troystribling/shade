@@ -18,7 +18,7 @@
 @property (nonatomic, strong)  TransitionGestureRecognizer*     transitionGestureRecognizer;
 @property (nonatomic, strong)  NSMutableArray*                  circleOfViews;
 @property (nonatomic, assign)  NSInteger                        inViewIndex;
-@property (nonatomic, assign)  NSInteger                        rightViewCount;
+@property (nonatomic, assign)  NSInteger                        nextLastViewIndex;
 
 + (id)withFrame:(CGRect)__frame delegate:(id<CircleOfViewsDelegate>)__delegate relativeToView:(UIView*)__relativeView;
 - (id)initWithFrame:(CGRect)__frame delegate:(id<CircleOfViewsDelegate>)__delegate relativeToView:(UIView*)__relativeView;

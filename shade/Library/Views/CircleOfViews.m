@@ -17,6 +17,7 @@
 - (void)dragView:(CGPoint)_drag;
 - (void)releaseView:(CGFloat)_duration onCompletion:(void(^)(void))__completetion;
 
+- (NSInteger)rightViewCount;
 - (BOOL)canMoveRight;
 - (BOOL)canMoveLeft;
 - (void)moveViewsLeft;
@@ -46,7 +47,7 @@
         self.transitionGestureRecognizer = [TransitionGestureRecognizer initWithDelegate:self inView:self relativeToView:__relativeView];
         self.circleOfViews = [NSMutableArray array];
         self.inViewIndex = 0;
-        self.rightViewCount = 0;
+        self.nextLastViewIndex = 0;
         self.backgroundColor = [UIColor blackColor];
     }
     return self;
@@ -59,13 +60,13 @@
 - (void)addView:(UIView*)__view {
     NSInteger viewCount = [self count];
     if (viewCount > 0) {
-        self.rightViewCount++;
         __view.frame = [AnimateView rightOfWindowRect];
     } else {
         __view.frame = [AnimateView inWindowRect];
     }
     [self addSubview:__view];
-    [self.circleOfViews addObject:__view];
+    [self.circleOfViews insertObject:__view atIndex:self.nextLastViewIndex];
+    self.nextLastViewIndex++;
 }
 
 - (BOOL)hasView:(UIView*)__view {
@@ -91,9 +92,7 @@
     } else if (self.inViewIndex == [self.circleOfViews count] && self.inViewIndex != 0) {
         self.inViewIndex--;
     }
-    if (self.rightViewCount > 0) {
-        self.rightViewCount--;
-    }
+    self.nextLastViewIndex--;
     return viewToRemove;
 }
 
@@ -160,12 +159,16 @@
      ];
 }
 
+- (NSInteger)rightViewCount {
+    return [self count] - self.inViewIndex - 1;
+}
+
 - (BOOL)canMoveRight {
-    return [self.circleOfViews count] - 1 != self.rightViewCount;
+    return [self count] - 1 != [self rightViewCount];
 }
 
 - (BOOL)canMoveLeft {
-    return self.rightViewCount != 0;
+    return [self rightViewCount] != 0;
 }
 
 - (void)moveViewsLeft {
@@ -176,7 +179,6 @@
                      }
                  onCompletion:^{
                      self.inViewIndex++;
-                     self.rightViewCount--;
                      [self migrateViewsIfNeeded];
                      if ([self.delegate respondsToSelector:@selector(didMoveLeft)]) {
                          [self.delegate didMoveLeft];
@@ -193,7 +195,6 @@
                         }
                      onCompletion:^{
                          self.inViewIndex--;
-                         self.rightViewCount++;
                          [self migrateViewsIfNeeded];
                          if ([self.delegate respondsToSelector:@selector(didMoveRight)]) {
                              [self.delegate didMoveRight];
@@ -229,21 +230,20 @@
 - (void)migrateViewsIfNeeded {
     if ([self.circleOfViews count] > 2) {
         NSInteger leftViewCount = self.inViewIndex;
-        if (self.rightViewCount == 0) {
+        if ([self rightViewCount] == 0) {
             UIView *migrationView = [self.circleOfViews objectAtIndex:0];
             migrationView.frame = [AnimateView rightOfWindowRect];
             [self.circleOfViews removeObject:migrationView];
             [self.circleOfViews addObject:migrationView];
             self.inViewIndex--;
-            self.rightViewCount++;
-        }
-        if (leftViewCount == 0) {
+            self.nextLastViewIndex--;
+        } else if (leftViewCount == 0) {
             UIView *migrationView = [self.circleOfViews lastObject];
             migrationView.frame = [AnimateView leftOfWindowRect];
             [self.circleOfViews removeObject:migrationView];
             [self.circleOfViews insertObject:migrationView atIndex:0];
             self.inViewIndex++;
-            self.rightViewCount--;
+            self.nextLastViewIndex++;
         }
     }
 }
