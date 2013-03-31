@@ -66,9 +66,7 @@
     }
     [self addSubview:__view];
     [self.circleOfViews insertObject:__view atIndex:self.nextLastViewIndex];
-    if (![self migrateViewsIfNeeded]) {
-        self.nextLastViewIndex++;
-    }
+    self.nextLastViewIndex++;
 }
 
 - (BOOL)hasView:(UIView*)__view {
@@ -181,7 +179,6 @@
                      }
                  onCompletion:^{
                      self.inViewIndex++;
-                     [self migrateViewsIfNeeded];
                      if ([self.delegate respondsToSelector:@selector(didMoveLeft)]) {
                          [self.delegate didMoveLeft];
                      }
@@ -197,7 +194,6 @@
                         }
                      onCompletion:^{
                          self.inViewIndex--;
-                         [self migrateViewsIfNeeded];
                          if ([self.delegate respondsToSelector:@selector(didMoveRight)]) {
                              [self.delegate didMoveRight];
                          }
@@ -262,6 +258,7 @@
 #pragma Right Gestures
 
 - (void)didStartDraggingRight:(CGPoint)__location {
+    [self migrateViewsIfNeeded];
     if ([self.delegate respondsToSelector:@selector(didStartDraggingRight:)]) {
         [self.delegate didStartDraggingRight:__location];
     }
@@ -303,6 +300,7 @@
 #pragma Left Gestures
 
 - (void)didStartDraggingLeft:(CGPoint)__location {
+    [self migrateViewsIfNeeded];
     if ([self.delegate respondsToSelector:@selector(didStartDraggingLeft:)]) {
         [self.delegate didStartDraggingLeft:__location];
     }

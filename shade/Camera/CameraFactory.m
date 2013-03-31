@@ -82,6 +82,7 @@ static CameraFactory* thisCameraFactory = nil;
 - (void)startCameraWithId:(CameraId)__cameraId {
     GPUImageStillCamera *stillCamera = [self stillCameraForCameraId:__cameraId];
     [stillCamera startCameraCapture];
+    NSLog(@"THIS IS A TEST");
 }
 
 - (void)stopCameraWithId:(CameraId)__cameraId {
