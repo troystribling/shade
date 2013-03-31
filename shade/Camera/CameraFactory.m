@@ -12,6 +12,7 @@
 #import "BoxCameraFilter.h"
 #import "PlasticCameraFilter.h"
 #import "PassThoughFilter.h"
+#import "Camera+Extensions.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 static CameraFactory* thisCameraFactory = nil;
@@ -111,6 +112,14 @@ static CameraFactory* thisCameraFactory = nil;
 
 - (CameraId)defaultCameraId {
     return CameraIdIPhone;
+}
+
+- (NSArray*)cameraIds {
+    NSMutableArray *cameraIds = [NSMutableArray array];
+    for (Camera *camera in [self loadedCameras]) {
+        [cameraIds addObject:camera.identifier];
+    }
+    return cameraIds;
 }
 
 - (CameraId)nextRightCameraIdRelativeTo:(CameraId)__cameraId {

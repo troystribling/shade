@@ -26,8 +26,7 @@
 - (NSInteger)nextLeftIndex;
 - (UIView*)nextRightView;
 - (UIView*)nextLeftView;
-- (UIView*)nextLastRightView;
-- (UIView*)nextLastLeftView;
+- (void)migrateViewsIfNeeded;
 
 @end
 
@@ -178,6 +177,7 @@
                  onCompletion:^{
                      self.inViewIndex++;
                      self.rightViewCount--;
+                     [self migrateViewsIfNeeded];
                      if ([self.delegate respondsToSelector:@selector(didMoveLeft)]) {
                          [self.delegate didMoveLeft];
                      }
@@ -194,6 +194,7 @@
                      onCompletion:^{
                          self.inViewIndex--;
                          self.rightViewCount++;
+                         [self migrateViewsIfNeeded];
                          if ([self.delegate respondsToSelector:@selector(didMoveRight)]) {
                              [self.delegate didMoveRight];
                          }
@@ -225,21 +226,28 @@
     return [self.circleOfViews objectAtIndex:[self nextLeftIndex]];
 }
 
-- (UIView*)nextLastRightView {
-    NSInteger viewIndex = self.inViewIndex - 1;
-    if (self.inViewIndex == 0) {
-        viewIndex = [self.circleOfViews count] - 1;
+- (void)migrateViewsIfNeeded {
+    if ([self.circleOfViews count] > 2) {
+        NSInteger leftViewCount = self.inViewIndex;
+        if (self.rightViewCount == 0) {
+            UIView *migrationView = [self.circleOfViews objectAtIndex:0];
+            migrationView.frame = [AnimateView rightOfWindowRect];
+            [self.circleOfViews removeObject:migrationView];
+            [self.circleOfViews addObject:migrationView];
+            self.inViewIndex--;
+            self.rightViewCount++;
+        }
+        if (leftViewCount == 0) {
+            UIView *migrationView = [self.circleOfViews lastObject];
+            migrationView.frame = [AnimateView leftOfWindowRect];
+            [self.circleOfViews removeObject:migrationView];
+            [self.circleOfViews insertObject:migrationView atIndex:0];
+            self.inViewIndex++;
+            self.rightViewCount--;
+        }
     }
-    return [self.circleOfViews objectAtIndex:viewIndex];
 }
 
-- (UIView*)nextLastLeftView {
-    NSInteger viewIndex = self.inViewIndex + 1;
-    if (self.inViewIndex > [self.circleOfViews count]) {
-        viewIndex = 0;
-    }
-    return [self.circleOfViews objectAtIndex:viewIndex];
-}
 
 #pragma mark -
 #pragma mark TransitionGestureRecognizerDelegate

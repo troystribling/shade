@@ -29,6 +29,7 @@
 - (void)captureStillImageForCameraWithId:(CameraId)__cameraId onCompletion:(void(^)(NSData* imageData, NSError* error))__completionHandler;
 - (void)rotateCameraWithCameraId:(CameraId)__cameraId;
 - (CameraId)defaultCameraId;
+- (NSArray*)cameraIds;
 - (CameraId)nextRightCameraIdRelativeTo:(CameraId)__cameraId;
 - (CameraId)nextLeftCameraIdRelativeTo:(CameraId)__cameraId;
 

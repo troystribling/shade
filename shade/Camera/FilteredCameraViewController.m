@@ -74,13 +74,10 @@
 }
 
 - (void)addCameraWithId:(CameraId)__cameraId {
-    if (![self hasCamera:__cameraId]) {
-        [self.cameraIds addObject:[NSNumber numberWithInt:__cameraId]];
-        GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
-        gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-        [self.camerasCircleView addView:gpuImageView];
-        [[CameraFactory instance] activateCameraWithId:__cameraId forView:gpuImageView];
-    }
+    GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
+    gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
+    [self.camerasCircleView addView:gpuImageView];
+    [[CameraFactory instance] activateCameraWithId:__cameraId forView:gpuImageView];
 }
 
 - (void)startCameraWithId:(CameraId)__cameraId {
@@ -121,7 +118,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.containerView = __containerView;
-        self.cameraIds = [NSMutableArray array];
+        self.cameraIds = [[CameraFactory instance] cameraIds];
         self.cameraQueue = dispatch_queue_create("cameras.imaginaryproducts.com", NULL);
     }
     return self;
@@ -132,8 +129,10 @@
     self.camerasCircleView = [CircleOfViews withFrame:self.view.frame delegate:self relativeToView:self.containerView];
     [self.view addSubview:self.camerasCircleView];
     [self openShutterOnStart];
+    for (NSNumber *camerId in self.cameraIds) {
+        [self addCameraWithId:[camerId intValue]];
+    }
     self.displayedCameraId = [[CameraFactory instance] defaultCameraId];
-    [self addCameraWithId:self.displayedCameraId];
     [self startCameraWithId:self.displayedCameraId];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didCapture:)
@@ -224,7 +223,6 @@
 - (void)didStartDraggingRight:(CGPoint)__location {
     [self stopCameraWithId:self.displayedCameraId];
     CameraId cameraId = [[CameraFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
-    [self addCameraWithId:cameraId];
     [self startCameraWithId:cameraId];
 }
 
@@ -243,7 +241,6 @@
 - (void)didStartDraggingLeft:(CGPoint)__location {
     [self stopCameraWithId:self.displayedCameraId];
     CameraId cameraId = [[CameraFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
-    [self addCameraWithId:cameraId];
     [self startCameraWithId:cameraId];
 }
 
