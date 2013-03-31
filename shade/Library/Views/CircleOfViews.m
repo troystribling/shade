@@ -27,7 +27,7 @@
 - (NSInteger)nextLeftIndex;
 - (UIView*)nextRightView;
 - (UIView*)nextLeftView;
-- (void)migrateViewsIfNeeded;
+- (BOOL)migrateViewsIfNeeded;
 
 @end
 
@@ -66,7 +66,9 @@
     }
     [self addSubview:__view];
     [self.circleOfViews insertObject:__view atIndex:self.nextLastViewIndex];
-    self.nextLastViewIndex++;
+    if (![self migrateViewsIfNeeded]) {
+        self.nextLastViewIndex++;
+    }
 }
 
 - (BOOL)hasView:(UIView*)__view {
@@ -227,10 +229,12 @@
     return [self.circleOfViews objectAtIndex:[self nextLeftIndex]];
 }
 
-- (void)migrateViewsIfNeeded {
+- (BOOL)migrateViewsIfNeeded {
+    BOOL status = NO;
     if ([self.circleOfViews count] > 2) {
         NSInteger leftViewCount = self.inViewIndex;
         if ([self rightViewCount] == 0) {
+            status = YES;
             UIView *migrationView = [self.circleOfViews objectAtIndex:0];
             migrationView.frame = [AnimateView rightOfWindowRect];
             [self.circleOfViews removeObject:migrationView];
@@ -238,6 +242,7 @@
             self.inViewIndex--;
             self.nextLastViewIndex--;
         } else if (leftViewCount == 0) {
+            status = YES;
             UIView *migrationView = [self.circleOfViews lastObject];
             migrationView.frame = [AnimateView leftOfWindowRect];
             [self.circleOfViews removeObject:migrationView];
@@ -246,6 +251,7 @@
             self.nextLastViewIndex++;
         }
     }
+    return status;
 }
 
 
