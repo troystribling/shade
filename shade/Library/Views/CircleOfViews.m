@@ -27,7 +27,8 @@
 - (NSInteger)nextLeftIndex;
 - (UIView*)nextRightView;
 - (UIView*)nextLeftView;
-- (BOOL)migrateViewsIfNeeded;
+- (BOOL)migrateViewsRightIfNeeded;
+- (BOOL)migrateViewsLeftIfNeeded;
 
 @end
 
@@ -179,6 +180,7 @@
                      }
                  onCompletion:^{
                      self.inViewIndex++;
+                     [self migrateViewsRightIfNeeded];
                      if ([self.delegate respondsToSelector:@selector(didMoveLeft)]) {
                          [self.delegate didMoveLeft];
                      }
@@ -194,6 +196,7 @@
                         }
                      onCompletion:^{
                          self.inViewIndex--;
+                         [self migrateViewsLeftIfNeeded];
                          if ([self.delegate respondsToSelector:@selector(didMoveRight)]) {
                              [self.delegate didMoveRight];
                          }
@@ -225,10 +228,9 @@
     return [self.circleOfViews objectAtIndex:[self nextLeftIndex]];
 }
 
-- (BOOL)migrateViewsIfNeeded {
+- (BOOL)migrateViewsRightIfNeeded {
     BOOL status = NO;
     if ([self.circleOfViews count] > 2) {
-        NSInteger leftViewCount = self.inViewIndex;
         if ([self rightViewCount] == 0) {
             status = YES;
             UIView *migrationView = [self.circleOfViews objectAtIndex:0];
@@ -236,20 +238,40 @@
             [self.circleOfViews removeObject:migrationView];
             [self.circleOfViews addObject:migrationView];
             self.inViewIndex--;
-            self.nextLastViewIndex--;
-        } else if (leftViewCount == 0) {
+            if (self.nextLastViewIndex > 0) {
+                self.nextLastViewIndex--;
+            } else {
+                self.nextLastViewIndex = [self count];
+            }
+        }
+    } else {
+        
+    }
+    return status;
+}
+
+- (BOOL)migrateViewsLeftIfNeeded {
+    BOOL status = NO;
+    if ([self.circleOfViews count] > 2) {
+        NSInteger leftViewCount = self.inViewIndex;
+        if (leftViewCount == 0) {
             status = YES;
             UIView *migrationView = [self.circleOfViews lastObject];
             migrationView.frame = [AnimateView leftOfWindowRect];
             [self.circleOfViews removeObject:migrationView];
             [self.circleOfViews insertObject:migrationView atIndex:0];
             self.inViewIndex++;
-            self.nextLastViewIndex++;
+            if (self.nextLastViewIndex < [self count]) {
+                self.nextLastViewIndex++;
+            } else {
+                self.nextLastViewIndex = 1;
+            }
         }
+    } else {
+        
     }
     return status;
 }
-
 
 #pragma mark -
 #pragma mark TransitionGestureRecognizerDelegate
@@ -258,7 +280,7 @@
 #pragma Right Gestures
 
 - (void)didStartDraggingRight:(CGPoint)__location {
-    [self migrateViewsIfNeeded];
+    [self migrateViewsLeftIfNeeded];
     if ([self.delegate respondsToSelector:@selector(didStartDraggingRight:)]) {
         [self.delegate didStartDraggingRight:__location];
     }
@@ -300,7 +322,7 @@
 #pragma Left Gestures
 
 - (void)didStartDraggingLeft:(CGPoint)__location {
-    [self migrateViewsIfNeeded];
+    [self migrateViewsRightIfNeeded];
     if ([self.delegate respondsToSelector:@selector(didStartDraggingLeft:)]) {
         [self.delegate didStartDraggingLeft:__location];
     }
