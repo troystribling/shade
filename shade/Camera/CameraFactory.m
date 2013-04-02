@@ -100,7 +100,7 @@ static CameraFactory* thisCameraFactory = nil;
 - (void)captureStillImageForCameraWithId:(CameraId)__cameraId onCompletion:(void(^)(NSData* imageData, NSError* error))__completionHandler {
     CameraFilter *camerFilter = [self.cameraFilters objectAtIndex:__cameraId];
     GPUImageStillCamera *stillCamera = [self stillCameraForCameraId:__cameraId];
-    [stillCamera capturePhotoAsPNGProcessedUpToFilter:camerFilter.filter withCompletionHandler:__completionHandler];
+    [stillCamera capturePhotoAsJPEGProcessedUpToFilter:camerFilter.filter withCompletionHandler:__completionHandler];
 }
 
 - (void)rotateCameraWithCameraId:(CameraId)__cameraId {

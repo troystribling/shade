@@ -220,6 +220,8 @@ static ViewGeneral* thisViewControllerGeneral = nil;
                    }
                  onCompletion:^{
                      self.view.backgroundColor = [UIColor blackColor];
+                     self.imageInspectViewController.view.backgroundColor = [UIColor lightGrayColor];
+                     self.imageInspectViewController.entriesCircleView.backgroundColor = [UIColor blackColor];
                  }
     ];    
 }

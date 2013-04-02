@@ -93,7 +93,9 @@
     } else if (self.inViewIndex == [self.circleOfViews count] && self.inViewIndex != 0) {
         self.inViewIndex--;
     }
-    self.nextLastViewIndex--;
+    if (self.nextLastViewIndex > 0) {
+        self.nextLastViewIndex--;
+    }
     return viewToRemove;
 }
 
@@ -230,29 +232,31 @@
 
 - (BOOL)migrateViewsRightIfNeeded {
     BOOL status = NO;
-    if ([self.circleOfViews count] > 2) {
+    if ([self.circleOfViews count] > 1) {
         if ([self rightViewCount] == 0) {
             status = YES;
             UIView *migrationView = [self.circleOfViews objectAtIndex:0];
             migrationView.frame = [AnimateView rightOfWindowRect];
             [self.circleOfViews removeObject:migrationView];
             [self.circleOfViews addObject:migrationView];
-            self.inViewIndex--;
+            if (self.inViewIndex > 0) {
+                self.inViewIndex--;
+            } else {
+                self.inViewIndex = [self count] - 1;
+            }
             if (self.nextLastViewIndex > 0) {
                 self.nextLastViewIndex--;
             } else {
                 self.nextLastViewIndex = [self count];
             }
         }
-    } else {
-        
     }
     return status;
 }
 
 - (BOOL)migrateViewsLeftIfNeeded {
     BOOL status = NO;
-    if ([self.circleOfViews count] > 2) {
+    if ([self.circleOfViews count] > 1) {
         NSInteger leftViewCount = self.inViewIndex;
         if (leftViewCount == 0) {
             status = YES;
@@ -260,15 +264,17 @@
             migrationView.frame = [AnimateView leftOfWindowRect];
             [self.circleOfViews removeObject:migrationView];
             [self.circleOfViews insertObject:migrationView atIndex:0];
-            self.inViewIndex++;
+            if (self.inViewIndex < [self count] - 1) {
+                self.inViewIndex++;
+            } else {
+                self.inViewIndex = 0;
+            }
             if (self.nextLastViewIndex < [self count]) {
                 self.nextLastViewIndex++;
             } else {
                 self.nextLastViewIndex = 1;
             }
         }
-    } else {
-        
     }
     return status;
 }
