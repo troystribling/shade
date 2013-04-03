@@ -67,6 +67,9 @@
     }
     [self addSubview:__view];
     [self.circleOfViews insertObject:__view atIndex:self.nextLastViewIndex];
+    if (self.inViewIndex >= self.nextLastViewIndex && self.inViewIndex > 0) {
+        self.inViewIndex++;
+    }
     self.nextLastViewIndex++;
 }
 
@@ -175,6 +178,8 @@
 }
 
 - (void)moveViewsLeft {
+    NSInteger lInd = [self nextLeftIndex];
+    NSInteger rInd = [self nextRightIndex];
     [AnimateView withDuration:[self horizontalTransitionDuration]
                      animation:^{
                          [self nextRightView].frame = [AnimateView inWindowRect];
@@ -191,6 +196,8 @@
 }
 
 - (void)moveViewsRight {
+        NSInteger lInd = [self nextLeftIndex];
+        NSInteger rInd = [self nextRightIndex];
         [AnimateView withDuration:[self horizontalTransitionDuration]
                         animation:^{
                             [self nextLeftView].frame = [AnimateView inWindowRect];
@@ -231,6 +238,8 @@
 }
 
 - (BOOL)migrateViewsRightIfNeeded {
+    NSInteger lInd = [self nextLeftIndex];
+    NSInteger rInd = [self nextRightIndex];
     BOOL status = NO;
     if ([self.circleOfViews count] > 1) {
         if ([self rightViewCount] == 0) {
@@ -244,7 +253,7 @@
             } else {
                 self.inViewIndex = [self count] - 1;
             }
-            if (self.nextLastViewIndex > 0) {
+            if (self.nextLastViewIndex > 1) {
                 self.nextLastViewIndex--;
             } else {
                 self.nextLastViewIndex = [self count];
@@ -255,6 +264,8 @@
 }
 
 - (BOOL)migrateViewsLeftIfNeeded {
+    NSInteger lInd = [self nextLeftIndex];
+    NSInteger rInd = [self nextRightIndex];
     BOOL status = NO;
     if ([self.circleOfViews count] > 1) {
         NSInteger leftViewCount = self.inViewIndex;
