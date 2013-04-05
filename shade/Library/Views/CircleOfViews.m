@@ -60,17 +60,19 @@
 
 - (void)addView:(UIView*)__view {
     NSInteger viewCount = [self count];
-    if (viewCount > 0) {
-        __view.frame = [AnimateView rightOfWindowRect];
+    if (self.inViewIndex < self.nextLastViewIndex || self.inViewIndex == 0) {
+        if (viewCount > 0) {
+            __view.frame = [AnimateView rightOfWindowRect];
+        } else {
+            __view.frame = [AnimateView inWindowRect];
+        }
     } else {
-        __view.frame = [AnimateView inWindowRect];
-    }
-    [self addSubview:__view];
-    [self.circleOfViews insertObject:__view atIndex:self.nextLastViewIndex];
-    if (self.inViewIndex >= self.nextLastViewIndex && self.inViewIndex > 0) {
+        __view.frame = [AnimateView leftOfWindowRect];
         self.inViewIndex++;
     }
+    [self.circleOfViews insertObject:__view atIndex:self.nextLastViewIndex];
     self.nextLastViewIndex++;
+    [self addSubview:__view];
 }
 
 - (BOOL)hasView:(UIView*)__view {
@@ -178,8 +180,6 @@
 }
 
 - (void)moveViewsLeft {
-    NSInteger lInd = [self nextLeftIndex];
-    NSInteger rInd = [self nextRightIndex];
     [AnimateView withDuration:[self horizontalTransitionDuration]
                      animation:^{
                          [self nextRightView].frame = [AnimateView inWindowRect];
@@ -196,8 +196,6 @@
 }
 
 - (void)moveViewsRight {
-        NSInteger lInd = [self nextLeftIndex];
-        NSInteger rInd = [self nextRightIndex];
         [AnimateView withDuration:[self horizontalTransitionDuration]
                         animation:^{
                             [self nextLeftView].frame = [AnimateView inWindowRect];
@@ -238,8 +236,6 @@
 }
 
 - (BOOL)migrateViewsRightIfNeeded {
-    NSInteger lInd = [self nextLeftIndex];
-    NSInteger rInd = [self nextRightIndex];
     BOOL status = NO;
     if ([self.circleOfViews count] > 1) {
         if ([self rightViewCount] == 0) {
@@ -264,8 +260,6 @@
 }
 
 - (BOOL)migrateViewsLeftIfNeeded {
-    NSInteger lInd = [self nextLeftIndex];
-    NSInteger rInd = [self nextRightIndex];
     BOOL status = NO;
     if ([self.circleOfViews count] > 1) {
         NSInteger leftViewCount = self.inViewIndex;
