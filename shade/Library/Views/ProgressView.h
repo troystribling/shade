@@ -8,14 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class RoundedCornersView;
+@class TextBoxView;
 
 @interface ProgressView : UIView {
 }
 
-@property(nonatomic, strong) RoundedCornersView*    displayView;
-@property(nonatomic, strong) UIView*                backgroundView;
-@property(nonatomic, strong) UILabel*               displayMessage;
+@property(nonatomic, strong) TextBoxView    *textBoxView;
+@property(nonatomic, strong) UIView         *backgroundView;
 
 + (id)progressView;
 - (void)progressWithMessage:(NSString*)_message inView:(UIView*)_containerView;

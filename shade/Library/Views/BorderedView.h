@@ -1,5 +1,5 @@
 //
-//  RoundedCornersView.h
+//  BorderedView.h
 //  photio
 //
 //  Created by Troy Stribling on 5/5/12.
@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RoundedCornersView : UIView
+@interface BorderedView : UIView
 
 + (id)withFrame:(CGRect)_frame;
+- (void)setBorderColor:(UIColor*)__color;
 
 @end

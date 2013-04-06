@@ -28,6 +28,9 @@
 		0536E88717076C2F0017F832 /* delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0536E88317076C2F0017F832 /* delete@2x.png */; };
 		0536E88817076C2F0017F832 /* save.png in Resources */ = {isa = PBXBuildFile; fileRef = 0536E88417076C2F0017F832 /* save.png */; };
 		0536E88917076C2F0017F832 /* save@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0536E88517076C2F0017F832 /* save@2x.png */; };
+		055F6DAA1710919000768BF6 /* EditEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 055F6DA91710919000768BF6 /* EditEntryView.m */; };
+		055F6DAF1710A9B600768BF6 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 055F6DAE1710A9B500768BF6 /* CircleView.m */; };
+		055F6DB21710AA2400768BF6 /* TextBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = 055F6DB11710AA2400768BF6 /* TextBoxView.m */; };
 		058D050B16EAE09F000506D7 /* FilteredCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058D050A16EAE09F000506D7 /* FilteredCameraViewController.xib */; };
 		058D052416EBDCB8000506D7 /* Capture.m in Sources */ = {isa = PBXBuildFile; fileRef = 058D052316EBDCB8000506D7 /* Capture.m */; };
 		058E983D16E5943300C4DDFA /* UIAlertView+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 058E983C16E5943300C4DDFA /* UIAlertView+Extensions.m */; };
@@ -58,7 +61,7 @@
 		05AD71A016E336DF00AAB7D9 /* DiagonalGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD718D16E336DF00AAB7D9 /* DiagonalGestureRecognizer.m */; };
 		05AD71A116E336DF00AAB7D9 /* ParameterSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD718F16E336DF00AAB7D9 /* ParameterSliderView.m */; };
 		05AD71A216E336DF00AAB7D9 /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719116E336DF00AAB7D9 /* ProgressView.m */; };
-		05AD71A316E336DF00AAB7D9 /* RoundedCornersView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719316E336DF00AAB7D9 /* RoundedCornersView.m */; };
+		05AD71A316E336DF00AAB7D9 /* BorderedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719316E336DF00AAB7D9 /* BorderedView.m */; };
 		05AD71A416E336DF00AAB7D9 /* StreamOfViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719516E336DF00AAB7D9 /* StreamOfViews.m */; };
 		05AD71A516E336DF00AAB7D9 /* TransitionGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719716E336DF00AAB7D9 /* TransitionGestureRecognizer.m */; };
 		05AD71B516E3F44C00AAB7D9 /* UIImageJPEGDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71B216E3F44C00AAB7D9 /* UIImageJPEGDataTransformer.m */; };
@@ -126,6 +129,12 @@
 		0536E88317076C2F0017F832 /* delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete@2x.png"; sourceTree = "<group>"; };
 		0536E88417076C2F0017F832 /* save.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = save.png; sourceTree = "<group>"; };
 		0536E88517076C2F0017F832 /* save@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "save@2x.png"; sourceTree = "<group>"; };
+		055F6DA81710919000768BF6 /* EditEntryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditEntryView.h; sourceTree = "<group>"; };
+		055F6DA91710919000768BF6 /* EditEntryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditEntryView.m; sourceTree = "<group>"; };
+		055F6DAD1710A9B500768BF6 /* CircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleView.h; sourceTree = "<group>"; };
+		055F6DAE1710A9B500768BF6 /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
+		055F6DB01710AA2400768BF6 /* TextBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextBoxView.h; sourceTree = "<group>"; };
+		055F6DB11710AA2400768BF6 /* TextBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextBoxView.m; sourceTree = "<group>"; };
 		058D050A16EAE09F000506D7 /* FilteredCameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilteredCameraViewController.xib; sourceTree = "<group>"; };
 		058D052216EBDCB8000506D7 /* Capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Capture.h; sourceTree = "<group>"; };
 		058D052316EBDCB8000506D7 /* Capture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Capture.m; sourceTree = "<group>"; };
@@ -180,8 +189,8 @@
 		05AD718F16E336DF00AAB7D9 /* ParameterSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParameterSliderView.m; sourceTree = "<group>"; };
 		05AD719016E336DF00AAB7D9 /* ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
 		05AD719116E336DF00AAB7D9 /* ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
-		05AD719216E336DF00AAB7D9 /* RoundedCornersView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundedCornersView.h; sourceTree = "<group>"; };
-		05AD719316E336DF00AAB7D9 /* RoundedCornersView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundedCornersView.m; sourceTree = "<group>"; };
+		05AD719216E336DF00AAB7D9 /* BorderedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BorderedView.h; sourceTree = "<group>"; };
+		05AD719316E336DF00AAB7D9 /* BorderedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BorderedView.m; sourceTree = "<group>"; };
 		05AD719416E336DF00AAB7D9 /* StreamOfViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamOfViews.h; sourceTree = "<group>"; };
 		05AD719516E336DF00AAB7D9 /* StreamOfViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamOfViews.m; sourceTree = "<group>"; };
 		05AD719616E336DF00AAB7D9 /* TransitionGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionGestureRecognizer.h; sourceTree = "<group>"; };
@@ -351,6 +360,8 @@
 				05AD716316E32BCD00AAB7D9 /* CameraFactory.m */,
 				05AD71D316E42FAC00AAB7D9 /* CameraFilter.h */,
 				05AD71D416E42FAC00AAB7D9 /* CameraFilter.m */,
+				055F6DA81710919000768BF6 /* EditEntryView.h */,
+				055F6DA91710919000768BF6 /* EditEntryView.m */,
 				05AD716416E32BCD00AAB7D9 /* FilteredCameraViewController.h */,
 				05AD716516E32BCD00AAB7D9 /* FilteredCameraViewController.m */,
 				058D050A16EAE09F000506D7 /* FilteredCameraViewController.xib */,
@@ -405,18 +416,22 @@
 				0592903016FFA08900FF9F52 /* AnimateView.m */,
 				0595A12116F3F5C300FDE8D4 /* CircleOfViews.h */,
 				0595A12216F3F5C300FDE8D4 /* CircleOfViews.m */,
+				055F6DAD1710A9B500768BF6 /* CircleView.h */,
+				055F6DAE1710A9B500768BF6 /* CircleView.m */,
 				05AD718C16E336DF00AAB7D9 /* DiagonalGestureRecognizer.h */,
 				05AD718D16E336DF00AAB7D9 /* DiagonalGestureRecognizer.m */,
 				05AD718E16E336DF00AAB7D9 /* ParameterSliderView.h */,
 				05AD718F16E336DF00AAB7D9 /* ParameterSliderView.m */,
 				05AD719016E336DF00AAB7D9 /* ProgressView.h */,
 				05AD719116E336DF00AAB7D9 /* ProgressView.m */,
-				05AD719216E336DF00AAB7D9 /* RoundedCornersView.h */,
-				05AD719316E336DF00AAB7D9 /* RoundedCornersView.m */,
+				05AD719216E336DF00AAB7D9 /* BorderedView.h */,
+				05AD719316E336DF00AAB7D9 /* BorderedView.m */,
 				05AD719416E336DF00AAB7D9 /* StreamOfViews.h */,
 				05AD719516E336DF00AAB7D9 /* StreamOfViews.m */,
 				05AD719616E336DF00AAB7D9 /* TransitionGestureRecognizer.h */,
 				05AD719716E336DF00AAB7D9 /* TransitionGestureRecognizer.m */,
+				055F6DB01710AA2400768BF6 /* TextBoxView.h */,
+				055F6DB11710AA2400768BF6 /* TextBoxView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -562,7 +577,7 @@
 				05AD71A016E336DF00AAB7D9 /* DiagonalGestureRecognizer.m in Sources */,
 				05AD71A116E336DF00AAB7D9 /* ParameterSliderView.m in Sources */,
 				05AD71A216E336DF00AAB7D9 /* ProgressView.m in Sources */,
-				05AD71A316E336DF00AAB7D9 /* RoundedCornersView.m in Sources */,
+				05AD71A316E336DF00AAB7D9 /* BorderedView.m in Sources */,
 				05AD71A416E336DF00AAB7D9 /* StreamOfViews.m in Sources */,
 				05AD71A516E336DF00AAB7D9 /* TransitionGestureRecognizer.m in Sources */,
 				05AD71B516E3F44C00AAB7D9 /* UIImageJPEGDataTransformer.m in Sources */,
@@ -581,6 +596,9 @@
 				0590913016F19D2E006CA335 /* Camera.m in Sources */,
 				0595A12316F3F5C300FDE8D4 /* CircleOfViews.m in Sources */,
 				0592903116FFA08900FF9F52 /* AnimateView.m in Sources */,
+				055F6DAA1710919000768BF6 /* EditEntryView.m in Sources */,
+				055F6DAF1710A9B600768BF6 /* CircleView.m in Sources */,
+				055F6DB21710AA2400768BF6 /* TextBoxView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
