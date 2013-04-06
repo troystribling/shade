@@ -11,6 +11,7 @@
 
 @class Capture;
 @class ImageEntryView;
+@class EditEntryView;
 
 typedef enum  {
     ImageInspectDragStateNone,
@@ -25,6 +26,7 @@ typedef enum  {
 @property(nonatomic, strong) ImageEntryView                     *displayedImageEntry;
 @property(nonatomic, strong) UIImageView                        *downDragSaveImageView;
 @property(nonatomic, strong) UIImageView                        *downDragDeleteImageView;
+@property(nonatomic, strong) EditEntryView                      *editEntryView;
 @property(nonatomic, assign) float                              originalMaxDragFactor;
 @property(nonatomic, assign) ImageInspectDragState              downDragState;
 @property(nonatomic, assign) BOOL                               isDraggingDown;

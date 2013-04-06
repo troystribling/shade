@@ -16,6 +16,7 @@
 @property(nonatomic, strong) UILabel        *textLabel;
 
 + (id)withText:(NSString*)__text andWidth:(float)__width;
++ (id)withText:(NSString*)__text;
 - (id)initWithText:(NSString*)__text constrainedToWidth:(float)__width;
 
 @end

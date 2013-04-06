@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class ImageEntryView;
+@class TextBoxView;
+
 @interface EditEntryView : UIView
+
+@property(nonatomic, strong) TextBoxView    *editModeTextBoxView;
+
++ (id)withEntry:(ImageEntryView*)__entryView;
+- (id)initWithEntry:(ImageEntryView*)__entryView;
 
 @end

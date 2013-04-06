@@ -13,6 +13,7 @@
 #import "Capture+Extensions.h"
 #import "UIAlertView+Extensions.h"
 #import "AnimateView.h"
+#import "EditEntryView.h"
 
 #define MAX_DRAG_FACTOR_FOR_SAVE_DELETE     0.9f
 #define REMOVE_SPEED                        800.0f
@@ -44,6 +45,8 @@
 - (void)moveEntriesCircleViewDownAndOnCompletion:(void(^)(UIView* __view))__completion;
 - (void)setViewColors:(UIColor*)__color;
 
+- (void)didEnterEditMode;
+
 @end
 
 @implementation ImageInspectViewController
@@ -59,24 +62,37 @@
                bundle:(NSBundle *)nibBundleOrNil
                inView:(UIView*)__containerView {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
+        
         self.containerView = __containerView;
         CGRect downDragImageViewRect = CGRectMake(self.view.center.x - 0.5 * DOWN_DRAG_IMAGE_SIZE, 0.0, DOWN_DRAG_IMAGE_SIZE, DOWN_DRAG_IMAGE_SIZE);
+        
         self.downDragSaveImageView = [[UIImageView alloc] initWithFrame:downDragImageViewRect];
         self.downDragSaveImageView.contentMode = UIViewContentModeScaleToFill;
         self.downDragSaveImageView.hidden = YES;
         self.downDragSaveImageView.image = [UIImage imageNamed:@"save"];
         [self.view addSubview:self.downDragSaveImageView];
+        
         self.downDragDeleteImageView = [[UIImageView alloc] initWithFrame:downDragImageViewRect];
         self.downDragDeleteImageView.contentMode = UIViewContentModeScaleToFill;
         self.downDragDeleteImageView.hidden = YES;
         self.downDragDeleteImageView.image = [UIImage imageNamed:@"delete"];
         [self.view addSubview:self.downDragDeleteImageView];
+        
         self.entriesCircleView = [CircleOfViews withFrame:self.view.frame delegate:self relativeToView:self.containerView];
         [self.view addSubview:self.entriesCircleView];
         [self loadCaptures];
         self.originalMaxDragFactor = [self.entriesCircleView maximumDragFactor];
         [self initializeDownDragState];
         self.isDraggingDown = NO;
+        
+        UITapGestureRecognizer *selectEditMode = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didEnterEditMode)];
+        selectEditMode.numberOfTapsRequired = 1;
+        selectEditMode.numberOfTouchesRequired = 1;
+        [self.view addGestureRecognizer:selectEditMode];
+        [self.entriesCircleView.transitionGestureRecognizer.gestureRecognizer requireGestureRecognizerToFail:selectEditMode];
+        
+        self.editEntryView = [EditEntryView withEntry:(ImageEntryView*)[self.entriesCircleView displayedView]];
+
     }
     return self;
 }
@@ -287,6 +303,10 @@
     self.view.backgroundColor = __color;
     self.entriesCircleView.backgroundColor = __color;
     self.containerView.backgroundColor = __color;
+}
+
+- (void)didEnterEditMode {
+    [self.view addSubview:self.editEntryView];
 }
 
 #pragma mark -
