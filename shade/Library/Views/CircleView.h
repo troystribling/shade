@@ -10,4 +10,7 @@
 
 @interface CircleView : UIView
 
++ (id)withRadius:(float)__radius centeredAt:(CGPoint)__center;
+- (id)initWithRadius:(float)__radius centeredAt:(CGPoint)__center;
+
 @end

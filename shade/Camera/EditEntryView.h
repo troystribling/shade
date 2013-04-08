@@ -12,11 +12,13 @@
 @class ImageEntryView;
 @class TextBoxView;
 @class CircleOfViews;
+@class CircleView;
 
 @interface EditEntryView : UIView <CircleOfViewsDelegate>
 
 @property(nonatomic, strong) TextBoxView    *editModeTextBoxView;
 @property(nonatomic, strong) CircleOfViews  *filteredEntryCircleView;
+@property(nonatomic, strong) CircleView     *changeFilterParameterCircleView;
 @property(nonatomic, assign) BOOL           filterParametersAreChanging;
 
 + (id)withEntry:(ImageEntryView*)__entryView;

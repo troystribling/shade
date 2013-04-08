@@ -13,7 +13,8 @@
 #import "ViewGeneral.h"
 #import "Capture+Extensions.h"
 
-#define EDIT_MODE_TEXTBOX_YOFFSET   5.0f
+#define EDIT_MODE_TEXTBOX_YOFFSET       5.0f
+#define CHANGE_FILTER_PARAMTER_RADIUS   50.0f
 
 @interface TextBoxView ()
 
@@ -46,6 +47,7 @@
         [self addSubview:self.filteredEntryCircleView];
         [self addEditModeView];
         [self addFilteredEntries:__entryView];
+        self.changeFilterParameterCircleView = [CircleView withRadius:CHANGE_FILTER_PARAMTER_RADIUS centeredAt:self.center];
         self.filterParametersAreChanging = NO;
     }
     return self;
@@ -74,14 +76,18 @@
 }
 
 - (void)didChangeFilterParameter:(UIGestureRecognizer*)__gestureRecognizer {
+    CGPoint location = [__gestureRecognizer locationInView:self];
     if (self.filterParametersAreChanging) {
-//        CGPoint location = [__gestureRecognizer locationInView:self];
+        self.changeFilterParameterCircleView.center = location;
         if (__gestureRecognizer.state == UIGestureRecognizerStateEnded) {
             self.filterParametersAreChanging = NO;
+            [self.changeFilterParameterCircleView removeFromSuperview];
             NSLog(@"TOUCHES ENDED");            
         }
     } else {
         self.filterParametersAreChanging = YES;
+        self.changeFilterParameterCircleView.center = location;
+        [self addSubview:self.changeFilterParameterCircleView];
         NSLog(@"TOUCHES BEGAN");
     }
 }
