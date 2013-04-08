@@ -90,9 +90,7 @@
         selectEditMode.numberOfTouchesRequired = 1;
         [self.view addGestureRecognizer:selectEditMode];
         [self.entriesCircleView.transitionGestureRecognizer.gestureRecognizer requireGestureRecognizerToFail:selectEditMode];
-        
-        self.editEntryView = [EditEntryView withEntry:(ImageEntryView*)[self.entriesCircleView displayedView]];
-
+    
     }
     return self;
 }
@@ -306,7 +304,10 @@
 }
 
 - (void)didEnterEditMode {
-    [self.view addSubview:self.editEntryView];
+    if ([self hasCaptures]) {
+        self.editEntryView = [EditEntryView withEntry:(ImageEntryView*)[self.entriesCircleView displayedView]];
+        [self.view addSubview:self.editEntryView];
+    }
 }
 
 #pragma mark -

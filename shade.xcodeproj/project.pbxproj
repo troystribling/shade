@@ -61,7 +61,6 @@
 		05AD71A016E336DF00AAB7D9 /* DiagonalGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD718D16E336DF00AAB7D9 /* DiagonalGestureRecognizer.m */; };
 		05AD71A116E336DF00AAB7D9 /* ParameterSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD718F16E336DF00AAB7D9 /* ParameterSliderView.m */; };
 		05AD71A216E336DF00AAB7D9 /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719116E336DF00AAB7D9 /* ProgressView.m */; };
-		05AD71A316E336DF00AAB7D9 /* BorderedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719316E336DF00AAB7D9 /* BorderedView.m */; };
 		05AD71A416E336DF00AAB7D9 /* StreamOfViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719516E336DF00AAB7D9 /* StreamOfViews.m */; };
 		05AD71A516E336DF00AAB7D9 /* TransitionGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD719716E336DF00AAB7D9 /* TransitionGestureRecognizer.m */; };
 		05AD71B516E3F44C00AAB7D9 /* UIImageJPEGDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD71B216E3F44C00AAB7D9 /* UIImageJPEGDataTransformer.m */; };
@@ -189,8 +188,6 @@
 		05AD718F16E336DF00AAB7D9 /* ParameterSliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParameterSliderView.m; sourceTree = "<group>"; };
 		05AD719016E336DF00AAB7D9 /* ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
 		05AD719116E336DF00AAB7D9 /* ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
-		05AD719216E336DF00AAB7D9 /* BorderedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BorderedView.h; sourceTree = "<group>"; };
-		05AD719316E336DF00AAB7D9 /* BorderedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BorderedView.m; sourceTree = "<group>"; };
 		05AD719416E336DF00AAB7D9 /* StreamOfViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamOfViews.h; sourceTree = "<group>"; };
 		05AD719516E336DF00AAB7D9 /* StreamOfViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamOfViews.m; sourceTree = "<group>"; };
 		05AD719616E336DF00AAB7D9 /* TransitionGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionGestureRecognizer.h; sourceTree = "<group>"; };
@@ -424,14 +421,12 @@
 				05AD718F16E336DF00AAB7D9 /* ParameterSliderView.m */,
 				05AD719016E336DF00AAB7D9 /* ProgressView.h */,
 				05AD719116E336DF00AAB7D9 /* ProgressView.m */,
-				05AD719216E336DF00AAB7D9 /* BorderedView.h */,
-				05AD719316E336DF00AAB7D9 /* BorderedView.m */,
 				05AD719416E336DF00AAB7D9 /* StreamOfViews.h */,
 				05AD719516E336DF00AAB7D9 /* StreamOfViews.m */,
-				05AD719616E336DF00AAB7D9 /* TransitionGestureRecognizer.h */,
-				05AD719716E336DF00AAB7D9 /* TransitionGestureRecognizer.m */,
 				055F6DB01710AA2400768BF6 /* TextBoxView.h */,
 				055F6DB11710AA2400768BF6 /* TextBoxView.m */,
+				05AD719616E336DF00AAB7D9 /* TransitionGestureRecognizer.h */,
+				05AD719716E336DF00AAB7D9 /* TransitionGestureRecognizer.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -577,7 +572,6 @@
 				05AD71A016E336DF00AAB7D9 /* DiagonalGestureRecognizer.m in Sources */,
 				05AD71A116E336DF00AAB7D9 /* ParameterSliderView.m in Sources */,
 				05AD71A216E336DF00AAB7D9 /* ProgressView.m in Sources */,
-				05AD71A316E336DF00AAB7D9 /* BorderedView.m in Sources */,
 				05AD71A416E336DF00AAB7D9 /* StreamOfViews.m in Sources */,
 				05AD71A516E336DF00AAB7D9 /* TransitionGestureRecognizer.m in Sources */,
 				05AD71B516E3F44C00AAB7D9 /* UIImageJPEGDataTransformer.m in Sources */,

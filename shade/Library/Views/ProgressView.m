@@ -11,6 +11,7 @@
 
 #define DISPLAY_MESSAGE_WIDTH       200.0
 #define DISPLAY_REMOVE_DURATION     0.5
+#define TEXTBOX_YOFFSET             20.0f
 
 @interface ProgressView ()
 
@@ -24,6 +25,7 @@
 
 - (void)progressWithMessage:(NSString*)__progressMessage inView:(UIView*)_containerView {
     self.textBoxView = [TextBoxView withText:__progressMessage andWidth:DISPLAY_MESSAGE_WIDTH];
+    self.textBoxView.center = CGPointMake(self.center.x, self.center.y - TEXTBOX_YOFFSET);
     [self addSubview:self.textBoxView];
     [_containerView addSubview:self];
 }

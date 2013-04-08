@@ -8,15 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@class BorderedView;
-
 @interface TextBoxView : UIView
 
-@property(nonatomic, strong) BorderedView   *backgroundView;
-@property(nonatomic, strong) UILabel        *textLabel;
+@property(nonatomic, strong) UIView     *backgroundView;
+@property(nonatomic, strong) UILabel    *textLabel;
 
 + (id)withText:(NSString*)__text andWidth:(float)__width;
 + (id)withText:(NSString*)__text;
 - (id)initWithText:(NSString*)__text constrainedToWidth:(float)__width;
+
+- (void)setBorderColor:(UIColor*)__color;
+- (void)setBorderWidth:(float)__width;
+- (void)setTextXOffset:(float)__xoffset andYOffset:(float)__yoffset;
 
 @end

@@ -19,5 +19,6 @@
 + (id)withFrame:(CGRect)__frame capture:(Capture*)__capture andImageData:(NSData*)__imageData;
 - (id)initWithCapture:(Capture*)_capture andImage:(UIImage*)__image;
 - (id)initWithFrame:(CGRect)__frame capture:(Capture*)__capture andImageData:(NSData*)__imageData;
+- (id)clone;
 
 @end

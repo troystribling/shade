@@ -7,14 +7,20 @@
 //
 
 #import "TextBoxView.h"
-#import "BorderedView.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define DISPLAY_MESSAGE_XOFFEST     15.0
 #define DISPLAY_MESSAGE_YOFFEST     10.0
+#define TEXTBOX_FONTSIZE            21.0f
+#define TEXTBOX_ALPHA               0.5f
+#define TEXTBOX_BORDER_WIDTH        1.0f
 
 @interface TextBoxView ()
 
 - (void)addViewsWithText:(NSString*)__text ofSize:(CGSize)__messageSize;
++ (CGSize)textViewSizeForMessage:(NSString*)__text constrainedToWidth:(float)__width;
++ (CGRect)textViewRectForSize:(CGSize)__messageSize;
++ (CGRect)displayViewRectForMessageSize:(CGSize)__messageSize;
 
 @end
 
@@ -28,56 +34,103 @@
     return [[self alloc] initWithText:__text];
 }
 
-- (void)addViewsWithText:(NSString*)__text ofSize:(CGSize)__messageSize {
-    CGRect messageLabelRect = CGRectMake(self.center.x - 0.5 * __messageSize.width,
-                                         self.center.y - 0.5 * __messageSize.height,
-                                         __messageSize.width,
-                                         __messageSize.height);
-    self.textLabel = [[UILabel alloc] initWithFrame:messageLabelRect];
+- (id)initWithText:(NSString*)__text constrainedToWidth:(float)__width {
+    CGSize textSize = [self.class textViewSizeForMessage:__text constrainedToWidth:__width];
+    self = [super initWithFrame:[self.class viewRectForMessageSize:textSize]];
+    if (self) {
+        [self addViewsWithText:__text ofSize:textSize];
+    }
+    return self;
+}
+
+- (id)initWithText:(NSString*)__text {
+    CGSize textSize = [__text sizeWithFont:[UIFont systemFontOfSize:TEXTBOX_FONTSIZE]];
+    self = [super initWithFrame:[self.class viewRectForMessageSize:textSize]];
+    if (self) {
+        [self addViewsWithText:__text ofSize:textSize];
+    }
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)__frame {
+    self = [super initWithFrame:__frame];
+    if (self) {
+    }
+    return self;
+}
+
+- (void)setBorderColor:(UIColor*)__color {
+    self.layer.borderColor = __color.CGColor;
+}
+
+- (void)setBorderWidth:(float)__width {
+    self.layer.borderWidth = __width;
+}
+
+- (void)setTextXOffset:(float)__xoffset andYOffset:(float)__yoffset {
+    self.backgroundView.frame = CGRectMake(0.0f,
+                                           0.0f,
+                                           self.textLabel.frame.size.width + 2.0f * __xoffset,
+                                           self.textLabel.frame.size.height + 2.0f * __yoffset);
+    self.textLabel.frame = CGRectMake(__xoffset,
+                                      __yoffset,
+                                      self.textLabel.frame.size.width,
+                                      self.textLabel.frame.size.height);
+    self.frame = CGRectMake(0.0f,
+                            0.0f,
+                            self.textLabel.frame.size.width + 2.0f * __xoffset,
+                            self.textLabel.frame.size.height + 2.0f * __yoffset);
+}
+
++ (CGSize)textViewSizeForMessage:(NSString*)__text constrainedToWidth:(float)__width {
+    return [__text sizeWithFont:[UIFont systemFontOfSize:21.0]
+              constrainedToSize:CGSizeMake(__width, [[UIScreen mainScreen] bounds].size.height)
+                  lineBreakMode:NSLineBreakByWordWrapping];
+    
+}
+
++ (CGRect)textViewRectForSize:(CGSize)__messageSize {
+    return CGRectMake(DISPLAY_MESSAGE_XOFFEST,
+                      DISPLAY_MESSAGE_YOFFEST,
+                      __messageSize.width,
+                      __messageSize.height);
+}
+
++ (CGRect)displayViewRectForMessageSize:(CGSize)__messageSize {
+    return CGRectMake(0.0f,
+                      0.0f,
+                      __messageSize.width +  2.0f * DISPLAY_MESSAGE_XOFFEST,
+                      __messageSize.height + 2.0f * DISPLAY_MESSAGE_YOFFEST);
+}
+
++ (CGRect)viewRectForMessageSize:(CGSize)__messageSize {
+    return CGRectMake(0.0f,
+                      0.0f,
+                      __messageSize.width +  2.0f * DISPLAY_MESSAGE_XOFFEST,
+                      __messageSize.height + 2.0f * DISPLAY_MESSAGE_YOFFEST);
+}
+
+- (void)addViewsWithText:(NSString*)__text ofSize:(CGSize)__textSize {
+
+    CGRect textRect = [self.class textViewRectForSize:__textSize];
+    self.textLabel = [[UILabel alloc] initWithFrame:textRect];
     self.textLabel.text = __text;
     self.textLabel.textColor = [UIColor blackColor];
-    self.textLabel.font = [UIFont systemFontOfSize:21.0];
+    self.textLabel.font = [UIFont systemFontOfSize:TEXTBOX_FONTSIZE];
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.alpha = 1.0;
     self.textLabel.numberOfLines = 0;
     self.textLabel.textAlignment = NSTextAlignmentCenter;
     self.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
 
-    CGRect displayViewRect = CGRectMake(self.center.x - 0.5 * __messageSize.width - DISPLAY_MESSAGE_XOFFEST,
-                                        self.center.y - 0.5 * __messageSize.height - DISPLAY_MESSAGE_YOFFEST,
-                                        __messageSize.width +  2.0 * DISPLAY_MESSAGE_XOFFEST,
-                                        __messageSize.height + 2 * DISPLAY_MESSAGE_YOFFEST);
-
-    self.frame = displayViewRect;
-    self.backgroundView = [BorderedView withFrame:displayViewRect];
-    self.backgroundView.alpha = .5;
+    self.backgroundView = [[UIView alloc] initWithFrame:self.frame];
+    self.backgroundView.alpha = TEXTBOX_ALPHA;
     self.backgroundView.backgroundColor = [UIColor whiteColor];
+    self.backgroundView.layer.borderWidth = TEXTBOX_BORDER_WIDTH;
+    self.backgroundView.layer.borderColor = [UIColor blackColor].CGColor;
     
     [self addSubview:self.backgroundView];
     [self addSubview:self.textLabel];
-}
-
-- (id)initWithText:(NSString*)__text constrainedToWidth:(float)__width {
-    self = [super initWithFrame:[[UIScreen mainScreen] bounds]];
-    if (self) {
-        self.backgroundColor = [UIColor clearColor];
-        CGSize messageSize = [__text sizeWithFont:[UIFont systemFontOfSize:21.0]
-                                constrainedToSize:CGSizeMake(__width, self.frame.size.height)
-                                    lineBreakMode:NSLineBreakByWordWrapping];
-        
-        [self addViewsWithText:__text ofSize:messageSize];
-    }
-    return self;
-}
-
-- (id)initWithText:(NSString*)__text {
-    self = [super initWithFrame:[[UIScreen mainScreen] bounds]];
-    if (self) {
-        self.backgroundColor = [UIColor clearColor];
-        CGSize messageSize = [__text sizeWithFont:[UIFont systemFontOfSize:21.0]];
-        [self addViewsWithText:__text ofSize:messageSize];
-    }
-    return self;
 }
 
 @end

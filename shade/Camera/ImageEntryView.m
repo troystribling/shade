@@ -49,6 +49,11 @@
     return self;
 }
 
+- (id)clone {
+    Capture *clonedCapture = [Capture findWithID:self.capture.objectID];
+    return [self.class withCapture:clonedCapture andImage:[UIImage imageWithData:UIImageJPEGRepresentation(self.image, 1.0f)]];
+}
+
 #pragma mark -
 #pragma mark ImageEntryView PrivateAPI
 
