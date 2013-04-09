@@ -7,6 +7,10 @@
 //
 
 #import "CircleView.h"
+#import <QuartzCore/QuartzCore.h>
+
+#define CIRCLE_VIEW_BORDER_WIDTH    1.0f
+#define CIRCLE_VIEW_ALPHA           0.5f
 
 @implementation CircleView
 
@@ -18,6 +22,11 @@
     CGRect circleRect = CGRectMake(0.0f, 0.0f, 2.0f * __radius, 2.0f * __radius);
     self = [super initWithFrame:circleRect];
     if (self) {
+        self.layer.cornerRadius = __radius;
+        self.layer.borderWidth = CIRCLE_VIEW_BORDER_WIDTH;
+        self.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.backgroundColor = [UIColor blackColor];
+        self.alpha = CIRCLE_VIEW_ALPHA;
         self.center = CGPointMake(__center.x, __center.y);
     }
     return self;
@@ -28,14 +37,6 @@
     if (self) {
     }
     return self;
-}
-
-- (void)drawRect:(CGRect)rect {
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSetFillColor(ctx, CGColorGetComponents([UIColor whiteColor].CGColor));
-    CGContextSetAlpha(ctx, 0.5);
-    CGContextFillEllipseInRect(ctx, rect);
-    CGContextFillPath(ctx);
 }
 
 @end

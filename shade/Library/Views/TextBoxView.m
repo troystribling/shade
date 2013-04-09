@@ -115,7 +115,7 @@
     CGRect textRect = [self.class textViewRectForSize:__textSize];
     self.textLabel = [[UILabel alloc] initWithFrame:textRect];
     self.textLabel.text = __text;
-    self.textLabel.textColor = [UIColor blackColor];
+    self.textLabel.textColor = [UIColor whiteColor];
     self.textLabel.font = [UIFont systemFontOfSize:TEXTBOX_FONTSIZE];
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.alpha = 1.0;
@@ -125,9 +125,9 @@
 
     self.backgroundView = [[UIView alloc] initWithFrame:self.frame];
     self.backgroundView.alpha = TEXTBOX_ALPHA;
-    self.backgroundView.backgroundColor = [UIColor whiteColor];
+    self.backgroundView.backgroundColor = [UIColor blackColor];
     self.backgroundView.layer.borderWidth = TEXTBOX_BORDER_WIDTH;
-    self.backgroundView.layer.borderColor = [UIColor blackColor].CGColor;
+    self.backgroundView.layer.borderColor = [UIColor whiteColor].CGColor;
     
     [self addSubview:self.backgroundView];
     [self addSubview:self.textLabel];
