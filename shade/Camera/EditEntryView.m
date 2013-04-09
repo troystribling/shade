@@ -13,12 +13,12 @@
 #import "ViewGeneral.h"
 #import "Capture+Extensions.h"
 
-#define EDIT_MODE_TEXTBOX_YOFFSET       5.0f
+#define EDIT_MODE_TEXTBOX_OFFSET        2.0f
 #define CHANGE_FILTER_PARAMTER_RADIUS   50.0f
 
 @interface TextBoxView ()
 
-- (void)addEditModeView;
+- (void)addEditModeView:(NSString*)__modeText;
 - (void)didExitEditMode;
 - (void)didChangeFilterParameter:(UIGestureRecognizer*)__gestureRecognizer;
 - (void)addFilteredEntries:(ImageEntryView*)__entryView;
@@ -45,7 +45,7 @@
         UILongPressGestureRecognizer *changeFilterParameter = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didChangeFilterParameter:)];
         [self addGestureRecognizer:changeFilterParameter];
         [self addSubview:self.filteredEntryCircleView];
-        [self addEditModeView];
+        [self addEditModeView:@"iPhone Filter"];
         [self addFilteredEntries:__entryView];
         self.changeFilterParameterCircleView = [CircleView withRadius:CHANGE_FILTER_PARAMTER_RADIUS centeredAt:self.center];
         self.filterParametersAreChanging = NO;
@@ -56,12 +56,12 @@
 #pragma mark -
 #pragma mark EditEntryView PrivateView
 
-- (void)addEditModeView {
-    self.editModeTextBoxView = [TextBoxView withText:@"editing"];
-    [self.editModeTextBoxView setTextXOffset:10.0f andYOffset:5.0f];
+- (void)addEditModeView:(NSString*)__modeText {
+    self.editModeTextBoxView = [TextBoxView withText:__modeText];
+    [self.editModeTextBoxView setTextXOffset:20.0f andYOffset:5.0f];
     CGRect editModeTextRect = self.editModeTextBoxView.frame;
     self.editModeTextBoxView.frame = CGRectMake(self.center.x - 0.5f * editModeTextRect.size.width,
-                                                EDIT_MODE_TEXTBOX_YOFFSET,
+                                                EDIT_MODE_TEXTBOX_OFFSET,
                                                 editModeTextRect.size.width,
                                                 editModeTextRect.size.height);
     [self addSubview:self.editModeTextBoxView];
@@ -82,13 +82,11 @@
         if (__gestureRecognizer.state == UIGestureRecognizerStateEnded) {
             self.filterParametersAreChanging = NO;
             [self.changeFilterParameterCircleView removeFromSuperview];
-            NSLog(@"TOUCHES ENDED");            
         }
     } else {
         self.filterParametersAreChanging = YES;
         self.changeFilterParameterCircleView.center = location;
         [self addSubview:self.changeFilterParameterCircleView];
-        NSLog(@"TOUCHES BEGAN");
     }
 }
 
