@@ -16,9 +16,9 @@
 @property(nonatomic, strong) Capture*   capture;
 
 + (id)withCapture:(Capture*)_capture andImage:(UIImage*)__image;
-+ (id)withFrame:(CGRect)__frame capture:(Capture*)__capture andImageData:(NSData*)__imageData;
++ (id)withFrame:(CGRect)__frame capture:(Capture*)__capture  andImage:(UIImage*)__image;
 - (id)initWithCapture:(Capture*)_capture andImage:(UIImage*)__image;
-- (id)initWithFrame:(CGRect)__frame capture:(Capture*)__capture andImageData:(NSData*)__imageData;
+- (id)initWithFrame:(CGRect)__frame capture:(Capture*)__capture andImage:(UIImage*)__image;
 - (id)clone;
 
 @end

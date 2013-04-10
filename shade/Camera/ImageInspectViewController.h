@@ -35,7 +35,6 @@ typedef enum  {
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle*)__nibBundleOrNil inView:(UIView*)__containerView;
 - (void)finishedSavingDisplayedImageEntryToCameraRoll:(UIImage*)_image didFinishSavingWithError:(NSError*)__error contextInfo:(void*)__context;
 - (void)addCapture:(Capture*)__capture andImage:(UIImage*)__image;
-- (void)addCapture:(Capture*)__capture andImageData:(NSData*)__imageData;
 - (BOOL)hasCaptures;
 
 @end

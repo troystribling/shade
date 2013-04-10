@@ -95,12 +95,8 @@
     return self;
 }
 
-- (void)addCapture:(Capture*)__capture andImageData:(NSData*)__imageData {
-    [self.entriesCircleView addView:[ImageEntryView withFrame:self.view.frame capture:__capture andImageData:__imageData]];
-}
-
 - (void)addCapture:(Capture*)__capture andImage:(UIImage*)__image {
-    [self.entriesCircleView addView:[ImageEntryView withCapture:__capture andImage:__image]];
+    [self.entriesCircleView addView:[ImageEntryView withFrame:self.view.frame capture:__capture andImage:__image]];
 }
 
 - (BOOL)hasCaptures {

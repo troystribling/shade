@@ -45,7 +45,7 @@
         UILongPressGestureRecognizer *changeFilterParameter = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didChangeFilterParameter:)];
         [self addGestureRecognizer:changeFilterParameter];
         [self addSubview:self.filteredEntryCircleView];
-        [self addEditModeView:@"iPhone Filter"];
+        [self addEditModeView:@"iPhone filter"];
         [self addFilteredEntries:__entryView];
         self.changeFilterParameterCircleView = [CircleView withRadius:CHANGE_FILTER_PARAMTER_RADIUS centeredAt:self.center];
         self.filterParametersAreChanging = NO;
@@ -57,6 +57,9 @@
 #pragma mark EditEntryView PrivateView
 
 - (void)addEditModeView:(NSString*)__modeText {
+    if (self.editModeTextBoxView) {
+        [self.editModeTextBoxView removeFromSuperview];
+    }
     self.editModeTextBoxView = [TextBoxView withText:__modeText];
     [self.editModeTextBoxView setTextXOffset:20.0f andYOffset:5.0f];
     CGRect editModeTextRect = self.editModeTextBoxView.frame;
@@ -82,10 +85,12 @@
         if (__gestureRecognizer.state == UIGestureRecognizerStateEnded) {
             self.filterParametersAreChanging = NO;
             [self.changeFilterParameterCircleView removeFromSuperview];
+            [self addEditModeView:@"iPhone filter"];
         }
     } else {
         self.filterParametersAreChanging = YES;
         self.changeFilterParameterCircleView.center = location;
+        [self addEditModeView:@"adjusting filter"];
         [self addSubview:self.changeFilterParameterCircleView];
     }
 }

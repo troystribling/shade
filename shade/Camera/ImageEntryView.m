@@ -23,8 +23,8 @@
     return  [[ImageEntryView alloc] initWithCapture:__capture andImage:__image];
 }
 
-+ (id)withFrame:(CGRect)__frame capture:(Capture*)__capture andImageData:(NSData*)__imageData {
-    return [[ImageEntryView alloc] initWithFrame:__frame capture:__capture andImageData:__imageData];
++ (id)withFrame:(CGRect)__frame capture:(Capture*)__capture andImage:(UIImage*)__image {
+    return [[ImageEntryView alloc] initWithFrame:__frame capture:__capture andImage:__image];
 }
 
 - (id)initWithCapture:(Capture*)__capture andImage:(UIImage*)__image {
@@ -37,14 +37,13 @@
     return self;
 }
 
-- (id)initWithFrame:(CGRect)__frame capture:(Capture*)__capture andImageData:(NSData*)__imageData {
+- (id)initWithFrame:(CGRect)__frame capture:(Capture*)__capture andImage:(UIImage*)__image {
     self = [super initWithFrame:__frame];
     if (self) {
         self.capture = __capture;
         self.contentMode = UIViewContentModeCenter;
         self.clipsToBounds = YES;
-        UIImage *imageFromData = [[UIImage alloc] initWithData:__imageData];
-        self.image = [UIImage imageWithCGImage:imageFromData.CGImage scale:[[UIScreen mainScreen] scale] orientation:imageFromData.imageOrientation];
+        self.image = [Capture scaleImage:__image toFrame:self.frame];;
     }
     return self;
 }
@@ -56,10 +55,6 @@
 
 #pragma mark -
 #pragma mark ImageEntryView PrivateAPI
-
-- (UIImage*)scaleImage:(UIImage*)_image {
-    return [Capture scaleImage:_image toFrame:self.frame];
-}
 
 #pragma mark -
 #pragma mark ImageEditViewController

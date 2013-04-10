@@ -70,10 +70,6 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     [self createCameraView:__view];
 }
 
-- (void)addCapture:(Capture*)__capture andImageData:(NSData *)__imageData {
-    [self.imageInspectViewController addCapture:__capture andImageData:__imageData];
-}
-
 - (void)addCapture:(Capture*)__capture andImage:(UIImage*)__image {
     [self.imageInspectViewController addCapture:__capture andImage:__image];
 }
