@@ -7,8 +7,16 @@
 //
 
 #import "CameraFilter.h"
+#import "GPUImage.h"
 
 @implementation CameraFilter
+
++ (UIImage*)outputImageForFilter:(GPUImageOutput<GPUImageInput>*)__filter andImage:(UIImage*)__image {
+    GPUImagePicture* filteredImage = [[GPUImagePicture alloc] initWithImage:__image];
+    [filteredImage addTarget:__filter];
+    [filteredImage processImage];
+    return [__filter imageFromCurrentlyProcessedOutputWithOrientation:__image.imageOrientation];
+}
 
 - (id)initWithParameters:(NSDictionary*)__parameters {
     self = [self init];
@@ -57,8 +65,6 @@
     return [NSNumber numberWithFloat:mappedValue];
 }
 
-
-// initial value is equal to maximum value
 - (NSNumber*)mirroredMaximumParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value {
     CGFloat mappedValue = 0.0f;
     CGFloat value = [__value floatValue];
@@ -73,7 +79,6 @@
     return [NSNumber numberWithFloat:mappedValue];
 }
 
-// initial value is equal to minimum value
 - (NSNumber*)mirroredMinimumParameter:(NSDictionary*)__parameter fromValue:(NSNumber*)__value {
     CGFloat mappedValue = 0.0f;
     CGFloat value =[__value floatValue];
@@ -86,6 +91,11 @@
         mappedValue = initialValue + 2.0f * range * (0.5f - value);
     }
     return [NSNumber numberWithFloat:mappedValue];
+}
+
+- (UIImage*)applyParameterValue:(NSNumber*)__value toImage:(UIImage*)__image {
+    [self setParameterValue:__value];
+    return [self.class outputImageForFilter:self.filter andImage:__image];
 }
 
 #pragma mark -

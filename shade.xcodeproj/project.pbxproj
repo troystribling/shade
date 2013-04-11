@@ -31,6 +31,7 @@
 		055F6DAA1710919000768BF6 /* EditEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 055F6DA91710919000768BF6 /* EditEntryView.m */; };
 		055F6DAF1710A9B600768BF6 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 055F6DAE1710A9B500768BF6 /* CircleView.m */; };
 		055F6DB21710AA2400768BF6 /* TextBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = 055F6DB11710AA2400768BF6 /* TextBoxView.m */; };
+		055F6DBA171664DF00768BF6 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 055F6DB9171664DE00768BF6 /* LocationManager.m */; };
 		058D050B16EAE09F000506D7 /* FilteredCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058D050A16EAE09F000506D7 /* FilteredCameraViewController.xib */; };
 		058D052416EBDCB8000506D7 /* Capture.m in Sources */ = {isa = PBXBuildFile; fileRef = 058D052316EBDCB8000506D7 /* Capture.m */; };
 		058E983D16E5943300C4DDFA /* UIAlertView+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 058E983C16E5943300C4DDFA /* UIAlertView+Extensions.m */; };
@@ -134,6 +135,8 @@
 		055F6DAE1710A9B500768BF6 /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
 		055F6DB01710AA2400768BF6 /* TextBoxView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextBoxView.h; sourceTree = "<group>"; };
 		055F6DB11710AA2400768BF6 /* TextBoxView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextBoxView.m; sourceTree = "<group>"; };
+		055F6DB8171664DE00768BF6 /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
+		055F6DB9171664DE00768BF6 /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
 		058D050A16EAE09F000506D7 /* FilteredCameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilteredCameraViewController.xib; sourceTree = "<group>"; };
 		058D052216EBDCB8000506D7 /* Capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Capture.h; sourceTree = "<group>"; };
 		058D052316EBDCB8000506D7 /* Capture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Capture.m; sourceTree = "<group>"; };
@@ -327,6 +330,23 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		055F6DBE1716676F00768BF6 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				05AD71D916E4301F00AAB7D9 /* BoxCameraFilter.h */,
+				05AD71DA16E4301F00AAB7D9 /* BoxCameraFilter.m */,
+				05AD71D316E42FAC00AAB7D9 /* CameraFilter.h */,
+				05AD71D416E42FAC00AAB7D9 /* CameraFilter.m */,
+				05AD71D616E42FE100AAB7D9 /* InstantCameraFilter.h */,
+				05AD71D716E42FE100AAB7D9 /* InstantCameraFilter.m */,
+				05AD71DC16E4306000AAB7D9 /* PlasticCameraFilter.h */,
+				05AD71DD16E4306100AAB7D9 /* PlasticCameraFilter.m */,
+				05AD716C16E32BCD00AAB7D9 /* SaturationFilter.h */,
+				05AD716D16E32BCD00AAB7D9 /* SaturationFilter.m */,
+			);
+			name = Filters;
+			sourceTree = "<group>";
+		};
 		05AD715316E32BBE00AAB7D9 /* Library */ = {
 			isa = PBXGroup;
 			children = (
@@ -351,12 +371,9 @@
 		05AD716116E32BCD00AAB7D9 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
-				05AD71D916E4301F00AAB7D9 /* BoxCameraFilter.h */,
-				05AD71DA16E4301F00AAB7D9 /* BoxCameraFilter.m */,
+				055F6DBE1716676F00768BF6 /* Filters */,
 				05AD716216E32BCD00AAB7D9 /* CameraFactory.h */,
 				05AD716316E32BCD00AAB7D9 /* CameraFactory.m */,
-				05AD71D316E42FAC00AAB7D9 /* CameraFilter.h */,
-				05AD71D416E42FAC00AAB7D9 /* CameraFilter.m */,
 				055F6DA81710919000768BF6 /* EditEntryView.h */,
 				055F6DA91710919000768BF6 /* EditEntryView.m */,
 				05AD716416E32BCD00AAB7D9 /* FilteredCameraViewController.h */,
@@ -367,15 +384,11 @@
 				05AD716816E32BCD00AAB7D9 /* ImageInspectViewController.h */,
 				05AD716916E32BCD00AAB7D9 /* ImageInspectViewController.m */,
 				05AD716A16E32BCD00AAB7D9 /* ImageInspectViewController.xib */,
-				05AD71D616E42FE100AAB7D9 /* InstantCameraFilter.h */,
-				05AD71D716E42FE100AAB7D9 /* InstantCameraFilter.m */,
+				055F6DB8171664DE00768BF6 /* LocationManager.h */,
+				055F6DB9171664DE00768BF6 /* LocationManager.m */,
 				05AD71DF16E473D400AAB7D9 /* PassThoughFilter.h */,
 				05AD71E016E473D500AAB7D9 /* PassThoughFilter.m */,
 				05AD716B16E32BCD00AAB7D9 /* PassThrough.fsh */,
-				05AD71DC16E4306000AAB7D9 /* PlasticCameraFilter.h */,
-				05AD71DD16E4306100AAB7D9 /* PlasticCameraFilter.m */,
-				05AD716C16E32BCD00AAB7D9 /* SaturationFilter.h */,
-				05AD716D16E32BCD00AAB7D9 /* SaturationFilter.m */,
 				05AD716E16E32BCD00AAB7D9 /* WhiteColorOverlay.fsh */,
 			);
 			path = Camera;
@@ -593,6 +606,7 @@
 				055F6DAA1710919000768BF6 /* EditEntryView.m in Sources */,
 				055F6DAF1710A9B600768BF6 /* CircleView.m in Sources */,
 				055F6DB21710AA2400768BF6 /* TextBoxView.m in Sources */,
+				055F6DBA171664DF00768BF6 /* LocationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
