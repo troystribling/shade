@@ -45,7 +45,7 @@
 		0595A12316F3F5C300FDE8D4 /* CircleOfViews.m in Sources */ = {isa = PBXBuildFile; fileRef = 0595A12216F3F5C300FDE8D4 /* CircleOfViews.m */; };
 		05AD715B16E32BBE00AAB7D9 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715616E32BBE00AAB7D9 /* DataManager.m */; };
 		05AD715C16E32BBE00AAB7D9 /* NSManagedObject+DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD715816E32BBE00AAB7D9 /* NSManagedObject+DataManager.m */; };
-		05AD716F16E32BCD00AAB7D9 /* CameraFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716316E32BCD00AAB7D9 /* CameraFactory.m */; };
+		05AD716F16E32BCD00AAB7D9 /* CameraFilterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716316E32BCD00AAB7D9 /* CameraFilterFactory.m */; };
 		05AD717016E32BCD00AAB7D9 /* FilteredCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716516E32BCD00AAB7D9 /* FilteredCameraViewController.m */; };
 		05AD717216E32BCD00AAB7D9 /* ImageInspectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 05AD716916E32BCD00AAB7D9 /* ImageInspectViewController.m */; };
 		05AD717316E32BCD00AAB7D9 /* ImageInspectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05AD716A16E32BCD00AAB7D9 /* ImageInspectViewController.xib */; };
@@ -156,8 +156,8 @@
 		05AD715616E32BBE00AAB7D9 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataManager.m; sourceTree = "<group>"; };
 		05AD715716E32BBE00AAB7D9 /* NSManagedObject+DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+DataManager.h"; sourceTree = "<group>"; };
 		05AD715816E32BBE00AAB7D9 /* NSManagedObject+DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+DataManager.m"; sourceTree = "<group>"; };
-		05AD716216E32BCD00AAB7D9 /* CameraFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraFactory.h; sourceTree = "<group>"; };
-		05AD716316E32BCD00AAB7D9 /* CameraFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraFactory.m; sourceTree = "<group>"; };
+		05AD716216E32BCD00AAB7D9 /* CameraFilterFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraFilterFactory.h; sourceTree = "<group>"; };
+		05AD716316E32BCD00AAB7D9 /* CameraFilterFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraFilterFactory.m; sourceTree = "<group>"; };
 		05AD716416E32BCD00AAB7D9 /* FilteredCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilteredCameraViewController.h; sourceTree = "<group>"; };
 		05AD716516E32BCD00AAB7D9 /* FilteredCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilteredCameraViewController.m; sourceTree = "<group>"; };
 		05AD716816E32BCD00AAB7D9 /* ImageInspectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageInspectViewController.h; sourceTree = "<group>"; };
@@ -372,8 +372,8 @@
 			isa = PBXGroup;
 			children = (
 				055F6DBE1716676F00768BF6 /* Filters */,
-				05AD716216E32BCD00AAB7D9 /* CameraFactory.h */,
-				05AD716316E32BCD00AAB7D9 /* CameraFactory.m */,
+				05AD716216E32BCD00AAB7D9 /* CameraFilterFactory.h */,
+				05AD716316E32BCD00AAB7D9 /* CameraFilterFactory.m */,
 				055F6DA81710919000768BF6 /* EditEntryView.h */,
 				055F6DA91710919000768BF6 /* EditEntryView.m */,
 				05AD716416E32BCD00AAB7D9 /* FilteredCameraViewController.h */,
@@ -569,7 +569,7 @@
 				0534C99216E2F50400EAD481 /* ViewController.m in Sources */,
 				05AD715B16E32BBE00AAB7D9 /* DataManager.m in Sources */,
 				05AD715C16E32BBE00AAB7D9 /* NSManagedObject+DataManager.m in Sources */,
-				05AD716F16E32BCD00AAB7D9 /* CameraFactory.m in Sources */,
+				05AD716F16E32BCD00AAB7D9 /* CameraFilterFactory.m in Sources */,
 				05AD717016E32BCD00AAB7D9 /* FilteredCameraViewController.m in Sources */,
 				05AD717216E32BCD00AAB7D9 /* ImageInspectViewController.m in Sources */,
 				05AD717516E32BCD00AAB7D9 /* SaturationFilter.m in Sources */,

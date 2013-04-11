@@ -30,7 +30,7 @@
         camera.value            = [configuredCamera objectForKey:@"value"];
         [camera save];
     }
-    return [self findAllWithSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"identifier" ascending:YES]]];
+    return [self findAllOrderedByIdentifier];
 }
 
 + (NSDictionary*)loadCameraParameters {
@@ -47,6 +47,10 @@
 
 + (Camera*)findFirstWithCameraId:(CameraId)__cameraId {
     return [self findFirstWithCameraId:__cameraId inContext:[DataManager instance].managedObjectContext];
+}
+
++ (NSArray*)findAllOrderedByIdentifier {
+    return [self findAllWithSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"identifier" ascending:YES]]];
 }
 
 #pragma mark -

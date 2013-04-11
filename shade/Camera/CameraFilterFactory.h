@@ -1,5 +1,5 @@
 //
-//  CameraFactory.h
+//  CameraFilterFactory.h
 //  photio
 //
 //  Created by Troy Stribling on 6/2/12.
@@ -14,13 +14,13 @@
 @class CameraFilter;
 @class FilteredCameraViewController;
 
-@interface CameraFactory : NSObject
+@interface CameraFilterFactory : NSObject
 
 @property(nonatomic, strong) NSArray                *loadedCameras;
 @property(nonatomic, strong) NSArray                *cameraFilters;
 @property(nonatomic, strong) NSMutableDictionary    *stillCameras;
 
-+ (CameraFactory*)instance;
++ (CameraFilterFactory*)instance;
 - (void)activateCameraWithId:(CameraId)__cameraId forView:(GPUImageView*)__imageView;
 - (void)deactivatCameraWithId:(CameraId)__cameraId;
 - (void)startCameraWithId:(CameraId)__cameraId;

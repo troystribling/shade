@@ -13,7 +13,7 @@
 #import "ViewGeneral.h"
 #import "Capture+Extensions.h"
 #import "Camera+Extensions.h"
-#import "CameraFactory.h"
+#import "CameraFilterFactory.h"
 
 #define EDIT_MODE_TEXTBOX_OFFSET        2.0f
 #define CHANGE_FILTER_PARAMTER_RADIUS   50.0f
@@ -39,7 +39,7 @@
 - (id)initWithEntry:(ImageEntryView*)__entryView {
     self = [super initWithFrame:__entryView.frame];
     if (self) {
-        self.cameraIds = [[CameraFactory instance] cameraIds];
+        self.cameraIds = [[CameraFilterFactory instance] cameraIds];
         self.filteredEntryCircleView = [CircleOfViews withFrame:self.frame delegate:self relativeToView:[ViewGeneral instance].view];
         UITapGestureRecognizer *selectEditMode = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didExitEditMode)];
         selectEditMode.numberOfTapsRequired = 1;

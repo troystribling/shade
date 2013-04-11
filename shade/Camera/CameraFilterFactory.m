@@ -1,12 +1,12 @@
 //
-//  CameraFactory.m
+//  CameraFilterFactory.m
 //  photio
 //
 //  Created by Troy Stribling on 6/2/12.
 //  Copyright (c) 2012 imaginaryProducts. All rights reserved.
 //
 
-#import "CameraFactory.h"
+#import "CameraFilterFactory.h"
 #import "FilteredCameraViewController.h"
 #import "InstantCameraFilter.h"
 #import "BoxCameraFilter.h"
@@ -15,35 +15,35 @@
 #import "Camera+Extensions.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-static CameraFactory* thisCameraFactory = nil;
+static CameraFilterFactory* thisFilterFactory = nil;
 
 /////////////////////////////////////////////////////////////////////////////////////////
-@interface CameraFactory ()
+@interface CameraFilterFactory ()
 
 - (GPUImageStillCamera*)stillCameraForCameraId:(CameraId)__cameraId;
 
 @end
 
 /////////////////////////////////////////////////////////////////////////////////////////
-@implementation CameraFactory
+@implementation CameraFilterFactory
 
 #pragma mark -
-#pragma mark CameraFactory Private API
+#pragma mark CameraFilterFactory Private API
 
 - (GPUImageStillCamera*)stillCameraForCameraId:(CameraId)__cameraId {
     return [self.stillCameras objectForKey:[NSNumber numberWithInt:__cameraId]];
 }
 
 #pragma mark -
-#pragma mark CameraFactory
+#pragma mark CameraFilterFactory
 
-+ (CameraFactory*)instance {
++ (CameraFilterFactory*)instance {
     @synchronized(self) {
-        if (thisCameraFactory == nil) {
-            thisCameraFactory = [[self alloc] init];
+        if (thisFilterFactory == nil) {
+            thisFilterFactory = [[self alloc] init];
         }
     }
-    return thisCameraFactory;
+    return thisFilterFactory;
 }
 
 - (id)init {

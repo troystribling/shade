@@ -10,7 +10,7 @@
 #import "ParameterSliderView.h"
 #import "Capture+Extensions.h"
 #import "ViewGeneral.h"
-#import "CameraFactory.h"
+#import "CameraFilterFactory.h"
 #import "DataManager.h"
 #import "AnimateView.h"
 
@@ -77,18 +77,18 @@
     GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
     gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
     [self.camerasCircleView addView:gpuImageView];
-    [[CameraFactory instance] activateCameraWithId:__cameraId forView:gpuImageView];
+    [[CameraFilterFactory instance] activateCameraWithId:__cameraId forView:gpuImageView];
 }
 
 - (void)startCameraWithId:(CameraId)__cameraId {
     dispatch_async(self.cameraQueue, ^{
-        [[CameraFactory instance] startCameraWithId:__cameraId];
+        [[CameraFilterFactory instance] startCameraWithId:__cameraId];
     });
 }
 
 - (void)stopCameraWithId:(CameraId)__cameraId {
     dispatch_async(self.cameraQueue, ^{
-        [[CameraFactory instance] stopCameraWithId:__cameraId];
+        [[CameraFilterFactory instance] stopCameraWithId:__cameraId];
     });
 }
 
@@ -118,7 +118,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.containerView = __containerView;
-        self.cameraIds = [[CameraFactory instance] cameraIds];
+        self.cameraIds = [[CameraFilterFactory instance] cameraIds];
         self.cameraQueue = dispatch_queue_create("cameras.imaginaryproducts.com", NULL);
     }
     return self;
@@ -132,7 +132,7 @@
     for (NSNumber *camerId in self.cameraIds) {
         [self addCameraWithId:[camerId intValue]];
     }
-    self.displayedCameraId = [[CameraFactory instance] defaultCameraId];
+    self.displayedCameraId = [[CameraFilterFactory instance] defaultCameraId];
     [self startCameraWithId:self.displayedCameraId];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didCapture:)
@@ -151,7 +151,7 @@
 - (IBAction)captureStillImage:(id)__sender {
     self.captureImageGesture.enabled = NO;
     [self closeShutterAndOnCompletion:^{
-        [[CameraFactory instance] captureStillImageForCameraWithId:self.displayedCameraId onCompletion:^(NSData* imageData, NSError* error) {
+        [[CameraFilterFactory instance] captureStillImageForCameraWithId:self.displayedCameraId onCompletion:^(NSData* imageData, NSError* error) {
             if (error) {
                 [ViewGeneral alertOnError:error];
             }
@@ -205,11 +205,11 @@
 }
 
 - (void)didSwipeUp:(CGPoint)__location withVelocity:(CGPoint)__velocity {
-    [[CameraFactory instance] rotateCameraWithCameraId:self.displayedCameraId];
+    [[CameraFilterFactory instance] rotateCameraWithCameraId:self.displayedCameraId];
 }
 
 - (void)didReachMaxDragUp:(CGPoint)__drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
-    [[CameraFactory instance] rotateCameraWithCameraId:self.displayedCameraId];
+    [[CameraFilterFactory instance] rotateCameraWithCameraId:self.displayedCameraId];
 }
 
 #pragma mark -
@@ -222,17 +222,17 @@
 
 - (void)didStartDraggingRight:(CGPoint)__location {
     [self stopCameraWithId:self.displayedCameraId];
-    CameraId cameraId = [[CameraFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
+    CameraId cameraId = [[CameraFilterFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
     [self startCameraWithId:cameraId];
 }
 
 - (void)didMoveRight {
-    self.displayedCameraId = [[CameraFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
+    self.displayedCameraId = [[CameraFilterFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
 }
 
 - (void)didReleaseRight {
-    CameraFactory *camerFactory = [CameraFactory instance];
-    [camerFactory stopCameraWithId:[camerFactory nextRightCameraIdRelativeTo:self.displayedCameraId]];
+    CameraFilterFactory *factory = [CameraFilterFactory instance];
+    [factory stopCameraWithId:[factory nextRightCameraIdRelativeTo:self.displayedCameraId]];
     [self startCameraWithId:self.displayedCameraId];
 }
 
@@ -240,17 +240,17 @@
 
 - (void)didStartDraggingLeft:(CGPoint)__location {
     [self stopCameraWithId:self.displayedCameraId];
-    CameraId cameraId = [[CameraFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
+    CameraId cameraId = [[CameraFilterFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
     [self startCameraWithId:cameraId];
 }
 
 - (void)didMoveLeft {
-    self.displayedCameraId = [[CameraFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
+    self.displayedCameraId = [[CameraFilterFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
 }
 
 - (void)didReleaseLeft {
-    CameraFactory *camerFactory = [CameraFactory instance];
-    [camerFactory stopCameraWithId:[camerFactory nextLeftCameraIdRelativeTo:self.displayedCameraId]];
+    CameraFilterFactory *factory = [CameraFilterFactory instance];
+    [factory stopCameraWithId:[factory nextLeftCameraIdRelativeTo:self.displayedCameraId]];
     [self startCameraWithId:self.displayedCameraId];
 }
 
