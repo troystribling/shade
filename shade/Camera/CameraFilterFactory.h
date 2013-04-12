@@ -19,15 +19,21 @@
 @property(nonatomic, strong) NSArray                *loadedCameras;
 @property(nonatomic, strong) NSArray                *cameraFilters;
 @property(nonatomic, strong) NSMutableDictionary    *stillCameras;
+@property(nonatomic, strong) NSMutableDictionary    *imagePictures;
 
 + (CameraFilterFactory*)instance;
+
 - (void)activateCameraWithId:(CameraId)__cameraId forView:(GPUImageView*)__imageView;
 - (void)deactivatCameraWithId:(CameraId)__cameraId;
 - (void)startCameraWithId:(CameraId)__cameraId;
 - (void)stopCameraWithId:(CameraId)__cameraId;
-- (void)setParameterValue:(NSNumber*)__value forCameraWithId:(CameraId)__cameraId;
 - (void)captureStillImageForCameraWithId:(CameraId)__cameraId onCompletion:(void(^)(NSData* imageData, NSError* error))__completionHandler;
 - (void)rotateCameraWithCameraId:(CameraId)__cameraId;
+
+- (void)activateCameraWithId:(CameraId)__cameraId forView:(GPUImageView *)__imageView withImage:(UIImage*)__image;
+
+- (void)setParameterValue:(NSNumber*)__value forCameraWithId:(CameraId)__cameraId;
+
 - (CameraId)defaultCameraId;
 - (NSArray*)cameraIds;
 - (CameraId)nextRightCameraIdRelativeTo:(CameraId)__cameraId;

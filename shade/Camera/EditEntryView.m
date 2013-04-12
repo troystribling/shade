@@ -24,6 +24,7 @@
 - (void)didExitEditMode;
 - (void)didChangeFilterParameter:(UIGestureRecognizer*)__gestureRecognizer;
 - (void)addFilteredEntries:(ImageEntryView*)__entryView;
+- (void)addCameraWithId:(CameraId)__cameraId andImage:(UIImage*)__image;
 
 @end
 
@@ -96,6 +97,13 @@
         [self addEditModeView:@"adjusting filter"];
         [self addSubview:self.changeFilterParameterCircleView];
     }
+}
+
+- (void)addCameraWithId:(CameraId)__cameraId andImage:(UIImage*)__image {
+    GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.frame];
+    gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
+    [self.filteredEntryCircleView addView:gpuImageView];
+    [[CameraFilterFactory instance] activateCameraWithId:__cameraId forView:gpuImageView];
 }
 
 #pragma mark -

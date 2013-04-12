@@ -89,14 +89,6 @@ static CameraFilterFactory* thisFilterFactory = nil;
     [stillCamera stopCameraCapture];
 }
 
-- (void)setParameterValue:(NSNumber*)__value forCameraWithId:(CameraId)__cameraId  {
-    Camera *camera = [self.loadedCameras objectAtIndex:__cameraId];
-    camera.value = __value;
-    [camera save];
-    CameraFilter *cameraFilter = [self.cameraFilters objectAtIndex:__cameraId];
-    [cameraFilter setParameterValue:__value];
-}
-
 - (void)captureStillImageForCameraWithId:(CameraId)__cameraId onCompletion:(void(^)(NSData* imageData, NSError* error))__completionHandler {
     CameraFilter *camerFilter = [self.cameraFilters objectAtIndex:__cameraId];
     GPUImageStillCamera *stillCamera = [self stillCameraForCameraId:__cameraId];
@@ -108,6 +100,26 @@ static CameraFilterFactory* thisFilterFactory = nil;
     if (stillCamera) {
         [stillCamera rotateCamera];
     }
+}
+
+#pragma mark -
+
+- (void)activateCameraWithId:(CameraId)__cameraId forView:(GPUImageView *)__imageView withImage:(UIImage*)__image {
+    Camera *camera = [self.loadedCameras objectAtIndex:__cameraId];
+    CameraFilter *cameraFilter = [self.cameraFilters objectAtIndex:__cameraId];
+    GPUImagePicture *imagePicture = [[GPUImagePicture alloc] initWithImage:__image smoothlyScaleOutput:YES];
+    [self.imagePictures setObject:imagePicture forKey:[NSNumber numberWithInt:__cameraId]];
+    [imagePicture addTarget:cameraFilter.filter];
+    [cameraFilter.filter addTarget:__imageView];
+    [imagePicture processImage];
+    [self setParameterValue:camera.value forCameraWithId:__cameraId];
+}
+
+#pragma mark -
+
+- (void)setParameterValue:(NSNumber*)__value forCameraWithId:(CameraId)__cameraId  {
+    CameraFilter *cameraFilter = [self.cameraFilters objectAtIndex:__cameraId];
+    [cameraFilter setParameterValue:__value];
 }
 
 - (CameraId)defaultCameraId {
