@@ -103,7 +103,7 @@
     GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.frame];
     gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
     [self.filteredEntryCircleView addView:gpuImageView];
-    [[CameraFilterFactory instance] activateCameraWithId:__cameraId forView:gpuImageView];
+    [[CameraFilterFactory instance] activateCameraWithId:__cameraId forView:gpuImageView withImage:__image];
 }
 
 #pragma mark -
