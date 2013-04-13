@@ -1,13 +1,13 @@
 //
-//  BoxCameraFilter.h
+//  NativeCameraFilter.h
 //  shade
 //
-//  Created by Troy Stribling on 3/3/13.
+//  Created by Troy Stribling on 4/12/13.
 //  Copyright (c) 2013 Troy Stribling. All rights reserved.
 //
 
 #import "CameraFilter.h"
 
-@interface BoxCameraFilter : CameraFilter
+@interface NativeCameraFilter : CameraFilter
 
 @end

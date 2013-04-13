@@ -4,6 +4,33 @@
 <dict>
 	<key>CameraFilterParameters</key>
 	<dict>
+		<key>Native</key>
+		<dict>
+			<key>GPUImageBrightnessFilter</key>
+			<dict>
+				<key>Brightness</key>
+				<dict>
+					<key>maximumValue</key>
+					<integer>1</integer>
+					<key>minimumValue</key>
+					<integer>-1</integer>
+					<key>initialValue</key>
+					<real>0</real>
+				</dict>
+			</dict>
+			<key>GPUImageContrastFilter</key>
+			<dict>
+				<key>Contrast</key>
+				<dict>
+					<key>maximumValue</key>
+					<integer>2</integer>
+					<key>minimumValue</key>
+					<integer>0</integer>
+					<key>initialValue</key>
+					<integer>1</integer>
+				</dict>
+			</dict>
+		</dict>
 		<key>Instant</key>
 		<dict>
 			<key>GPUImageSaturationFilter</key>

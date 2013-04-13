@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 Troy Stribling. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "CameraFilter.h"
 
 @interface PlasticCameraFilter : CameraFilter

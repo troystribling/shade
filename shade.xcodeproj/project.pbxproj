@@ -34,6 +34,8 @@
 		055F6DBA171664DF00768BF6 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 055F6DB9171664DE00768BF6 /* LocationManager.m */; };
 		058D050B16EAE09F000506D7 /* FilteredCameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 058D050A16EAE09F000506D7 /* FilteredCameraViewController.xib */; };
 		058D052416EBDCB8000506D7 /* Capture.m in Sources */ = {isa = PBXBuildFile; fileRef = 058D052316EBDCB8000506D7 /* Capture.m */; };
+		058E3C101719160300438091 /* BrightnessContrastFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 058E3C0F1719160300438091 /* BrightnessContrastFilter.m */; };
+		058E3C16171922C700438091 /* NativeCameraFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 058E3C15171922C700438091 /* NativeCameraFilter.m */; };
 		058E983D16E5943300C4DDFA /* UIAlertView+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 058E983C16E5943300C4DDFA /* UIAlertView+Extensions.m */; };
 		058E984216E5962500C4DDFA /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 058E984116E5962500C4DDFA /* CoreData.framework */; };
 		058E984416E5983D00C4DDFA /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 058E984316E5983D00C4DDFA /* CoreLocation.framework */; };
@@ -140,6 +142,10 @@
 		058D050A16EAE09F000506D7 /* FilteredCameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilteredCameraViewController.xib; sourceTree = "<group>"; };
 		058D052216EBDCB8000506D7 /* Capture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Capture.h; sourceTree = "<group>"; };
 		058D052316EBDCB8000506D7 /* Capture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Capture.m; sourceTree = "<group>"; };
+		058E3C0E1719160200438091 /* BrightnessContrastFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrightnessContrastFilter.h; sourceTree = "<group>"; };
+		058E3C0F1719160300438091 /* BrightnessContrastFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrightnessContrastFilter.m; sourceTree = "<group>"; };
+		058E3C14171922C700438091 /* NativeCameraFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeCameraFilter.h; sourceTree = "<group>"; };
+		058E3C15171922C700438091 /* NativeCameraFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NativeCameraFilter.m; sourceTree = "<group>"; };
 		058E983B16E5943300C4DDFA /* UIAlertView+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Extensions.h"; sourceTree = "<group>"; };
 		058E983C16E5943300C4DDFA /* UIAlertView+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Extensions.m"; sourceTree = "<group>"; };
 		058E984116E5962500C4DDFA /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -335,10 +341,14 @@
 			children = (
 				05AD71D916E4301F00AAB7D9 /* BoxCameraFilter.h */,
 				05AD71DA16E4301F00AAB7D9 /* BoxCameraFilter.m */,
+				058E3C0E1719160200438091 /* BrightnessContrastFilter.h */,
+				058E3C0F1719160300438091 /* BrightnessContrastFilter.m */,
 				05AD71D316E42FAC00AAB7D9 /* CameraFilter.h */,
 				05AD71D416E42FAC00AAB7D9 /* CameraFilter.m */,
 				05AD71D616E42FE100AAB7D9 /* InstantCameraFilter.h */,
 				05AD71D716E42FE100AAB7D9 /* InstantCameraFilter.m */,
+				058E3C14171922C700438091 /* NativeCameraFilter.h */,
+				058E3C15171922C700438091 /* NativeCameraFilter.m */,
 				05AD71DC16E4306000AAB7D9 /* PlasticCameraFilter.h */,
 				05AD71DD16E4306100AAB7D9 /* PlasticCameraFilter.m */,
 				05AD716C16E32BCD00AAB7D9 /* SaturationFilter.h */,
@@ -607,6 +617,8 @@
 				055F6DAF1710A9B600768BF6 /* CircleView.m in Sources */,
 				055F6DB21710AA2400768BF6 /* TextBoxView.m in Sources */,
 				055F6DBA171664DF00768BF6 /* LocationManager.m in Sources */,
+				058E3C101719160300438091 /* BrightnessContrastFilter.m in Sources */,
+				058E3C16171922C700438091 /* NativeCameraFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

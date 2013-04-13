@@ -11,7 +11,7 @@
 #import "InstantCameraFilter.h"
 #import "BoxCameraFilter.h"
 #import "PlasticCameraFilter.h"
-#import "PassThoughFilter.h"
+#import "NativeCameraFilter.h"
 #import "Camera+Extensions.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +51,7 @@ static CameraFilterFactory* thisFilterFactory = nil;
     if (self) {
         self.loadedCameras = [Camera loadCameras];
         self.stillCameras = [NSMutableDictionary dictionary];
-        self.cameraFilters = @[[[PassThoughFilter alloc] init], [[InstantCameraFilter alloc] init], [[BoxCameraFilter alloc] init], [[PlasticCameraFilter alloc] init]];
+        self.cameraFilters = @[[[NativeCameraFilter alloc] init], [[InstantCameraFilter alloc] init], [[BoxCameraFilter alloc] init], [[PlasticCameraFilter alloc] init]];
     }
     return self;
 }
