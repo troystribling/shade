@@ -20,11 +20,14 @@
 
 @interface TextBoxView ()
 
-- (void)addEditModeView:(NSString*)__modeText;
 - (void)didExitEditMode;
 - (void)didChangeFilterParameter:(UIGestureRecognizer*)__gestureRecognizer;
+
+- (void)addEditModeView:(NSString*)__editModeString;
+- (void)addEditModeViewForInViewCamera;
 - (void)addFilteredEntries:(ImageEntryView*)__entryView;
 - (void)addCameraWithId:(CameraId)__cameraId andImage:(UIImage*)__image;
+- (Camera*)inViewCamera;
 
 @end
 
@@ -40,7 +43,7 @@
 - (id)initWithEntry:(ImageEntryView*)__entryView {
     self = [super initWithFrame:__entryView.frame];
     if (self) {
-        self.cameraIds = [[CameraFilterFactory instance] cameraIds];
+        self.cameras = [Camera findAllOrderedByIdentifier];
         self.filteredEntryCircleView = [CircleOfViews withFrame:self.frame delegate:self relativeToView:[ViewGeneral instance].view];
         UITapGestureRecognizer *selectEditMode = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didExitEditMode)];
         selectEditMode.numberOfTapsRequired = 1;
@@ -49,8 +52,8 @@
         UILongPressGestureRecognizer *changeFilterParameter = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didChangeFilterParameter:)];
         [self addGestureRecognizer:changeFilterParameter];
         [self addSubview:self.filteredEntryCircleView];
-        [self addEditModeView:@"iPhone filter"];
         [self addFilteredEntries:__entryView];
+        [self addEditModeViewForInViewCamera];
         self.changeFilterParameterCircleView = [CircleView withRadius:CHANGE_FILTER_PARAMTER_RADIUS centeredAt:self.center];
         self.filterParametersAreChanging = NO;
     }
@@ -60,11 +63,35 @@
 #pragma mark -
 #pragma mark EditEntryView PrivateView
 
-- (void)addEditModeView:(NSString*)__modeText {
+- (void)didExitEditMode {
+    [self removeFromSuperview];
+}
+
+
+- (void)didChangeFilterParameter:(UIGestureRecognizer*)__gestureRecognizer {
+    CGPoint location = [__gestureRecognizer locationInView:self];
+    if (self.filterParametersAreChanging) {
+        self.changeFilterParameterCircleView.center = location;
+        if (__gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+            self.filterParametersAreChanging = NO;
+            [self.changeFilterParameterCircleView removeFromSuperview];
+            [self addEditModeViewForInViewCamera];
+        }
+    } else {
+        self.filterParametersAreChanging = YES;
+        self.changeFilterParameterCircleView.center = location;
+        [self addEditModeView:@"Adjusting Filter"];
+        [self addSubview:self.changeFilterParameterCircleView];
+    }
+}
+
+#pragma mark -
+
+- (void)addEditModeView:(NSString*)__editModeString {
     if (self.editModeTextBoxView) {
         [self.editModeTextBoxView removeFromSuperview];
     }
-    self.editModeTextBoxView = [TextBoxView withText:__modeText];
+    self.editModeTextBoxView = [TextBoxView withText:__editModeString];
     [self.editModeTextBoxView setTextXOffset:20.0f andYOffset:5.0f];
     CGRect editModeTextRect = self.editModeTextBoxView.frame;
     self.editModeTextBoxView.frame = CGRectMake(self.center.x - 0.5f * editModeTextRect.size.width,
@@ -74,36 +101,25 @@
     [self addSubview:self.editModeTextBoxView];
 }
 
+- (void)addEditModeViewForInViewCamera {
+    [self addEditModeView:[NSString stringWithFormat:@"%@ Filter", [self inViewCamera].name]];
+}
+
 - (void)addFilteredEntries:(ImageEntryView*)__entryView {
-    [self.filteredEntryCircleView addView:[__entryView clone]];
-}
-
-- (void)didExitEditMode {
-    [self removeFromSuperview];
-}
-
-- (void)didChangeFilterParameter:(UIGestureRecognizer*)__gestureRecognizer {
-    CGPoint location = [__gestureRecognizer locationInView:self];
-    if (self.filterParametersAreChanging) {
-        self.changeFilterParameterCircleView.center = location;
-        if (__gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-            self.filterParametersAreChanging = NO;
-            [self.changeFilterParameterCircleView removeFromSuperview];
-            [self addEditModeView:@"iPhone filter"];
-        }
-    } else {
-        self.filterParametersAreChanging = YES;
-        self.changeFilterParameterCircleView.center = location;
-        [self addEditModeView:@"adjusting filter"];
-        [self addSubview:self.changeFilterParameterCircleView];
+    for (Camera *camera in self.cameras) {
+        [self addCamera:camera andImage:[__entryView imageClone]];
     }
 }
 
-- (void)addCameraWithId:(CameraId)__cameraId andImage:(UIImage*)__image {
+- (void)addCamera:(Camera*)__camera andImage:(UIImage*)__image {
     GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.frame];
     gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
+    [[CameraFilterFactory instance] activateFilterWithCameraId:[__camera cameraId] forView:gpuImageView withImage:__image];
     [self.filteredEntryCircleView addView:gpuImageView];
-    [[CameraFilterFactory instance] activateCameraWithId:__cameraId forView:gpuImageView withImage:__image];
+}
+
+- (Camera*)inViewCamera {
+    return [self.cameras objectAtIndex:self.filteredEntryCircleView.inViewIndex];
 }
 
 #pragma mark -

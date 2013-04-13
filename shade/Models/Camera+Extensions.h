@@ -25,5 +25,6 @@ typedef enum {
 + (Camera*)findFirstWithCameraId:(CameraId)__cameraId inContext:(NSManagedObjectContext*)__context;
 + (Camera*)findFirstWithCameraId:(CameraId)__cameraId;
 + (NSArray*)findAllOrderedByIdentifier;
+- (CameraId)cameraId;
 
 @end

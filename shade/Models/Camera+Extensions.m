@@ -53,6 +53,10 @@
     return [self findAllWithSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"identifier" ascending:YES]]];
 }
 
+- (CameraId)cameraId {
+    return [self.identifier intValue];
+}
+
 #pragma mark -
 #pragma mark Private API
 

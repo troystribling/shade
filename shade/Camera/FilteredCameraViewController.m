@@ -77,18 +77,18 @@
     GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
     gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
     [self.camerasCircleView addView:gpuImageView];
-    [[CameraFilterFactory instance] activateCameraWithId:__cameraId forView:gpuImageView];
+    [[CameraFilterFactory instance] activateFilterWithCameraId:__cameraId forView:gpuImageView];
 }
 
 - (void)startCameraWithId:(CameraId)__cameraId {
     dispatch_async(self.cameraQueue, ^{
-        [[CameraFilterFactory instance] startCameraWithId:__cameraId];
+        [[CameraFilterFactory instance] startFilterWithCameraId:__cameraId];
     });
 }
 
 - (void)stopCameraWithId:(CameraId)__cameraId {
     dispatch_async(self.cameraQueue, ^{
-        [[CameraFilterFactory instance] stopCameraWithId:__cameraId];
+        [[CameraFilterFactory instance] stopFilterWithCameraId:__cameraId];
     });
 }
 
@@ -151,7 +151,7 @@
 - (IBAction)captureStillImage:(id)__sender {
     self.captureImageGesture.enabled = NO;
     [self closeShutterAndOnCompletion:^{
-        [[CameraFilterFactory instance] captureStillImageForCameraWithId:self.displayedCameraId onCompletion:^(NSData* imageData, NSError* error) {
+        [[CameraFilterFactory instance] captureStillImageForFilterWithCameraId:self.displayedCameraId onCompletion:^(NSData* imageData, NSError* error) {
             if (error) {
                 [ViewGeneral alertOnError:error];
             }
@@ -205,11 +205,11 @@
 }
 
 - (void)didSwipeUp:(CGPoint)__location withVelocity:(CGPoint)__velocity {
-    [[CameraFilterFactory instance] rotateCameraWithCameraId:self.displayedCameraId];
+    [[CameraFilterFactory instance] rotateFilterCameraWithCameraId:self.displayedCameraId];
 }
 
 - (void)didReachMaxDragUp:(CGPoint)__drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
-    [[CameraFilterFactory instance] rotateCameraWithCameraId:self.displayedCameraId];
+    [[CameraFilterFactory instance] rotateFilterCameraWithCameraId:self.displayedCameraId];
 }
 
 #pragma mark -
@@ -232,7 +232,7 @@
 
 - (void)didReleaseRight {
     CameraFilterFactory *factory = [CameraFilterFactory instance];
-    [factory stopCameraWithId:[factory nextRightCameraIdRelativeTo:self.displayedCameraId]];
+    [factory stopFilterWithCameraId:[factory nextRightCameraIdRelativeTo:self.displayedCameraId]];
     [self startCameraWithId:self.displayedCameraId];
 }
 
@@ -250,7 +250,7 @@
 
 - (void)didReleaseLeft {
     CameraFilterFactory *factory = [CameraFilterFactory instance];
-    [factory stopCameraWithId:[factory nextLeftCameraIdRelativeTo:self.displayedCameraId]];
+    [factory stopFilterWithCameraId:[factory nextLeftCameraIdRelativeTo:self.displayedCameraId]];
     [self startCameraWithId:self.displayedCameraId];
 }
 

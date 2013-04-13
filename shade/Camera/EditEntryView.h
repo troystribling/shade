@@ -19,7 +19,7 @@
 @property(nonatomic, strong) TextBoxView    *editModeTextBoxView;
 @property(nonatomic, strong) CircleOfViews  *filteredEntryCircleView;
 @property(nonatomic, strong) CircleView     *changeFilterParameterCircleView;
-@property(nonatomic, strong) NSArray        *cameraIds;
+@property(nonatomic, strong) NSArray        *cameras;
 @property(nonatomic, assign) BOOL           filterParametersAreChanging;
 
 + (id)withEntry:(ImageEntryView*)__entryView;
