@@ -10,7 +10,7 @@
 			<key>name</key>
 			<string>Native</string>
 			<key>value</key>
-			<integer>0</integer>
+			<real>0.5</real>
 			<key>purchased</key>
 			<true/>
 		</dict>

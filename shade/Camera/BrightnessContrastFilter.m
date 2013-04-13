@@ -19,7 +19,8 @@ NSString *const kBrightnessContrastFragmentShaderString = SHADER_STRING
  void main()
  {
      lowp vec4 textureColor = texture2D(inputImageTexture, textureCoordinate);
-     gl_FragColor = vec4((textureColor.rgb + vec3(brightness)), textureColor.w);
+     highp vec4 contrast_filter = vec4(((textureColor.rgb - vec3(0.5)) * contrast + vec3(0.5)), textureColor.w);
+     gl_FragColor = vec4((contrast_filter.rgb + vec3(brightness)), contrast_filter.w);
  }
 );
 
@@ -45,12 +46,12 @@ NSString *const kBrightnessContrastFragmentShaderString = SHADER_STRING
 
 - (void)setBrightness:(CGFloat)newValue; {
     _brightness = newValue;
-    [self setFloat:_brightness forUniform:brightnessUniform program:filterProgram];
+    [self setFloat:self.brightness forUniform:brightnessUniform program:filterProgram];
 }
 
 - (void)setContrast:(CGFloat)newValue; {
     _contrast = newValue;
-    [self setFloat:_contrast forUniform:contrastUniform program:filterProgram];
+    [self setFloat:self.contrast forUniform:contrastUniform program:filterProgram];
 }
 
 @end

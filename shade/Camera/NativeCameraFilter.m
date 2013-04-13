@@ -38,8 +38,8 @@
 }
 
 - (NSDictionary*)parameterValues:(NSNumber*)__value {
-    NSDictionary* contrastParameters = [self.filterParameters objectForKey:@"GPUImageContrastFilter"];
-    NSDictionary* brightnessParameters = [self.filterParameters objectForKey:@"GPUImageBrightnessFilter"];    
+    NSDictionary* contrastParameters = [[self.filterParameters objectForKey:@"GPUImageContrastFilter"] objectForKey:@"Contrast"];
+    NSDictionary* brightnessParameters = [[self.filterParameters objectForKey:@"GPUImageBrightnessFilter"] objectForKey:@"Brightness"];
     return @{@"contrast":   [self increasingParameter:contrastParameters fromValue:__value],
              @"brightness":  [self increasingParameter:brightnessParameters fromValue:__value]};
 }
