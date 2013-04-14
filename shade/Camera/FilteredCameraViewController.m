@@ -189,10 +189,12 @@
 }
 
 - (void)didSwipeDown:(CGPoint)__location withVelocity:(CGPoint)__velocity {
+    [self stopCameraWithId:self.displayedCameraId];
     [[ViewGeneral instance] transitionCameraToInspectImage];
 }
 
 - (void)didReachMaxDragDown:(CGPoint)__drag from:(CGPoint)_location withVelocity:(CGPoint)__velocity {
+    [self stopCameraWithId:self.displayedCameraId];
     [[ViewGeneral instance] transitionCameraToInspectImage];
 }
 

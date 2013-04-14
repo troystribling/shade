@@ -25,7 +25,6 @@
 
 - (void)addEditModeView:(NSString*)__editModeString;
 - (void)addEditModeViewForInViewCamera;
-- (void)addFilteredEntries:(ImageEntryView*)__entryView;
 - (void)addCameraWithId:(CameraId)__cameraId andImage:(UIImage*)__image;
 - (Camera*)inViewCamera;
 
@@ -43,6 +42,7 @@
 - (id)initWithEntry:(ImageEntryView*)__entryView {
     self = [super initWithFrame:__entryView.frame];
     if (self) {
+        self.entryView = __entryView;
         self.cameras = [Camera findAllOrderedByIdentifier];
         self.filteredEntryCircleView = [CircleOfViews withFrame:self.frame delegate:self relativeToView:[ViewGeneral instance].view];
         UITapGestureRecognizer *selectEditMode = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didExitEditMode)];
@@ -52,7 +52,7 @@
         UILongPressGestureRecognizer *changeFilterParameter = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didChangeFilterParameter:)];
         [self addGestureRecognizer:changeFilterParameter];
         [self addSubview:self.filteredEntryCircleView];
-        [self addFilteredEntries:__entryView];
+        [self addCamera:[self.cameras objectAtIndex:0] andImage:[__entryView imageClone]];
         [self addEditModeViewForInViewCamera];
         self.changeFilterParameterCircleView = [CircleView withRadius:CHANGE_FILTER_PARAMTER_RADIUS centeredAt:self.center];
         self.filterParametersAreChanging = NO;
@@ -103,12 +103,6 @@
 
 - (void)addEditModeViewForInViewCamera {
     [self addEditModeView:[NSString stringWithFormat:@"%@ Filter", [self inViewCamera].name]];
-}
-
-- (void)addFilteredEntries:(ImageEntryView*)__entryView {
-    for (Camera *camera in self.cameras) {
-        [self addCamera:camera andImage:[__entryView imageClone]];
-    }
 }
 
 - (void)addCamera:(Camera*)__camera andImage:(UIImage*)__image {

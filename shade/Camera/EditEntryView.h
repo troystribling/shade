@@ -16,6 +16,7 @@
 
 @interface EditEntryView : UIView <CircleOfViewsDelegate>
 
+@property(nonatomic, strong) ImageEntryView *entryView;
 @property(nonatomic, strong) TextBoxView    *editModeTextBoxView;
 @property(nonatomic, strong) CircleOfViews  *filteredEntryCircleView;
 @property(nonatomic, strong) CircleView     *changeFilterParameterCircleView;
