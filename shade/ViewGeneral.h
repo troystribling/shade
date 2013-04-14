@@ -42,14 +42,17 @@
 - (void)cameraViewPosition:(CGRect)__rec;
 - (void)cameraViewHidden:(BOOL)__hidden;
 
+- (void)startDisplayedCameraFilter;
+- (void)stopDisplayedCameraFilter;
+
 - (void)transitionCameraToInspectImage;
-- (void)releaseCameraInspectImage;
+- (void)releaseCameraVertical;
+- (void)releaseCameraHorizontal;
 - (void)dragCameraToInspectImage:(CGPoint)__drag;
-- (void)releaseCamera;
 - (void)dragCamera:(CGPoint)_drag;
 
-- (void)dragInspectImageToCamera:(CGPoint)__drag;
-- (void)releaseInspectImageToCamera;
 - (void)transitionInspectImageToCamera;
+- (void)dragInspectImageToCamera:(CGPoint)__drag;
+- (void)releaseInspectImageVertical;
 
 @end

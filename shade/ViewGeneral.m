@@ -158,10 +158,23 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     self.cameraViewController.view.frame = __rect;
 }
 
+
+#pragma mark -
+#pragma mark Start/Stop Displayed Camera Filter
+
+- (void)startDisplayedCameraFilter {
+    [self.cameraViewController startDisplayedCameraFilter];
+}
+
+- (void)stopDisplayedCameraFilter {
+    [self.cameraViewController stopDisplayedCameraFilter];
+}
+
 #pragma mark - 
 #pragma mark Camera To Inspect Image
 
 - (void)transitionCameraToInspectImage {
+    [self stopDisplayedCameraFilter];
     if ([self.imageInspectViewController hasCaptures]) {
         [AnimateView withDuration:[AnimateView verticalTransitionDuration:self.cameraViewController.view.frame.origin.y] andAnimation:^{
                 [self cameraViewPosition:[AnimateView underWindowRect]];
@@ -171,23 +184,23 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     }
 }
 
-- (void)releaseCameraInspectImage {
+- (void)releaseCameraVertical {
     [AnimateView withDuration:[AnimateView horizontaltReleaseDuration:self.cameraViewController.view.frame.origin.y] andAnimation:^{
             [self cameraViewPosition:[AnimateView inWindowRect]];
         }
      ];
 }
 
+- (void)releaseCameraHorizontal {
+    [AnimateView withDuration:[self.class horizontaltReleaseDuration:self.cameraViewController.view.frame.origin.x] andAnimation:^{
+        [self cameraViewPosition:[AnimateView inWindowRect]];
+    }];
+}
+
 - (void)dragCameraToInspectImage:(CGPoint)__drag {
     if ([self.imageInspectViewController hasCaptures]) {
         [AnimateView drag:__drag view:self.cameraViewController.view];
     }
-}
-
-- (void)releaseCamera {
-    [AnimateView withDuration:[self.class horizontaltReleaseDuration:self.cameraViewController.view.frame.origin.x] andAnimation:^{
-        [self cameraViewPosition:[AnimateView inWindowRect]];
-    }];
 }
 
 - (void)dragCamera:(CGPoint)_drag {
@@ -201,7 +214,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
     [AnimateView drag:__drag view:self.imageInspectViewController.view];
 }
 
-- (void)releaseInspectImageToCamera {
+- (void)releaseInspectImageVertical {
     [AnimateView withDuration:[AnimateView verticalReleaseDuration:self.imageInspectViewController.view.frame.origin.y] andAnimation:^{
             [self imageInspectViewPosition:[AnimateView inWindowRect]];
         }
@@ -209,6 +222,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 }
 
 - (void)transitionInspectImageToCamera {
+    [self startDisplayedCameraFilter];
     [AnimateView withDuration:[AnimateView verticalTransitionDuration:self.imageInspectViewController.view.frame.origin.y]
                    animation:^{
                        [self cameraViewPosition:[AnimateView inWindowRect]];

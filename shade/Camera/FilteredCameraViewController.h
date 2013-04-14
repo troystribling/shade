@@ -27,5 +27,8 @@
 
 - (IBAction)captureStillImage:(id)__sender;
 
+- (void)startDisplayedCameraFilter;
+- (void)stopDisplayedCameraFilter;
+
 @end
 

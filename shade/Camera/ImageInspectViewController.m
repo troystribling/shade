@@ -382,7 +382,7 @@
 }
 
 - (void)didReleaseUp:(CGPoint)_location {
-    [[ViewGeneral instance] releaseInspectImageToCamera];
+    [[ViewGeneral instance] releaseInspectImageVertical];
 }
 
 - (void)didSwipeUp:(CGPoint)__location withVelocity:(CGPoint)__velocity {
