@@ -25,6 +25,7 @@
 
 - (void)activateFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView*)__imageView;
 - (void)deactivateFilterWithCameraId:(CameraId)__cameraId;
+
 - (void)startFilterWithCameraId:(CameraId)__cameraId;
 - (void)stopFilterWithCameraId:(CameraId)__cameraId;
 - (void)captureStillImageForFilterWithCameraId:(CameraId)__cameraId onCompletion:(void(^)(NSData* imageData, NSError* error))__completionHandler;

@@ -57,14 +57,18 @@ static CameraFilterFactory* thisFilterFactory = nil;
 }
 
 - (void)activateFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView*)__imageView {
+    
     Camera *camera = [self.loadedCameras objectAtIndex:__cameraId];
     CameraFilter *cameraFilter = [self.cameraFilters objectAtIndex:__cameraId];
     GPUImageStillCamera *stillCamera = [[GPUImageStillCamera alloc] init];
     [self.stillCameras setObject:stillCamera forKey:[NSNumber numberWithInt:__cameraId]];
+    
     stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
+    
     [cameraFilter.filter prepareForImageCapture];
     [stillCamera addTarget:cameraFilter.filter];
     [cameraFilter.filter addTarget:__imageView];
+    
     [self setParameterValue:camera.value forFilterWithCameraId:__cameraId];
 }
 

@@ -162,19 +162,19 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 #pragma mark -
 #pragma mark Start/Stop Displayed Camera Filter
 
-- (void)startDisplayedCameraFilter {
-    [self.cameraViewController startDisplayedCameraFilter];
+- (void)activateDisplayedCameraFilter {
+    [self.cameraViewController activateDisplayedCameraFilter];
 }
 
-- (void)stopDisplayedCameraFilter {
-    [self.cameraViewController stopDisplayedCameraFilter];
+- (void)deactivateDisplayedCameraFilter {
+    [self.cameraViewController deactivateDisplayedCameraFilter];
 }
 
 #pragma mark - 
 #pragma mark Camera To Inspect Image
 
 - (void)transitionCameraToInspectImage {
-    [self stopDisplayedCameraFilter];
+    [self deactivateDisplayedCameraFilter];
     if ([self.imageInspectViewController hasCaptures]) {
         [AnimateView withDuration:[AnimateView verticalTransitionDuration:self.cameraViewController.view.frame.origin.y] andAnimation:^{
                 [self cameraViewPosition:[AnimateView underWindowRect]];
@@ -222,7 +222,7 @@ static ViewGeneral* thisViewControllerGeneral = nil;
 }
 
 - (void)transitionInspectImageToCamera {
-    [self startDisplayedCameraFilter];
+    [self activateDisplayedCameraFilter];
     [AnimateView withDuration:[AnimateView verticalTransitionDuration:self.imageInspectViewController.view.frame.origin.y]
                    animation:^{
                        [self cameraViewPosition:[AnimateView inWindowRect]];

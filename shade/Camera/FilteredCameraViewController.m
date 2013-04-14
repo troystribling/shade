@@ -23,11 +23,14 @@
 - (void)closeShutterAndOnCompletion:(void(^)(void))__completion;
 - (void)animateShutterToAlpha:(float)__alpha onCompletion:(void(^)(void))__completion;
 - (void)openShutterOnStart;
-- (void)addCameraWithId:(CameraId)__cameraId;
-- (void)startFilterCameraWithId:(CameraId)__cameraId;
-- (void)stopFilterCameraWithId:(CameraId)__cameraId;
+- (void)addCameraView;
 - (BOOL)hasCamera:(CameraId)__cameraId;
 - (void)didCapture:(NSNotification*)__notification;
+
+- (void)activateFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView*)__view;
+- (void)deactivateFilterWithCameraId:(CameraId)__cameraId;
+- (void)startFilterCameraWithId:(CameraId)__cameraId;
+- (void)stopFilterCameraWithId:(CameraId)__cameraId;
 
 @end
 
@@ -73,23 +76,10 @@
     ];
 }
 
-- (void)addCameraWithId:(CameraId)__cameraId {
+- (void)addCameraView {
     GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
     gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
     [self.camerasCircleView addView:gpuImageView];
-    [[CameraFilterFactory instance] activateFilterWithCameraId:__cameraId forView:gpuImageView];
-}
-
-- (void)startFilterCameraWithId:(CameraId)__cameraId {
-    dispatch_async(self.cameraQueue, ^{
-        [[CameraFilterFactory instance] startFilterWithCameraId:__cameraId];
-    });
-}
-
-- (void)stopFilterCameraWithId:(CameraId)__cameraId {
-    dispatch_async(self.cameraQueue, ^{
-        [[CameraFilterFactory instance] stopFilterWithCameraId:__cameraId];
-    });
 }
 
 - (BOOL)hasCamera:(CameraId)__cameraId {
@@ -105,6 +95,32 @@
             [[ViewGeneral instance] addCapture:[Capture findWithID:captureId inContext:__context] andImage:image];
         });
     }];
+}
+
+- (void)activateFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView*)__view {
+    [[CameraFilterFactory instance] activateFilterWithCameraId:__cameraId forView:__view];
+    [self startFilterCameraWithId:__cameraId];
+}
+
+- (void)deactivateFilterWithCameraId:(CameraId)__cameraId {
+    dispatch_async(self.cameraQueue, ^{
+        [[CameraFilterFactory instance] stopFilterWithCameraId:__cameraId];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[CameraFilterFactory instance] deactivateFilterWithCameraId:__cameraId];
+        });
+    });
+}
+
+- (void)startFilterCameraWithId:(CameraId)__cameraId {
+    dispatch_async(self.cameraQueue, ^{
+        [[CameraFilterFactory instance] startFilterWithCameraId:__cameraId];
+    });
+}
+
+- (void)stopFilterCameraWithId:(CameraId)__cameraId {
+    dispatch_async(self.cameraQueue, ^{
+        [[CameraFilterFactory instance] stopFilterWithCameraId:__cameraId];
+    });
 }
 
 #pragma mark -
@@ -130,10 +146,10 @@
     [self.view addSubview:self.camerasCircleView];
     [self openShutterOnStart];
     for (NSNumber *camerId in self.cameraIds) {
-        [self addCameraWithId:[camerId intValue]];
+        [self addCameraView];
     }
     self.displayedCameraId = [[CameraFilterFactory instance] defaultCameraId];
-    [self startDisplayedCameraFilter];
+    [self activateDisplayedCameraFilter];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didCapture:)
                                                  name:@"Capture"
@@ -173,6 +189,15 @@
             [self openShutter];
         }];
     }];
+}
+
+- (void)activateDisplayedCameraFilter {
+    GPUImageView *imageView = (GPUImageView*)[self.camerasCircleView displayedView];
+    [self activateFilterWithCameraId:self.displayedCameraId forView:imageView];
+}
+
+- (void)deactivateDisplayedCameraFilter {
+    [self deactivateFilterWithCameraId:self.displayedCameraId];
 }
 
 - (void)startDisplayedCameraFilter {

@@ -42,8 +42,8 @@
 - (void)cameraViewPosition:(CGRect)__rec;
 - (void)cameraViewHidden:(BOOL)__hidden;
 
-- (void)startDisplayedCameraFilter;
-- (void)stopDisplayedCameraFilter;
+- (void)activateDisplayedCameraFilter;
+- (void)deactivateDisplayedCameraFilter;
 
 - (void)transitionCameraToInspectImage;
 - (void)releaseCameraVertical;
