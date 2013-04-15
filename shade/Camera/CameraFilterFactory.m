@@ -140,17 +140,17 @@ static CameraFilterFactory* thisFilterFactory = nil;
 }
 
 - (CameraId)nextRightCameraIdRelativeTo:(CameraId)__cameraId {
-    CameraId nextId = __cameraId - 1;
-    if (__cameraId == 0) {
-        nextId = [self.loadedCameras count] - 1;
+    CameraId nextId = __cameraId + 1;
+    if (nextId > [self.loadedCameras count] - 1) {
+        nextId = 0;
     }
     return nextId;
 }
 
 - (CameraId)nextLeftCameraIdRelativeTo:(CameraId)__cameraId {
-    CameraId nextId = __cameraId + 1;
-    if (nextId > [self.loadedCameras count] - 1) {
-        nextId = 0;
+    CameraId nextId = __cameraId - 1;
+    if (__cameraId == 0) {
+        nextId = [self.loadedCameras count] - 1;
     }
     return nextId;
 }

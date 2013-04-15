@@ -28,7 +28,7 @@
 - (void)didCapture:(NSNotification*)__notification;
 
 - (void)activateFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView*)__view;
-- (void)deactivateFilterWithCameraId:(CameraId)__cameraId;
+- (void)deactivateFilterWithCameraId:(CameraId)__cameraId andOnCompletion:(void(^)(CameraId __cameraId))__completion;
 - (void)startFilterCameraWithId:(CameraId)__cameraId;
 - (void)stopFilterCameraWithId:(CameraId)__cameraId;
 
@@ -102,11 +102,14 @@
     [self startFilterCameraWithId:__cameraId];
 }
 
-- (void)deactivateFilterWithCameraId:(CameraId)__cameraId {
+- (void)deactivateFilterWithCameraId:(CameraId)__cameraId andOnCompletion:(void(^)(CameraId __cameraId))__completion {
     dispatch_async(self.cameraQueue, ^{
         [[CameraFilterFactory instance] stopFilterWithCameraId:__cameraId];
         dispatch_async(dispatch_get_main_queue(), ^{
             [[CameraFilterFactory instance] deactivateFilterWithCameraId:__cameraId];
+            if (__completion) {
+                __completion(__cameraId);
+            }
         });
     });
 }
@@ -196,8 +199,8 @@
     [self activateFilterWithCameraId:self.displayedCameraId forView:imageView];
 }
 
-- (void)deactivateDisplayedCameraFilter {
-    [self deactivateFilterWithCameraId:self.displayedCameraId];
+- (void)deactivateDisplayedCameraFilterAndOnCompletion:(void(^)(CameraId __cameraId))__completion {
+    [self deactivateFilterWithCameraId:self.displayedCameraId andOnCompletion:__completion];
 }
 
 - (void)startDisplayedCameraFilter {
@@ -258,38 +261,46 @@
 #pragma mark Right
 
 - (void)didStartDraggingRight:(CGPoint)__location {
-    [self stopDisplayedCameraFilter];
-    CameraId cameraId = [[CameraFilterFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
-    [self startFilterCameraWithId:cameraId];
+    [self deactivateDisplayedCameraFilterAndOnCompletion:^(CameraId __cameraId) {
+        CameraId leftCameraId = [[CameraFilterFactory instance] nextLeftCameraIdRelativeTo:__cameraId];
+        GPUImageView *imageView = (GPUImageView*)[self.camerasCircleView nextLeftView];
+        [self activateFilterWithCameraId:leftCameraId forView:imageView];
+    }];
 }
 
 - (void)didMoveRight {
-    self.displayedCameraId = [[CameraFilterFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
+    self.displayedCameraId = [[CameraFilterFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
 }
 
 - (void)didReleaseRight {
     CameraFilterFactory *factory = [CameraFilterFactory instance];
-    [factory stopFilterWithCameraId:[factory nextRightCameraIdRelativeTo:self.displayedCameraId]];
-    [self startFilterCameraWithId:self.displayedCameraId];
+    CameraId leftCameraId = [factory nextLeftCameraIdRelativeTo:self.displayedCameraId];
+    [self deactivateFilterWithCameraId:leftCameraId andOnCompletion:^(CameraId __cameraId) {
+        [self activateDisplayedCameraFilter];
+    }];
 }
 
 #pragma mark -
 #pragma mark Left
 
 - (void)didStartDraggingLeft:(CGPoint)__location {
-    [self stopDisplayedCameraFilter];
-    CameraId cameraId = [[CameraFilterFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
-    [self startFilterCameraWithId:cameraId];
+    [self deactivateDisplayedCameraFilterAndOnCompletion:^(CameraId __cameraId) {
+        CameraId rightCameraId = [[CameraFilterFactory instance] nextRightCameraIdRelativeTo:__cameraId];
+        GPUImageView *imageView = (GPUImageView*)[self.camerasCircleView nextRightView];
+        [self activateFilterWithCameraId:rightCameraId forView:imageView];
+    }];
 }
 
 - (void)didMoveLeft {
-    self.displayedCameraId = [[CameraFilterFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
+    self.displayedCameraId = [[CameraFilterFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
 }
 
 - (void)didReleaseLeft {
     CameraFilterFactory *factory = [CameraFilterFactory instance];
-    [factory stopFilterWithCameraId:[factory nextLeftCameraIdRelativeTo:self.displayedCameraId]];
-    [self startDisplayedCameraFilter];
+    CameraId rightCameraId = [factory nextRightCameraIdRelativeTo:self.displayedCameraId];
+    [self deactivateFilterWithCameraId:rightCameraId andOnCompletion:^(CameraId __cameraId) {
+        [self activateDisplayedCameraFilter];
+    }];
 }
 
 @end

@@ -23,10 +23,6 @@
 - (void)moveViewsLeft;
 - (void)moveViewsRight;
 
-- (NSInteger)nextRightIndex;
-- (NSInteger)nextLeftIndex;
-- (UIView*)nextRightView;
-- (UIView*)nextLeftView;
 - (BOOL)migrateViewsRightIfNeeded;
 - (BOOL)migrateViewsLeftIfNeeded;
 
@@ -85,6 +81,30 @@
 
 - (UIView*)displayedView {
     return [self.circleOfViews objectAtIndex:self.inViewIndex];
+}
+
+- (NSInteger)nextRightIndex {
+    NSInteger nextIndex = self.inViewIndex + 1;
+    if (nextIndex > [self.circleOfViews count] - 1) {
+        nextIndex = 0;
+    }
+    return nextIndex;
+}
+
+- (NSInteger)nextLeftIndex {
+    NSInteger nextIndex = self.inViewIndex - 1;
+    if (nextIndex < 0) {
+        nextIndex = [self.circleOfViews count] - 1;
+    }
+    return nextIndex;
+}
+
+- (UIView*)nextRightView {
+    return [self.circleOfViews objectAtIndex:[self nextRightIndex]];
+}
+
+- (UIView*)nextLeftView {
+    return [self.circleOfViews objectAtIndex:[self nextLeftIndex]];
 }
 
 - (UIView*)removeDisplayedView {
@@ -209,30 +229,6 @@
                          }
                      }
          ];
-}
-
-- (NSInteger)nextRightIndex {
-    NSInteger nextIndex = self.inViewIndex + 1;
-    if (nextIndex > [self.circleOfViews count] - 1) {
-        nextIndex = 0;
-    }
-    return nextIndex;
-}
-
-- (NSInteger)nextLeftIndex {
-    NSInteger nextIndex = self.inViewIndex - 1;
-    if (nextIndex < 0) {
-        nextIndex = [self.circleOfViews count] - 1;
-    }
-    return nextIndex;
-}
-
-- (UIView*)nextRightView {
-    return [self.circleOfViews objectAtIndex:[self nextRightIndex]];
-}
-
-- (UIView*)nextLeftView {
-    return [self.circleOfViews objectAtIndex:[self nextLeftIndex]];
 }
 
 - (BOOL)migrateViewsRightIfNeeded {

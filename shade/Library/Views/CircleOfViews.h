@@ -29,6 +29,11 @@
 - (void)removeView:(UIView*)__view;
 - (UIView*)displayedView;
 
+- (NSInteger)nextRightIndex;
+- (NSInteger)nextLeftIndex;
+- (UIView*)nextRightView;
+- (UIView*)nextLeftView;
+
 - (UIView*)removeDisplayedView;
 - (void)replaceRemovedView;
 
