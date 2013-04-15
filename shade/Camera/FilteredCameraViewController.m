@@ -98,7 +98,7 @@
 }
 
 - (void)activateFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView*)__view {
-    [[CameraFilterFactory instance] activateFilterWithCameraId:__cameraId forView:__view];
+    [[CameraFilterFactory instance] activateCameraFilterWithCameraId:__cameraId forView:__view];
     [self startFilterCameraWithId:__cameraId];
 }
 
@@ -106,7 +106,7 @@
     dispatch_async(self.cameraQueue, ^{
         [[CameraFilterFactory instance] stopFilterWithCameraId:__cameraId];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[CameraFilterFactory instance] deactivateFilterWithCameraId:__cameraId];
+            [[CameraFilterFactory instance] deactivateCameraFilterWithCameraId:__cameraId];
             if (__completion) {
                 __completion(__cameraId);
             }

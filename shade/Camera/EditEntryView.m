@@ -18,14 +18,15 @@
 #define EDIT_MODE_TEXTBOX_OFFSET        2.0f
 #define CHANGE_FILTER_PARAMTER_RADIUS   50.0f
 
-@interface TextBoxView ()
+@interface EditEntryView ()
 
 - (void)didExitEditMode;
 - (void)didChangeFilterParameter:(UIGestureRecognizer*)__gestureRecognizer;
 
 - (void)addEditModeView:(NSString*)__editModeString;
 - (void)addEditModeViewForInViewCamera;
-- (void)addCameraWithId:(CameraId)__cameraId andImage:(UIImage*)__image;
+- (void)activateCamera:(Camera*)__camera andImage:(UIImage*)__image;
+- (void)deactivateInViewCamera;
 - (Camera*)inViewCamera;
 
 @end
@@ -52,7 +53,7 @@
         UILongPressGestureRecognizer *changeFilterParameter = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didChangeFilterParameter:)];
         [self addGestureRecognizer:changeFilterParameter];
         [self addSubview:self.filteredEntryCircleView];
-        [self addCamera:[self.cameras objectAtIndex:0] andImage:[__entryView imageClone]];
+        [self activateCamera:[self.cameras objectAtIndex:0] andImage:[__entryView imageClone]];
         [self addEditModeViewForInViewCamera];
         self.changeFilterParameterCircleView = [CircleView withRadius:CHANGE_FILTER_PARAMTER_RADIUS centeredAt:self.center];
         self.filterParametersAreChanging = NO;
@@ -64,6 +65,7 @@
 #pragma mark EditEntryView PrivateView
 
 - (void)didExitEditMode {
+    [self deactivateInViewCamera];
     [self removeFromSuperview];
 }
 
@@ -105,11 +107,15 @@
     [self addEditModeView:[NSString stringWithFormat:@"%@ Filter", [self inViewCamera].name]];
 }
 
-- (void)addCamera:(Camera*)__camera andImage:(UIImage*)__image {
+- (void)activateCamera:(Camera*)__camera andImage:(UIImage*)__image {
     GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.frame];
     gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-    [[CameraFilterFactory instance] activateFilterWithCameraId:[__camera cameraId] forView:gpuImageView withImage:__image];
+    [[CameraFilterFactory instance] activatePictureFilterWithCameraId:[__camera cameraId] forView:gpuImageView withImage:__image];
     [self.filteredEntryCircleView addView:gpuImageView];
+}
+
+- (void)deactivateInViewCamera {
+    [[CameraFilterFactory instance] deactivatePictureFilterWithCameraId:[[self inViewCamera] cameraId]];
 }
 
 - (Camera*)inViewCamera {

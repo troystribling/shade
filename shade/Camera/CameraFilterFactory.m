@@ -21,6 +21,7 @@ static CameraFilterFactory* thisFilterFactory = nil;
 @interface CameraFilterFactory ()
 
 - (GPUImageStillCamera*)stillCameraForCameraId:(CameraId)__cameraId;
+- (GPUImagePicture*)imagePictureForCameraId:(CameraId)__cameraId;
 
 @end
 
@@ -32,6 +33,10 @@ static CameraFilterFactory* thisFilterFactory = nil;
 
 - (GPUImageStillCamera*)stillCameraForCameraId:(CameraId)__cameraId {
     return [self.stillCameras objectForKey:[NSNumber numberWithInt:__cameraId]];
+}
+
+- (GPUImagePicture*)imagePictureForCameraId:(CameraId)__cameraId {
+    return [self.imagePictures objectForKey:[NSNumber numberWithInt:__cameraId]];
 }
 
 #pragma mark -
@@ -51,12 +56,13 @@ static CameraFilterFactory* thisFilterFactory = nil;
     if (self) {
         self.loadedCameras = [Camera loadCameras];
         self.stillCameras = [NSMutableDictionary dictionary];
+        self.imagePictures = [NSMutableDictionary dictionary];
         self.cameraFilters = @[[[NativeCameraFilter alloc] init], [[InstantCameraFilter alloc] init], [[BoxCameraFilter alloc] init], [[PlasticCameraFilter alloc] init]];
     }
     return self;
 }
 
-- (void)activateFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView*)__imageView {
+- (void)activateCameraFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView*)__imageView {
     
     Camera *camera = [self.loadedCameras objectAtIndex:__cameraId];
     CameraFilter *cameraFilter = [self.cameraFilters objectAtIndex:__cameraId];
@@ -72,15 +78,13 @@ static CameraFilterFactory* thisFilterFactory = nil;
     [self setParameterValue:camera.value forFilterWithCameraId:__cameraId];
 }
 
-- (void)deactivateFilterWithCameraId:(CameraId)__cameraId {
+- (void)deactivateCameraFilterWithCameraId:(CameraId)__cameraId {
     GPUImageStillCamera *stillCamera = [self stillCameraForCameraId:__cameraId];
     CameraFilter *cameraFilter = [self.cameraFilters objectAtIndex:__cameraId];
-    if (stillCamera) {
-        [stillCamera stopCameraCapture];
-        [stillCamera removeAllTargets];
-        [cameraFilter.filter removeAllTargets];
-        [self.stillCameras removeObjectForKey:[NSNumber numberWithInt:__cameraId]];
-    }
+    [stillCamera stopCameraCapture];
+    [stillCamera removeAllTargets];
+    [cameraFilter.filter removeAllTargets];
+    [self.stillCameras removeObjectForKey:[NSNumber numberWithInt:__cameraId]];
 }
 
 - (void)startFilterWithCameraId:(CameraId)__cameraId {
@@ -101,14 +105,12 @@ static CameraFilterFactory* thisFilterFactory = nil;
 
 - (void)rotateFilterCameraWithCameraId:(CameraId)__cameraId {
     GPUImageStillCamera *stillCamera = [self stillCameraForCameraId:__cameraId];
-    if (stillCamera) {
-        [stillCamera rotateCamera];
-    }
+    [stillCamera rotateCamera];
 }
 
 #pragma mark -
 
-- (void)activateFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView *)__imageView withImage:(UIImage*)__image {
+- (void)activatePictureFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView *)__imageView withImage:(UIImage*)__image {
     Camera *camera = [self.loadedCameras objectAtIndex:__cameraId];
     CameraFilter *cameraFilter = [self.cameraFilters objectAtIndex:__cameraId];
     GPUImagePicture *imagePicture = [[GPUImagePicture alloc] initWithImage:__image smoothlyScaleOutput:YES];
@@ -118,6 +120,14 @@ static CameraFilterFactory* thisFilterFactory = nil;
     [cameraFilter.filter addTarget:__imageView];
     [imagePicture processImage];
     [self setParameterValue:camera.value forFilterWithCameraId:__cameraId];
+}
+
+- (void)deactivatePictureFilterWithCameraId:(CameraId)__cameraId {
+    CameraFilter *cameraFilter = [self.cameraFilters objectAtIndex:__cameraId];
+    GPUImagePicture *imagePicture = [self imagePictureForCameraId:__cameraId];
+    [imagePicture removeAllTargets];
+    [cameraFilter.filter removeAllTargets];
+    [self.imagePictures removeObjectForKey:[NSNumber numberWithInt:__cameraId]];
 }
 
 #pragma mark -

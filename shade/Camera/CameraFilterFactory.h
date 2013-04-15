@@ -23,15 +23,16 @@
 
 + (CameraFilterFactory*)instance;
 
-- (void)activateFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView*)__imageView;
-- (void)deactivateFilterWithCameraId:(CameraId)__cameraId;
+- (void)activateCameraFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView*)__imageView;
+- (void)deactivateCameraFilterWithCameraId:(CameraId)__cameraId;
 
 - (void)startFilterWithCameraId:(CameraId)__cameraId;
 - (void)stopFilterWithCameraId:(CameraId)__cameraId;
 - (void)captureStillImageForFilterWithCameraId:(CameraId)__cameraId onCompletion:(void(^)(NSData* imageData, NSError* error))__completionHandler;
 - (void)rotateFilterCameraWithCameraId:(CameraId)__cameraId;
 
-- (void)activateFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView *)__imageView withImage:(UIImage*)__image;
+- (void)activatePictureFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView *)__imageView withImage:(UIImage*)__image;
+- (void)deactivatePictureFilterWithCameraId:(CameraId)__cameraId;
 
 - (void)setParameterValue:(NSNumber*)__value forFilterWithCameraId:(CameraId)__cameraId;
 
