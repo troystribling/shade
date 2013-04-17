@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CircleOfViews.h"
+#import "Camera+Extensions.h"
 
 @class ImageEntryView;
 @class TextBoxView;
@@ -20,7 +21,8 @@
 @property(nonatomic, strong) TextBoxView    *editModeTextBoxView;
 @property(nonatomic, strong) CircleOfViews  *filteredEntryCircleView;
 @property(nonatomic, strong) CircleView     *changeFilterParameterCircleView;
-@property(nonatomic, strong) NSArray        *cameras;
+@property(nonatomic, assign) CameraId       displayedCameraId;
+@property(nonatomic, strong) NSArray        *cameraIds;
 @property(nonatomic, assign) BOOL           filterParametersAreChanging;
 
 + (id)withEntry:(ImageEntryView*)__entryView;

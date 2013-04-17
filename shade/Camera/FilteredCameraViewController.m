@@ -23,7 +23,6 @@
 - (void)closeShutterAndOnCompletion:(void(^)(void))__completion;
 - (void)animateShutterToAlpha:(float)__alpha onCompletion:(void(^)(void))__completion;
 - (void)openShutterOnStart;
-- (void)addCameraView;
 - (BOOL)hasCamera:(CameraId)__cameraId;
 - (void)didCapture:(NSNotification*)__notification;
 
@@ -74,12 +73,6 @@
             [self.shutterView removeFromSuperview];
         }
     ];
-}
-
-- (void)addCameraView {
-    GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
-    gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-    [self.camerasCircleView addView:gpuImageView];
 }
 
 - (BOOL)hasCamera:(CameraId)__cameraId {
@@ -149,7 +142,8 @@
     [self.view addSubview:self.camerasCircleView];
     [self openShutterOnStart];
     for (NSNumber *camerId in self.cameraIds) {
-        [self addCameraView];
+        GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.view.frame];
+        [self.camerasCircleView addView:gpuImageView];
     }
     self.displayedCameraId = [[CameraFilterFactory instance] defaultCameraId];
     [self activateDisplayedCameraFilter];

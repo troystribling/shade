@@ -25,9 +25,10 @@
 
 - (void)addEditModeView:(NSString*)__editModeString;
 - (void)addEditModeViewForInViewCamera;
-- (void)activateCamera:(Camera*)__camera andImage:(UIImage*)__image;
-- (void)deactivateInViewCamera;
-- (Camera*)inViewCamera;
+- (void)activateFilterWithCameraId:(CameraId)__cameraId forView:(GPUImageView*)__view;
+- (void)deactivateFilterWithCameraId:(CameraId)__cameraId;
+- (void)activateDisplayedCamera;
+- (void)deactivateDisplayedCamera;
 
 @end
 
@@ -44,8 +45,16 @@
     self = [super initWithFrame:__entryView.frame];
     if (self) {
         self.entryView = __entryView;
-        self.cameras = [Camera findAllOrderedByIdentifier];
+        CameraFilterFactory *cameraFilterFactory = [CameraFilterFactory instance];
+        self.cameraIds = [cameraFilterFactory cameraIds];
+        self.displayedCameraId = [cameraFilterFactory defaultCameraId];
         self.filteredEntryCircleView = [CircleOfViews withFrame:self.frame delegate:self relativeToView:[ViewGeneral instance].view];
+        for (NSNumber *camerId in self.cameraIds) {
+            GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.frame];
+            gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
+            [self.filteredEntryCircleView addView:gpuImageView];
+        }
+        [self activateDisplayedCamera];
         UITapGestureRecognizer *selectEditMode = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didExitEditMode)];
         selectEditMode.numberOfTapsRequired = 1;
         selectEditMode.numberOfTouchesRequired = 1;
@@ -53,7 +62,6 @@
         UILongPressGestureRecognizer *changeFilterParameter = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didChangeFilterParameter:)];
         [self addGestureRecognizer:changeFilterParameter];
         [self addSubview:self.filteredEntryCircleView];
-        [self activateCamera:[self.cameras objectAtIndex:0] andImage:[__entryView imageClone]];
         [self addEditModeViewForInViewCamera];
         self.changeFilterParameterCircleView = [CircleView withRadius:CHANGE_FILTER_PARAMTER_RADIUS centeredAt:self.center];
         self.filterParametersAreChanging = NO;
@@ -65,7 +73,7 @@
 #pragma mark EditEntryView PrivateView
 
 - (void)didExitEditMode {
-    [self deactivateInViewCamera];
+    [self deactivateDisplayedCamera];
     [self removeFromSuperview];
 }
 
@@ -104,22 +112,25 @@
 }
 
 - (void)addEditModeViewForInViewCamera {
-    [self addEditModeView:[NSString stringWithFormat:@"%@ Filter", [self inViewCamera].name]];
+    Camera *camera = [Camera findFirstWithCameraId:self.displayedCameraId];
+    [self addEditModeView:[NSString stringWithFormat:@"%@ Filter", camera.name]];
 }
 
-- (void)activateCamera:(Camera*)__camera andImage:(UIImage*)__image {
-    GPUImageView* gpuImageView = [[GPUImageView alloc] initWithFrame:self.frame];
-    gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-    [[CameraFilterFactory instance] activatePictureFilterWithCameraId:[__camera cameraId] forView:gpuImageView withImage:__image];
-    [self.filteredEntryCircleView addView:gpuImageView];
+- (void)activateFilterWithCameraId:(CameraId)__cameraId  forView:(GPUImageView*)__view {
+    [[CameraFilterFactory instance] activatePictureFilterWithCameraId:__cameraId forView:__view withImage:[self.entryView imageClone]];
 }
 
-- (void)deactivateInViewCamera {
-    [[CameraFilterFactory instance] deactivatePictureFilterWithCameraId:[[self inViewCamera] cameraId]];
+- (void)deactivateFilterWithCameraId:(CameraId)__cameraId {
+    [[CameraFilterFactory instance] deactivatePictureFilterWithCameraId:__cameraId];
 }
 
-- (Camera*)inViewCamera {
-    return [self.cameras objectAtIndex:self.filteredEntryCircleView.inViewIndex];
+- (void)activateDisplayedCamera {
+    GPUImageView *imageView = (GPUImageView*)[self.filteredEntryCircleView displayedView];
+    [self activateFilterWithCameraId:self.displayedCameraId forView:imageView];
+}
+
+- (void)deactivateDisplayedCamera {
+    [self deactivateFilterWithCameraId:self.displayedCameraId];
 }
 
 #pragma mark -
@@ -170,23 +181,42 @@
 #pragma mark -
 
 - (void)didStartDraggingRight:(CGPoint)__location {
-}
-
-- (void)didStartDraggingLeft:(CGPoint)__location {
-}
-
-- (void)didMoveLeft {
-}
-
-- (void)didReleaseLeft {
+    [self deactivateDisplayedCamera];
+    CameraId leftCameraId = [[CameraFilterFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
+    GPUImageView *imageView = (GPUImageView*)[self.filteredEntryCircleView nextLeftView];
+    [self activateFilterWithCameraId:leftCameraId forView:imageView];
 }
 
 - (void)didMoveRight {
+    self.displayedCameraId = [[CameraFilterFactory instance] nextLeftCameraIdRelativeTo:self.displayedCameraId];
 }
 
 - (void)didReleaseRight {
+    CameraFilterFactory *factory = [CameraFilterFactory instance];
+    CameraId leftCameraId = [factory nextLeftCameraIdRelativeTo:self.displayedCameraId];
+    [self deactivateFilterWithCameraId:leftCameraId];
 }
 
+#pragma mark -
+
+- (void)didStartDraggingLeft:(CGPoint)__location {
+    [self deactivateDisplayedCamera];
+    CameraId rightCameraId = [[CameraFilterFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
+    GPUImageView *imageView = (GPUImageView*)[self.filteredEntryCircleView nextRightView];
+    [self activateFilterWithCameraId:rightCameraId forView:imageView];
+}
+
+- (void)didMoveLeft {
+    self.displayedCameraId = [[CameraFilterFactory instance] nextRightCameraIdRelativeTo:self.displayedCameraId];
+}
+
+- (void)didReleaseLeft {
+    CameraFilterFactory *factory = [CameraFilterFactory instance];
+    CameraId rightCameraId = [factory nextRightCameraIdRelativeTo:self.displayedCameraId];
+    [self deactivateFilterWithCameraId:rightCameraId];
+}
+
+#pragma mark -
 - (void)didRemoveAllViews {
 }
 

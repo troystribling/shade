@@ -68,6 +68,7 @@ static CameraFilterFactory* thisFilterFactory = nil;
     CameraFilter *cameraFilter = [self.cameraFilters objectAtIndex:__cameraId];
     GPUImageStillCamera *stillCamera = [[GPUImageStillCamera alloc] init];
     [self.stillCameras setObject:stillCamera forKey:[NSNumber numberWithInt:__cameraId]];
+    __imageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
     
     stillCamera.outputImageOrientation = UIInterfaceOrientationPortrait;
     
