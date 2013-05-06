@@ -1,4 +1,4 @@
 shade
 =====
 
-ios camera app using GPUImage
+ios camera app based on GPUImage
